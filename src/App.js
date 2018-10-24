@@ -19,6 +19,15 @@ class App extends Component {
           >
             Learn React
           </a>
+          <a
+            className="App-link"
+            href="https://www.youtube.com/watch?v=3PCHyHvLr4M"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Listen to Yoe Mase
+          </a>
+
         </header>
       </div>
     );
@@ -26,3 +35,4 @@ class App extends Component {
 }
 
 export default App;
+
