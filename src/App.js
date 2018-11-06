@@ -1,38 +1,36 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import logo from "./logo.svg";
+import Tas from "./Tas.js";
+import "./App.css";
 
+
+let yoe = "https://www.youtube.com/watch?v=3PCHyHvLr4M";
+let rainyMood = "https://rainymood.com/"
 class App extends Component {
   render() {
     return (
       <div className="App">
+
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          <a
-            className="App-link"
-            href="https://www.youtube.com/watch?v=3PCHyHvLr4M"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Listen to Yoe Mase
-          </a>
-
+          <Link link={yoe} title="Listen to Yoe Mase"/>
+          <Link link={rainyMood} title="Rainy mood"/>
+          <p></p>
         </header>
+        <body>
+          
+          <Tas/>
+          
+        </body>
       </div>
     );
   }
 }
 
-export default App;
+function Link(props) {
+  return(
+      <a className="App-link" href={props.link}>{props.title}</a>
+    )
+}
 
+export default App;
