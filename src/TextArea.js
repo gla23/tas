@@ -1,6 +1,4 @@
 import React, { Component } from "react";
-import Button from "@material-ui/core/Button";
-import TypeArea from "./TypeArea.js"
 
 class TextArea extends Component {
 	constructor(props) {
@@ -27,7 +25,7 @@ class TextArea extends Component {
 				i >= this.props.selection[0] && i < this.props.selection[1];
 			let classNames = "char ";
 
-			if (i < checkLength && i != text.length) {
+			if (i < checkLength && i !== text.length) {
 				classNames += this.props.charCorrect(char, i)
 					? "charSuccess "
 					: "charDanger ";
@@ -37,15 +35,15 @@ class TextArea extends Component {
 			// Need to make it display on the right side if you've just moved into it on the right like in the other one...
 			classNames +=
 				this.state.cursorOn &&
-				((this.props.selection[0] == this.props.selection[1] &&
-					this.props.selection[1] == i) ||
-					(this.props.selection[1] == i &&
-						this.props.selection[2] == "forward") ||
-					(this.props.selection[0] == i &&
-						this.props.selection[2] == "backward"))
+				((this.props.selection[0] === this.props.selection[1] &&
+					this.props.selection[1] === i) ||
+					(this.props.selection[1] === i &&
+						this.props.selection[2] === "forward") ||
+					(this.props.selection[0] === i &&
+						this.props.selection[2] === "backward"))
 					? "cursor "
 					: "";
-
+			
 			setOfSpans.push(
 				<span className={classNames} key={i}>
 					{marked ? <mark>{char}</mark> : char}
