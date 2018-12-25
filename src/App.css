@@ -8,25 +8,67 @@ html, body {
   /*background-color: #383c44; */
 }
 
+.App-header {
+  background-color: #1E90FF;
+  background-color: #6495ED;
+  min-height: 10vh;
+  max-height: 10vh;
+  display: flex;
+  /*flex-direction: column;*/
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
 .App {
   sdftext-align: center;
-  max-width: 800px;
   /*min-width: 800px;*/
 }
-.Tas {
-  margin-left: 60px;
-  margin-right: 60px;
+
+.Tas, textarea {
+  margin: auto;
+  max-width: 800px;
 }
 .span {
   box-shadow: none;
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
 }
+.AppSection {
+  /*background-color: #f9f9f9;*/
+  margin-left: 60px;
+  margin-right: 60px;
+  min-height: 80vh;
+  max-height: 80vh;
+}
+.preNavigation {
+  /*min-height: 80vh; */
+  /*max-height: 65vh;*/
+}
+.navigationDiv {
+  /*background-color: #f0f0f0;*/
+  /*min-height: 20vh; */
+  /*max-height: 20vh;*/
+  overflow: hidden;
+  white-space: nowrap;
+  position: absolute;
+  top: calc(100vh - 130px);
+}
+.typeArea {
+  min-height: 30vh; 
+  max-height: 30vh;
+}
 .controlDiv {
   margin-top: 30px;
+  /*min-height: 30vh;*/
+  max-height: 30vh;
+}
+.controlDiv > * {
+  margin-right: 10px;
 }
 .bigGap {
-  padding-bottom: 100px;
+  padding-bottom: 700px;
 }
 
 
@@ -44,22 +86,41 @@ mark {
 .clue {
   font-size: 24px;
   font-weight: bold;
+  margin-top: 0.8rem;
+  margin-right: 15px;
+}
+.clueDiv {
+  margin-top: 15px;
+  margin-bottom: 15px;
 }
 .TextArea {
+  min-height: 5.4rem;
   max-width: 100%;
+  margin-block-start: 0.5rem;
+  margin-block-end: 0.5rem;
 }
+
 textarea {
-  max-width: 99%; 
+  max-width: 100%; 
+  
+  /*Show the box*/
+  /*position: absolute;
+  top: 300px;*/
 }
-.char, textarea {
-  font-size: 2.2rem; /* 35 43px */
-  min-width: 25; /* 25 */
+
+.char, textarea, .TextArea, .AnswerReveal {
+  min-width: 25px;
   white-space: pre-wrap;
-  /*word-wrap: normal;*/
-  /*font-family: monospace;*/
+  word-wrap: break-word;
   /*outline: 1px solid white;*/
 }
-.charSuccess {
+.char, textarea, .TextArea {
+  font-size: 2.2rem; /* 35 43px */  
+}
+.AnswerReveal {
+  font-size: 1.6rem; /* 35 43px */  
+}
+.charSuccess, .countText {
   background-color: #ffc107;
   background-color: #28a745;
   background-color: #dff0d8;
@@ -70,7 +131,9 @@ textarea {
   background-color: #f2dede;
   background-color: pink;
 }
-
+.countText {
+  vertical-align: 19%;
+}
 
 textarea {
     padding: 10px;
@@ -91,6 +154,14 @@ textarea {
     resize: none; /*remove the resize handle on the bottom right*/
 
 }
+
+
+/* Others */
+
+.buttonMargin {
+  margin-right: 20px;
+}
+
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
   height: 10vmin;
@@ -103,18 +174,6 @@ textarea {
   paddingbottom: 100 * 1;
   padding-left: 400;
   padding-right: 100;
-}
-
-.App-header {
-  background-color: #1E90FF;
-  background-color: #6495ED;
-  min-height: 5vh;
-  display: flex;
-  /*flex-direction: column;*/
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
 .App-link {
