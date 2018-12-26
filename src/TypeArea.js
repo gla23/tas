@@ -24,7 +24,6 @@ class TypeArea extends Component {
 			showingUI: true,
 			...freshData
 		};
-		console.log("constructing TypeArea");
 		this.textareaRef = React.createRef();
 		this.onTextChange = this.onTextChange.bind(this);
 		this.charCorrect = this.charCorrect.bind(this);
@@ -56,7 +55,6 @@ class TypeArea extends Component {
 		removeEvent("keypress", this.handleKeyPress);
 	}
 	handleKeyPress(event) {
-		console.log(event);
 		if (event.key === "[" || event.key === "Enter") {
 			event.preventDefault();
 			this.startSearching();
@@ -69,15 +67,15 @@ class TypeArea extends Component {
 			event.preventDefault();
 			this.toggleUI();
 		};
-		let shortcutFunction = this.props.shortcutMap.get(event.keyCode);
+		let shortcutFunction = this.props.shortcutMap.get(event.key);
 
 		if (shortcutFunction) {
 			event.preventDefault();
-			shortcutFunction(event.keyCode);
+			shortcutFunction(event.key);
 		} else {
 			let allFunction = this.props.shortcutMap.get("*")
 			if (allFunction) {
-				allFunction(event.keyCode)
+				allFunction(event.key)
 			}
 		}
 	}
@@ -241,7 +239,7 @@ class TypeArea extends Component {
 						{this.AnswerReveal()}
 					</div>
 
-					<div className="navigationDiv">
+					<div className="navigationDiv" onClick={this.focusTextArea}>
 						{
 							this.props.showNavigationDiv &&
 							this.state.showingUI &&
