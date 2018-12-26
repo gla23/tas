@@ -67,8 +67,8 @@ class Tas extends Component {
 
 		this.shortcutMap = new Map();
 		// this.shortcutMap.set("*", console.log);
-		this.shortcutMap.set(43, () => this.setQuestion(this.increaseVerse(2), false));
-		this.shortcutMap.set(45, () => this.setQuestion(this.increaseVerse(-1), false));
+		this.shortcutMap.set("+", () => this.setQuestion(this.increaseVerse(1), false));
+		this.shortcutMap.set("-", () => this.setQuestion(this.increaseVerse(-1), false));
 	}
 
 	
