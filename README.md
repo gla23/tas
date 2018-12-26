@@ -1,5 +1,5 @@
-##Web remake of memGui in my AHK scripts.
+## Web remake of memGui in my AHK scripts.
 
 With added smooth checking because why not.
 
-![](tasType.gif)
+![](TasType.gif)
