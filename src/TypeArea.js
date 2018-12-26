@@ -21,8 +21,10 @@ class TypeArea extends Component {
 		super(props);
 		this.state = {
 			text: "Benny bob",
+			showingUI: true,
 			...freshData
 		};
+		console.log("constructing TypeArea");
 		this.textareaRef = React.createRef();
 		this.onTextChange = this.onTextChange.bind(this);
 		this.charCorrect = this.charCorrect.bind(this);
@@ -31,7 +33,8 @@ class TypeArea extends Component {
 		this.focusTextArea = this.focusTextArea.bind(this);
 		this.incrementCheckedLength = this.incrementCheckedLength.bind(this);
 		this.handleKeyPress = this.handleKeyPress.bind(this);
-		this.toggleVerseShowing = this.toggleVerseShowing.bind(this);
+		this.toggleAnswerReveal = this.toggleAnswerReveal.bind(this);
+		this.toggleUI = this.toggleUI.bind(this);
 		// setTimeout(this.focusTextArea, 1000);
 	}
 	componentDidMount() {
@@ -42,7 +45,7 @@ class TypeArea extends Component {
 			const addEvent =
 				this.node.addEventListener || this.node.attachEvent;
 			addEvent("keypress", this.handleKeyPress, false);
-			console.log(this.node);
+
 			this.focusTextArea();
 		}
 	}
@@ -53,14 +56,18 @@ class TypeArea extends Component {
 		removeEvent("keypress", this.handleKeyPress);
 	}
 	handleKeyPress(event) {
-
-		if (event.key === "[") {
+		console.log(event);
+		if (event.key === "[" || event.key === "Enter") {
 			event.preventDefault();
 			this.startSearching();
 		}
 		if (event.key === "]") {
 			event.preventDefault();
-			this.toggleVerseShowing();
+			this.toggleAnswerReveal();
+		};
+		if (event.key === "#") {
+			event.preventDefault();
+			this.toggleUI();
 		};
 		let shortcutFunction = this.props.shortcutMap.get(event.keyCode);
 
@@ -95,6 +102,7 @@ class TypeArea extends Component {
 			// At the end or slowing down
 			if (this.state.text === this.props.answer) {
 				setTimeout(() => {
+					this.refreshState();
 					this.props.onComplete();
 				}, 100);
 			} else {
@@ -123,8 +131,14 @@ class TypeArea extends Component {
 	focusTextArea() {
 		this.textareaRef.current.focus({ preventScroll: true });
 	}
-	toggleVerseShowing() {
+	toggleAnswerReveal() {
 		this.setState({ answerShowing: !this.state.answerShowing });
+	}
+	toggleUI() {
+		this.setState({ showingUI: !this.state.showingUI});
+	}
+	refreshState() {
+		this.setState(freshData)
 	}
 	onTextChange(event) {
 		let text = event.target.value;
@@ -211,7 +225,7 @@ class TypeArea extends Component {
 							textareaRef={this.textareaRef.current}
 						/>
 						<div className="controlDiv">
-							{this.props.showControlDiv && (
+							{this.props.showControlDiv && this.state.showingUI && (
 								<div>
 									<TasButton
 										text="Check ["
@@ -219,7 +233,7 @@ class TypeArea extends Component {
 									/>
 									<TasButton
 										text="Reveal ]"
-										onClick={this.toggleVerseShowing}
+										onClick={this.toggleAnswerReveal}
 									/>
 								</div>
 							)}
@@ -227,8 +241,13 @@ class TypeArea extends Component {
 						{this.AnswerReveal()}
 					</div>
 
-					{this.props.navigationDiv()}
-
+					<div className="navigationDiv">
+						{
+							this.props.showNavigationDiv &&
+							this.state.showingUI &&
+							this.props.navigationDiv()
+						}
+					</div>
 					<p className="bigGap" />
 
 					<textarea

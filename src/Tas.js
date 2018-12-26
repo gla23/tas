@@ -113,25 +113,25 @@ class Tas extends Component {
 					clue={this.clues[this.state.verseIndex]}
 					correctCount={this.state.correctCount}
 					shortcutMap={this.shortcutMap}
-					key={this.state.correctCount}
-					showControlDiv={true}
 					onComplete={function(){ this.setQuestion(this.learnLoops)}.bind(this)}
 					navigationDiv={() => this.loopsNavigationDiv()}
+					showControlDiv={true}
+					showNavigationDiv={true}
 				/>
 			</div>
 		);
 	}
 	loopsNavigationDiv() {
 		return (
-			<div className="navigationDiv">
+			<div>
 				<h5>Change mem</h5>
 
 				<TasButton
-					text="loop start"
+					text={"loop start: " + this.clues[learnLoopStart]}
 					onClick={() => this.setQuestion(() => learnLoopStart, false)}
 				/>
 				<TasButton
-					text="loop end"
+					text={"loop end: " + this.clues[learnLoopEnd]}
 					onClick={() => this.setQuestion(() => learnLoopEnd, false)}
 				/>
 				<TasButton
