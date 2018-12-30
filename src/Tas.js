@@ -45,7 +45,7 @@ function loadVerses() {
 
 
 
-const learnLoopEnd = 135;
+const learnLoopEnd = 143;
 const learnLoopStart = learnLoopEnd - 15;
 const loopSectionSize = 15;
 
@@ -122,17 +122,17 @@ class Tas extends Component {
 		);
 	}
 	loopsNavigationDiv() {
-		return (
-			<div>
+		return this.clues[learnLoopStart] && (
+			<span>
 				<h5>Change mem</h5>
 
 				<TasButton
-					text={"loop start: " + this.clues[learnLoopStart]}
-					onClick={() => this.setQuestion(() => learnLoopStart, false)}
+					text={"Recent - " + (this.clues[learnLoopStart])}
+					onClick={() => this.setState({correctCount: loopSectionSize + 1, verseIndex: learnLoopStart})}
 				/>
 				<TasButton
-					text={"loop end: " + this.clues[learnLoopEnd]}
-					onClick={() => this.setQuestion(() => learnLoopEnd, false)}
+					text={"New - " + (this.clues[learnLoopEnd])}
+					onClick={() => this.setState({correctCount: 2 * loopSectionSize + 1, verseIndex: learnLoopEnd})}
 				/>
 				<TasButton
 					text="Random"
@@ -142,7 +142,7 @@ class Tas extends Component {
 					text="Complete"
 					onClick={() => this.setQuestion(this.learnLoops)}
 				/>
-			</div>
+			</span>
 		)
 	}
 }
