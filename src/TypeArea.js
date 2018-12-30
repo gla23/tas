@@ -4,15 +4,19 @@ import TasButton from "./TasButton";
 import TextArea from "./TextArea";
 import AnswerReveal from "./AnswerReveal";
 
-const checkBaseTime = 30;
-const checkTreacle = 7;
-const freshData = {
-	text: "",
-	selection: [-1, -1, "none"],
-	checkLength: 0,
+const checkBaseTime = 35;
+const checkTreacle = 3;
+const checkIncrementJump = 2;
+const jumpMinimumTime = 1;
+
+const freshClueData = {
+	selection: [0, 0, "none"],
 	checkedLength: 0,
-	checkIncrementTime: 10,
-	correctLength: 0,
+	checkIncrementTime: checkBaseTime,
+	correctLength: 0
+};
+const freshCountData = {
+	text: "",
 	answerShowing: false
 };
 
@@ -22,12 +26,14 @@ class TypeArea extends Component {
 		this.state = {
 			text: "Benny bob",
 			showingUI: true,
-			...freshData
+			...freshClueData,
+			...freshCountData
 		};
 		this.textareaRef = React.createRef();
 		this.onTextChange = this.onTextChange.bind(this);
 		this.charCorrect = this.charCorrect.bind(this);
 		this.handleInput = this.handleInput.bind(this);
+		this.getCorrectLength = this.getCorrectLength.bind(this);
 		this.startSearching = this.startSearching.bind(this);
 		this.focusTextArea = this.focusTextArea.bind(this);
 		this.incrementCheckedLength = this.incrementCheckedLength.bind(this);
@@ -55,75 +61,95 @@ class TypeArea extends Component {
 		removeEvent("keypress", this.handleKeyPress);
 	}
 	handleKeyPress(event) {
-		if (event.key === "[" || event.key === "Enter") {
+		if (event.key === "Enter") {
 			event.preventDefault();
 			this.startSearching();
 		}
-		if (event.key === "]") {
+		if (event.key === "[") {
 			event.preventDefault();
 			this.toggleAnswerReveal();
-		};
-		if (event.key === "#") {
+		}
+		if (event.key === "#" || event.key === "Escape") {
 			event.preventDefault();
 			this.toggleUI();
-		};
+		}
 		let shortcutFunction = this.props.shortcutMap.get(event.key);
 
 		if (shortcutFunction) {
 			event.preventDefault();
 			shortcutFunction(event.key);
 		} else {
-			let allFunction = this.props.shortcutMap.get("*")
+			let allFunction = this.props.shortcutMap.get("*");
 			if (allFunction) {
-				allFunction(event.key)
+				allFunction(event.key);
 			}
 		}
 	}
 	incrementCheckedLength() {
-		let startingPos = this.state.checkedLength;
-		let charsToJump = Math.ceil((1 + this.state.checkLength) / 50);
-		let newPos = this.state.checkedLength + charsToJump;
-		newPos = Math.min(newPos, this.state.text.length);
-		if (startingPos < this.state.correctLength) {
-			if (newPos > this.state.correctLength) {
-				newPos = this.state.correctLength;
+		let correctLength = this.getCorrectLength();
+		let startingCheckedLength = this.state.checkedLength;
+		let charsToJump = Math.min(
+			Math.ceil(
+				(10 + (this.props.answer.length + correctLength) / 2) / 30
+			),
+			6
+		);
+		console.log(charsToJump);
+		let newCheckedLength = Math.min(
+			this.state.checkedLength + charsToJump,
+			this.state.text.length
+		);
+		if (
+			// /newCheckedLength === startingCheckedLength ||
+			this.props.answer.length === 0 ||
+			this.state.text.length === 0
+		) {
+			return;
+		}
+
+		// console.log(startingCheckedLength, correctLength, newCheckedLength, this.state.checkIncrementTime)
+
+		if (startingCheckedLength < correctLength) {
+			if (newCheckedLength > correctLength) {
+				newCheckedLength = correctLength;
+				console.log("switching to slowing down");
 			}
-			let timeToNextJump = checkBaseTime / (this.state.checkedLength * 4);
+			let timeToNextJump =
+				this.state.checkIncrementTime - checkIncrementJump;
 			this.setState({
-				checkedLength: newPos,
+				checkedLength: newCheckedLength,
 				checkIncrementTime: timeToNextJump
 			});
-			setTimeout(this.incrementCheckedLength, timeToNextJump);
-			// console.log(charsToJump, newPos);
-			// console.log("timeToNextJump", timeToNextJump, newPos);
+			setTimeout(
+				this.incrementCheckedLength,
+				Math.max(timeToNextJump, jumpMinimumTime)
+			);
+			// console.log(charsToJump, newCheckedLength);
+			// console.log("timeToNextJump", timeToNextJump, newCheckedLength);
 		} else {
 			// At the end or slowing down
 			if (this.state.text === this.props.answer) {
-				setTimeout(() => {
-					this.refreshState();
-					this.props.onComplete();
-				}, 100);
-			} else {
-				if (
-					this.state.correctLength === startingPos &&
-					this.state.text.length > 0
-				) {
-					// Always check 1 char
-					this.setState({ checkedLength: startingPos + 1 });
-					setTimeout(this.incrementCheckedLength, 10);
-				}
-				let newIncrementTime =
-					this.state.checkIncrementTime * checkTreacle;
-				// console.log(newIncrementTime);
-				if (newIncrementTime > 800) {
-					return;
-				}
-				this.setState({
-					checkedLength: this.state.checkedLength + 1,
-					checkIncrementTime: newIncrementTime
-				});
-				setTimeout(this.incrementCheckedLength, newIncrementTime);
+				setTimeout(this.props.onComplete, 100);
+				return;
 			}
+
+			let oldIncrementTime = this.state.checkIncrementTime;
+			let newIncrementTime =
+				this.state.checkIncrementTime +
+				checkIncrementJump * checkTreacle;
+
+			if (oldIncrementTime > checkBaseTime + checkIncrementJump + 1) {
+				return;
+			}
+
+			this.setState({
+				checkedLength: this.state.checkedLength + 1,
+				checkIncrementTime: newIncrementTime
+			});
+			setTimeout(
+				this.incrementCheckedLength,
+				Math.max(newIncrementTime * 5, jumpMinimumTime)
+			);
 		}
 	}
 	focusTextArea() {
@@ -133,48 +159,80 @@ class TypeArea extends Component {
 		this.setState({ answerShowing: !this.state.answerShowing });
 	}
 	toggleUI() {
-		this.setState({ showingUI: !this.state.showingUI});
+		this.setState({ showingUI: !this.state.showingUI });
 	}
-	refreshState() {
-		this.setState(freshData)
+
+	refreshState(keepText = false) {
+		if (keepText) {
+			this.setState(freshClueData);
+		} else {
+			this.setState({ ...freshClueData, ...freshCountData });
+		}
 	}
+	componentDidUpdate(prevProps, prevState) {
+		if (prevProps.correctCount !== this.props.correctCount) {
+			this.setState({ ...freshClueData, ...freshCountData });
+		} else {
+			if (prevProps.clue !== this.props.clue) {
+				if (prevState.checkedLength > 0) {
+					this.setState(freshClueData, () => this.startSearching());
+				} else {
+					this.setState(freshClueData);
+				}
+			}
+		}
+	}
+
 	onTextChange(event) {
 		let text = event.target.value;
 		let answer = this.props.answer;
 		let oldSelectionPosition = this.state.selection[0];
-
 		if (!answer) {
 			return;
 		}
+		let correctPosition = this.getCorrectLength(text, answer);
 
 		this.setState({ text: text }, function() {
-			// Once text has been changed
-			let correctLength = 0;
-			for (let i = 0; i < text.length; i++) {
-				if (text[i] !== answer[i]) {
-					break;
-				} else {
-					correctLength = i + 1;
-				}
-			}
-
 			if (text === answer) {
-				this.setState({ correctLength: correctLength });
 				this.startSearching();
 			} else {
 				let newSelectionPosition = this.state.selection[0];
-				let selectionPosToSet = Math.min(
+
+				console.log(
 					this.state.checkedLength,
 					oldSelectionPosition,
 					newSelectionPosition
 				);
-				this.setState({
-					checkedLength: selectionPosToSet,
-					checkLength: selectionPosToSet,
-					correctLength: correctLength
-				});
+				let checkedPosToSet = Math.min(
+					this.state.checkedLength,
+					oldSelectionPosition === 0 ? 10000 : oldSelectionPosition,
+					newSelectionPosition
+				);
+				this.setState(
+					{
+						checkedLength: checkedPosToSet
+					},
+					() => {
+						if (this.state.checkedLength <= correctPosition) {
+							this.setState({
+								checkIncrementTime: checkBaseTime
+							});
+						}
+					}
+				);
 			}
 		});
+	}
+	getCorrectLength(text = this.state.text, answer = this.props.answer) {
+		let correctLength = 0;
+		for (let i = 0; i < text.length; i++) {
+			if (text[i] !== answer[i]) {
+				break;
+			} else {
+				correctLength = i + 1;
+			}
+		}
+		return correctLength;
 	}
 
 	handleInput(event) {
@@ -184,11 +242,8 @@ class TypeArea extends Component {
 		this.setState({ selection: [start, end, direction] });
 	}
 	startSearching(event) {
-		// console.log("setting check to: ", this.state.text.length)
-		this.setState(
-			{ checkLength: this.state.text.length },
-			this.incrementCheckedLength
-		);
+		console.log("start Searching checked: ", this.state.checkedLength);
+		this.incrementCheckedLength();
 	}
 
 	charCorrect(char, pos) {
@@ -197,70 +252,76 @@ class TypeArea extends Component {
 	}
 
 	render() {
-		const tasDivStyle = { marginLeft: "60", marginRight: "60" };
+		const navigationDiv = this.props.navigationDiv();
 		return (
-			<div
-				className="Tas"
-				style={tasDivStyle}
-				onClick={this.focusTextArea}
-			>
-				<div className="AppSection">
-					<div className="preNavigation">
-						<div className="clueDiv">
-							<span className="clue">{this.props.clue}</span>
+			
+			<div onClick={this.focusTextArea}>
+				<div className="preNavigation">
+					<div className="clueDiv">
+						<span className="clue">{this.props.clue}</span>
 
-							{this.correctCountText()}
-						</div>
+						{this.correctCountText()}
+					</div>
 
-						<TextArea
-							text={this.state.text}
-							onChange={this.onTextChange}
-							charCorrect={(char, pos) =>
-								this.props.answer[pos] === char
-							}
-							selection={this.state.selection}
-							checkLength={this.state.checkedLength}
-							textareaRef={this.textareaRef.current}
-						/>
-						<div className="controlDiv">
-							{this.props.showControlDiv && this.state.showingUI && (
+					<TextArea
+						text={this.state.text}
+						onChange={this.onTextChange}
+						charCorrect={(char, pos) =>
+							this.props.answer[pos] === char
+						}
+						selection={this.state.selection}
+						checkLength={this.state.checkedLength}
+						textareaRef={this.textareaRef.current}
+					/>
+					<div className="controlDiv">
+						{this.props.showControlDiv &&
+							this.state.showingUI && (
 								<div>
 									<TasButton
-										text="Check ["
+										text="Check ⏎"
 										onClick={this.startSearching}
 									/>
 									<TasButton
-										text="Reveal ]"
+										text="Reveal ["
 										onClick={this.toggleAnswerReveal}
 									/>
 								</div>
 							)}
-						</div>
-						{this.AnswerReveal()}
 					</div>
-
-					<div className="navigationDiv" onClick={this.focusTextArea}>
-						{
-							this.props.showNavigationDiv &&
-							this.state.showingUI &&
-							this.props.navigationDiv()
-						}
-					</div>
-					<p className="bigGap" />
-
-					<textarea
-						id="textarea"
-						ref={this.textareaRef}
-						value={this.state.text}
-						onChange={this.onTextChange}
-						onSelect={this.handleInput}
-						onInput={this.handleInput}
-						spellCheck={false}
-						autoFocus={true}
-						placeholder={""}
-					/>
+					{this.AnswerReveal()}
 				</div>
 
+				<div className="navigationDiv">
+					{this.props.showNavigationDiv &&
+						this.state.showingUI && (
+							<span>
+								{navigationDiv}
+								{navigationDiv && (
+									<TasButton
+										text="Hide UI (Esc)"
+										onClick={() =>
+											this.setState({
+												showingUI: !this.state.showingUI
+											})
+										}
+									/>)}
+							</span>
+						)
+					}
+				</div>
+				<p className="bigGap" />
+
+				<textarea
+					id="textarea"
+					ref={this.textareaRef}
+					value={this.state.text}
+					onChange={this.onTextChange}
+					onSelect={this.handleInput}
+					onInput={this.handleInput}
+					spellCheck={false}
+					autoFocus={true}
+					placeholder={""}
+				/>
 			</div>
 		);
 	}
