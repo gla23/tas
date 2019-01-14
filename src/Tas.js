@@ -12,6 +12,10 @@ import TasButton from "./TasButton";
 // 	return code;
 // }
 
+const learnLoopEnd = 148;
+const learnLoopStart = learnLoopEnd - 15;
+const loopSectionSize = 15;
+
 let verses;
 let verseStrings
 verses = "a b c d".split(" ")
@@ -42,12 +46,6 @@ function loadVerses() {
 	}
 }
 
-
-
-
-const learnLoopEnd = 143;
-const learnLoopStart = learnLoopEnd - 15;
-const loopSectionSize = 15;
 
 class Tas extends Component {
 	constructor(props) {
