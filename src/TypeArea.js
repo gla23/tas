@@ -24,7 +24,8 @@ class TypeArea extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			text: "Benny bob",
+			showingCursor: false,
+			text: " ",
 			showingUI: true,
 			...freshClueData,
 			...freshCountData
@@ -269,6 +270,7 @@ class TypeArea extends Component {
 						charCorrect={(char, pos) =>
 							this.props.answer[pos] === char
 						}
+						showingCursor={this.state.showingCursor}
 						selection={this.state.selection}
 						checkLength={this.state.checkedLength}
 						textareaRef={this.textareaRef.current}
@@ -317,8 +319,11 @@ class TypeArea extends Component {
 					value={this.state.text}
 					onChange={this.onTextChange}
 					onSelect={this.handleInput}
+					onKeyRelease={this.handleInput}
 					onInput={this.handleInput}
 					spellCheck={false}
+					onBlur={() => this.setState({showingCursor: false})}
+					onFocus={() => this.setState({showingCursor: true})}
 					autoFocus={true}
 					placeholder={""}
 				/>

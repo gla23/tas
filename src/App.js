@@ -26,7 +26,13 @@ class App extends Component {
   render() {
     const tasDivStyle = { marginLeft: "60", marginRight: "60" };
     return (
-      <div className="App">
+      <div
+        className="App"
+        onClick={function() {
+          let textarea = document.getElementById('textarea')
+          textarea.focus()
+        }}
+      >
         <header className="App-header">
           <h3>mem type</h3>
 

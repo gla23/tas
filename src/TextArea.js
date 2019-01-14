@@ -35,6 +35,7 @@ class TextArea extends Component {
 			// Need to make it display on the right side if you've just moved into it on the right like in the other one...
 			classNames +=
 				this.state.cursorOn &&
+				this.props.showingCursor &&
 				((this.props.selection[0] === this.props.selection[1] &&
 					this.props.selection[1] === i) ||
 					(this.props.selection[1] === i &&
