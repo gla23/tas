@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import TypeArea from "./TypeArea";
-import TasButton from "./TasButton";
+import TasButton from "./components/TasButton";
+import TasCheckbox from "./components/TasCheckbox";
 
 
 // const ntBooks = ["Matthew","Mark","Luke","John","Acts","Romans","1 Corinthians","2 Corinthians","Galatians","Ephesians","Philippians","Colossians","1 Thessalonians","2 Thessalonians","1 Timothy","2 Timothy","Titus","Philemon","Hebrews","James","1 Peter","2 Peter","1 John","2 John","3 John","Jude","Revelation"];
@@ -12,8 +13,8 @@ import TasButton from "./TasButton";
 // 	return code;
 // }
 
-const learnLoopEnd = 148;
-const learnLoopStart = learnLoopEnd - 15;
+const learnLoopEnd = 148 - 3;
+const learnLoopStart = learnLoopEnd - 15 + 4;
 const loopSectionSize = 15;
 
 let verses;
@@ -56,22 +57,27 @@ class Tas extends Component {
 		this.state = {
 			verseIndex: Math.floor(Math.random() * learnLoopStart),
 			correctCount: 1,
+			questionFreezed: false,
 			loaded: false,
 		};
 		this.setQuestion = this.setQuestion.bind(this);
 		this.learnLoops = this.learnLoops.bind(this);
-		
+		this.toggleFreeze = this.toggleFreeze.bind(this);
+
 		loadVerses.call(this)
 
 		this.shortcutMap = new Map();
 		// this.shortcutMap.set("*", console.log);
-		this.shortcutMap.set("+", () => this.setQuestion(this.increaseVerse(1), false));
-		this.shortcutMap.set("-", () => this.setQuestion(this.increaseVerse(-1), false));
+		this.shortcutMap.set("PageDown", () => this.setQuestion(this.increaseVerse(1), false));
+		this.shortcutMap.set("PageUp", () => this.setQuestion(this.increaseVerse(-1), false));
+		this.shortcutMap.set("]", this.toggleFreeze);
 	}
 
-	
 	incrementVerse = () => Math.min(this.state.verseIndex + 1, this.clues.length - 1);
 	randomVerse = () => Math.floor(Math.random() * this.clues.length)
+	toggleFreeze() {
+		this.setState({questionFreezed: !this.state.questionFreezed});
+	}
 	increaseVerse(increase) {
 		return () => {
 			let newVerse = this.state.verseIndex + increase;
@@ -95,7 +101,11 @@ class Tas extends Component {
 		}
 	}
 	setQuestion(verseFn, incrementCorrectCount = true) {
-		let setStateObj = { verseIndex: verseFn() };
+		let setStateObj = {};
+		 
+		if (!this.state.questionFreezed) {
+			setStateObj.verseIndex = verseFn();
+		}
 		if (incrementCorrectCount) {
 			setStateObj.correctCount = this.state.correctCount + 1;
 			setStateObj.verseShowing = false;
@@ -139,6 +149,11 @@ class Tas extends Component {
 				<TasButton
 					text="Complete"
 					onClick={() => this.setQuestion(this.learnLoops)}
+				/>
+				<TasCheckbox
+					text="Freeze"
+					onClick={this.toggleFreeze}
+					checked={this.state.questionFreezed}
 				/>
 			</span>
 		)
