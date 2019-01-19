@@ -319,7 +319,9 @@ class TypeArea extends Component {
 					value={this.state.text}
 					onChange={this.onTextChange}
 					onSelect={this.handleInput}
+					onKeyPress={this.handleInput}
 					onKeyRelease={this.handleInput}
+					onKeyDown={this.handleKeyPress}
 					onInput={this.handleInput}
 					spellCheck={false}
 					onBlur={() => this.setState({showingCursor: false})}

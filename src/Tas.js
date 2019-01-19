@@ -68,8 +68,8 @@ class Tas extends Component {
 
 		this.shortcutMap = new Map();
 		// this.shortcutMap.set("*", console.log);
-		this.shortcutMap.set("PageDown", () => this.setQuestion(this.increaseVerse(1), false));
-		this.shortcutMap.set("PageUp", () => this.setQuestion(this.increaseVerse(-1), false));
+		this.shortcutMap.set("PageDown", () => this.setQuestion(this.increaseVerse(1), false, true));
+		this.shortcutMap.set("PageUp", () => this.setQuestion(this.increaseVerse(-1), false, true));
 		this.shortcutMap.set("]", this.toggleFreeze);
 	}
 
@@ -100,10 +100,10 @@ class Tas extends Component {
 			return this.incrementVerse();
 		}
 	}
-	setQuestion(verseFn, incrementCorrectCount = true) {
+	setQuestion(verseFn, incrementCorrectCount = true, overrideFrozen = false) {
 		let setStateObj = {};
 		 
-		if (!this.state.questionFreezed) {
+		if (!this.state.questionFreezed || overrideFrozen) {
 			setStateObj.verseIndex = verseFn();
 		}
 		if (incrementCorrectCount) {
