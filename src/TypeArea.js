@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 // import ReactDOM from "react-dom";
-import TasButton from "./TasButton";
+import TasButton from "./components/TasButton";
 import TextArea from "./TextArea";
 import AnswerReveal from "./AnswerReveal";
 
@@ -298,7 +298,7 @@ class TypeArea extends Component {
 						this.state.showingUI && (
 							<span>
 								{navigationDiv}
-								{navigationDiv && (
+								{navigationDiv || (
 									<TasButton
 										text="Hide UI (Esc)"
 										onClick={() =>
