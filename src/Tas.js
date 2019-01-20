@@ -55,7 +55,7 @@ class Tas extends Component {
 		this.clues = verses;
 
 		this.state = {
-			verseIndex: Math.floor(Math.random() * learnLoopStart),
+			verseIndex: 0, //Math.floor(Math.random() * learnLoopStart),
 			correctCount: 1,
 			questionFreezed: false,
 			loaded: false,
@@ -71,6 +71,8 @@ class Tas extends Component {
 		this.shortcutMap.set("PageDown", () => this.setQuestion(this.increaseVerse(1), false, true));
 		this.shortcutMap.set("PageUp", () => this.setQuestion(this.increaseVerse(-1), false, true));
 		this.shortcutMap.set("]", this.toggleFreeze);
+
+		document.title = "Type and see";
 	}
 
 	incrementVerse = () => Math.min(this.state.verseIndex + 1, this.clues.length - 1);
@@ -121,7 +123,7 @@ class Tas extends Component {
 					clue={this.clues[this.state.verseIndex]}
 					correctCount={this.state.correctCount}
 					shortcutMap={this.shortcutMap}
-					onComplete={function(){ this.setQuestion(this.learnLoops)}.bind(this)}
+					onComplete={function(){ this.setQuestion(this.incrementVerse)}.bind(this)}
 					navigationDiv={() => this.loopsNavigationDiv()}
 					showControlDiv={true}
 					showNavigationDiv={true}
@@ -148,7 +150,7 @@ class Tas extends Component {
 				/>
 				<TasButton
 					text="Complete"
-					onClick={() => this.setQuestion(this.learnLoops)}
+					onClick={() => this.setQuestion(this.incrementVerse)}
 				/>
 				<TasCheckbox
 					text="Freeze"
