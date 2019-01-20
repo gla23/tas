@@ -95,7 +95,7 @@ class TypeArea extends Component {
 			),
 			6
 		);
-		console.log(charsToJump);
+		// console.log(charsToJump);
 		let newCheckedLength = Math.min(
 			this.state.checkedLength + charsToJump,
 			this.state.text.length
@@ -113,7 +113,7 @@ class TypeArea extends Component {
 		if (startingCheckedLength < correctLength) {
 			if (newCheckedLength > correctLength) {
 				newCheckedLength = correctLength;
-				console.log("switching to slowing down");
+				// console.log("switching to slowing down");
 			}
 			let timeToNextJump =
 				this.state.checkIncrementTime - checkIncrementJump;
@@ -199,11 +199,11 @@ class TypeArea extends Component {
 			} else {
 				let newSelectionPosition = this.state.selection[0];
 
-				console.log(
-					this.state.checkedLength,
-					oldSelectionPosition,
-					newSelectionPosition
-				);
+				// console.log(
+				// 	this.state.checkedLength,
+				// 	oldSelectionPosition,
+				// 	newSelectionPosition
+				// );
 				let checkedPosToSet = Math.min(
 					this.state.checkedLength,
 					oldSelectionPosition === 0 ? 10000 : oldSelectionPosition,
@@ -243,7 +243,7 @@ class TypeArea extends Component {
 		this.setState({ selection: [start, end, direction] });
 	}
 	startSearching(event) {
-		console.log("start Searching checked: ", this.state.checkedLength);
+		// console.log("start Searching checked: ", this.state.checkedLength);
 		this.incrementCheckedLength();
 	}
 
@@ -320,7 +320,7 @@ class TypeArea extends Component {
 					onChange={this.onTextChange}
 					onSelect={this.handleInput}
 					onKeyPress={this.handleInput}
-					onKeyRelease={this.handleInput}
+					onKeyUp={this.handleInput}
 					onKeyDown={this.handleKeyPress}
 					onInput={this.handleInput}
 					spellCheck={false}

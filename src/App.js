@@ -6,6 +6,10 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import { withStyles } from '@material-ui/core/styles';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+// import word from './word.png';
+import logo from './tasLogo.png';
+// import logo2 from './tasLogo2.png';
+// import logo3 from './tasLogo3.png';
 
 const styles = theme => ({
   root: {
@@ -34,8 +38,10 @@ class App extends Component {
         }}
       >
         <header className="App-header">
-          <h3>mem type</h3>
 
+          <h3>Type and see</h3>
+          <img src={logo} style={{width: "100px", marginLeft: "30px", marginTop: "-10px"}}/>
+          <span style={{marginLeft: "320px", position: "absolute"}}>(#Nick Green)</span>
           <p />
         </header>
 
