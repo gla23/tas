@@ -41,7 +41,6 @@ class App extends Component {
 
           <h3>Type and see</h3>
           <img src={logo} style={{width: "100px", marginLeft: "30px", marginTop: "-10px"}}/>
-          <span style={{marginLeft: "320px", position: "absolute"}}>(#Nick Green)</span>
           <p />
         </header>
 

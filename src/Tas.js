@@ -13,8 +13,8 @@ import TasCheckbox from "./components/TasCheckbox";
 // 	return code;
 // }
 
-const learnLoopEnd = 148 - 3;
-const learnLoopStart = learnLoopEnd - 15 + 4;
+const learnLoopEnd = 152;
+const learnLoopStart = learnLoopEnd - 15;
 const loopSectionSize = 15;
 
 let verses;
@@ -55,7 +55,7 @@ class Tas extends Component {
 		this.clues = verses;
 
 		this.state = {
-			verseIndex: 0, //Math.floor(Math.random() * learnLoopStart),
+			verseIndex: Math.floor(Math.random() * learnLoopStart),
 			correctCount: 1,
 			questionFreezed: false,
 			loaded: false,
@@ -123,7 +123,7 @@ class Tas extends Component {
 					clue={this.clues[this.state.verseIndex]}
 					correctCount={this.state.correctCount}
 					shortcutMap={this.shortcutMap}
-					onComplete={function(){ this.setQuestion(this.incrementVerse)}.bind(this)}
+					onComplete={function(){ this.setQuestion(this.learnLoops)}.bind(this)}
 					navigationDiv={() => this.loopsNavigationDiv()}
 					showControlDiv={true}
 					showNavigationDiv={true}
@@ -150,7 +150,7 @@ class Tas extends Component {
 				/>
 				<TasButton
 					text="Complete"
-					onClick={() => this.setQuestion(this.incrementVerse)}
+					onClick={() => this.setQuestion(this.learnLoops)}
 				/>
 				<TasCheckbox
 					text="Freeze"
