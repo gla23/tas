@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Tas from "./Tas.js";
+import BibleSearch from "./BibleSearch.js";
 import "./App.css";
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
@@ -8,8 +9,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 // import word from './word.png';
 import logo from './tasLogo.png';
-// import logo2 from './tasLogo2.png';
-// import logo3 from './tasLogo3.png';
+
 
 const styles = theme => ({
   root: {
@@ -34,8 +34,15 @@ class App extends Component {
         className="App"
         onClick={function() {
           let textarea = document.getElementById('textarea')
-          textarea.focus()
-        }}
+            
+            if (textarea) {
+              textarea.focus()
+            } else {
+              console.log("would be doing the error of textarea being null");
+            }
+            
+          }
+        }
       >
         <header className="App-header">
 
@@ -44,7 +51,7 @@ class App extends Component {
           <p />
         </header>
 
-        {/*<AppBar position="static" className={this.props.classes.root}>
+        {<AppBar position="static" className={this.props.classes.root}>
                   <Tabs
                     value={this.state.value}
                     onChange={this.handleChange}
@@ -54,18 +61,24 @@ class App extends Component {
                     theme="dark"
                   >
                     <Tab label="Tas" />
-                    <Tab label="mms" />
-                    <Tab label="Item Three" />
+                    <Tab label="Search" />
+                    <Tab label="Major System" />
                   </Tabs>
-                </AppBar>*/}
+                </AppBar>}
 
         <div className="maxWidthFloat">
           <div className="AppSection">
             {this.state.value === 0 && (
               <Tas />
             )}
-            {this.state.value === 1 && <div>mms</div>}
-            {this.state.value === 2 && <div>Item Three</div>}
+            {this.state.value === 1 && <div>
+              <BibleSearch 
+                text="asdlfkjfsd"
+              />
+            </div>}
+            {this.state.value === 2 && <div>
+              <p>Major</p>
+            </div>}
           </div>
         </div>
         

@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import TasButton from "./components/TasButton";
 import TextArea from "./TextArea";
 import AnswerReveal from "./AnswerReveal";
+import HiddenTextarea from "./components/HiddenTextarea";
 
 const checkBaseTime = 35;
 const checkTreacle = 3;
@@ -13,8 +14,15 @@ const freshClueData = {
 	selection: [0, 0, "none"],
 	checkedLength: 0,
 	checkIncrementTime: checkBaseTime,
-	correctLength: 0
+	correctLength: 0,
 };
+function updateSelection(event) {
+	let start = event.target.selectionStart;
+	let end = event.target.selectionEnd;
+	let direction = event.target.selectionDirection;
+	this.setState({ selection: [start, end, direction] });
+}
+
 const freshCountData = {
 	text: "",
 	answerShowing: false
@@ -30,38 +38,27 @@ class TypeArea extends Component {
 			...freshClueData,
 			...freshCountData
 		};
-		this.textareaRef = React.createRef();
-		this.onTextChange = this.onTextChange.bind(this);
+		this.updateSelection = updateSelection.bind(this);
+		let setShowingCursor = function(value) {
+			this.setState({showingCursor: value});
+		}
+		this.setShowingCursor = setShowingCursor.bind(this);
+
+
+		this.onHiddenTextChange = this.onHiddenTextChange.bind(this);
 		this.charCorrect = this.charCorrect.bind(this);
-		this.handleInput = this.handleInput.bind(this);
+
 		this.getCorrectLength = this.getCorrectLength.bind(this);
 		this.startSearching = this.startSearching.bind(this);
 		this.focusTextArea = this.focusTextArea.bind(this);
 		this.incrementCheckedLength = this.incrementCheckedLength.bind(this);
-		this.handleKeyPress = this.handleKeyPress.bind(this);
+		this.shortcut = this.shortcut.bind(this);
 		this.toggleAnswerReveal = this.toggleAnswerReveal.bind(this);
 		this.toggleUI = this.toggleUI.bind(this);
 		// setTimeout(this.focusTextArea, 1000);
 	}
-	componentDidMount() {
-		if (this.textareaRef.current) {
-			// this.node = ReactDOM.findDOMNode(this.textareaRef.current);
-			this.node = this.textareaRef.current;
-			// Evergreen event listener || IE8 event listener
-			const addEvent =
-				this.node.addEventListener || this.node.attachEvent;
-			addEvent("keypress", this.handleKeyPress, false);
-
-			this.focusTextArea();
-		}
-	}
-	componentWillUnmount() {
-		const removeEvent =
-			this.node.removeEventListener || this.node.detachEvent;
-		// Reduce any memory leaks
-		removeEvent("keypress", this.handleKeyPress);
-	}
-	handleKeyPress(event) {
+	
+	shortcut(event) {
 		if (event.key === "Enter") {
 			event.preventDefault();
 			this.startSearching();
@@ -154,7 +151,7 @@ class TypeArea extends Component {
 		}
 	}
 	focusTextArea() {
-		this.textareaRef.current.focus({ preventScroll: true });
+		// this.textareaRef.current.focus({ preventScroll: true });
 	}
 	toggleAnswerReveal() {
 		this.setState({ answerShowing: !this.state.answerShowing });
@@ -184,7 +181,7 @@ class TypeArea extends Component {
 		}
 	}
 
-	onTextChange(event) {
+	onHiddenTextChange(event) {
 		let text = event.target.value;
 		let answer = this.props.answer;
 		let oldSelectionPosition = this.state.selection[0];
@@ -236,12 +233,6 @@ class TypeArea extends Component {
 		return correctLength;
 	}
 
-	handleInput(event) {
-		let start = event.target.selectionStart;
-		let end = event.target.selectionEnd;
-		let direction = event.target.selectionDirection;
-		this.setState({ selection: [start, end, direction] });
-	}
 	startSearching(event) {
 		// console.log("start Searching checked: ", this.state.checkedLength);
 		this.incrementCheckedLength();
@@ -255,7 +246,6 @@ class TypeArea extends Component {
 	render() {
 		const navigationDiv = this.props.navigationDiv();
 		return (
-			
 			<div onClick={this.focusTextArea}>
 				<div className="preNavigation">
 					<div className="clueDiv">
@@ -266,68 +256,61 @@ class TypeArea extends Component {
 
 					<TextArea
 						text={this.state.text}
-						onChange={this.onTextChange}
 						charCorrect={(char, pos) =>
 							this.props.answer[pos] === char
 						}
 						showingCursor={this.state.showingCursor}
 						selection={this.state.selection}
 						checkLength={this.state.checkedLength}
-						textareaRef={this.textareaRef.current}
+						// textareaRef={this.textareaRef.current}
 					/>
 					<div className="controlDiv">
-						{this.props.showControlDiv &&
-							this.state.showingUI && (
-								<div>
-									<TasButton
-										text="Check ⏎"
-										onClick={this.startSearching}
-									/>
-									<TasButton
-										text="Reveal ["
-										onClick={this.toggleAnswerReveal}
-									/>
-								</div>
-							)}
+						{this.props.showControlDiv && this.state.showingUI && (
+							<div>
+								<TasButton
+									text="Check ⏎"
+									onClick={this.startSearching}
+								/>
+								<TasButton
+									text="Reveal ["
+									onClick={this.toggleAnswerReveal}
+								/>
+							</div>
+						)}
 					</div>
-					{this.AnswerReveal()}
+					<div className="secondSection">
+						<AnswerReveal
+							verse={this.props.answer}
+							answerShowing={this.state.answerShowing}
+						/>
+					</div>
 				</div>
 
 				<div className="navigationDiv">
-					{this.props.showNavigationDiv &&
-						this.state.showingUI && (
-							<span>
-								{navigationDiv}
-								{navigationDiv || (
-									<TasButton
-										text="Hide UI (Esc)"
-										onClick={() =>
-											this.setState({
-												showingUI: !this.state.showingUI
-											})
-										}
-									/>)}
-							</span>
-						)
-					}
+					{this.props.showNavigationDiv && this.state.showingUI && (
+						<span>
+							{navigationDiv}
+							{navigationDiv || (
+								<TasButton
+									text="Hide UI (Esc)"
+									onClick={() =>
+										this.setState({
+											showingUI: !this.state.showingUI
+										})
+									}
+								/>
+							)}
+						</span>
+					)}
 				</div>
 				<p className="bigGap" />
 
-				<textarea
-					id="textarea"
-					ref={this.textareaRef}
-					value={this.state.text}
-					onChange={this.onTextChange}
-					onSelect={this.handleInput}
-					onKeyPress={this.handleInput}
-					onKeyUp={this.handleInput}
-					onKeyDown={this.handleKeyPress}
-					onInput={this.handleInput}
-					spellCheck={false}
-					onBlur={() => this.setState({showingCursor: false})}
-					onFocus={() => this.setState({showingCursor: true})}
-					autoFocus={true}
-					placeholder={""}
+				<HiddenTextarea
+					text={this.state.text}
+					onChange={this.onHiddenTextChange}
+					onKeyDown={this.shortcut}
+					updateSelection={this.updateSelection}
+					onChangeFocus={this.setShowingCursor}
 				/>
 			</div>
 		);
@@ -337,16 +320,6 @@ class TypeArea extends Component {
 			<span className="countText" style={{ whiteSpace: "pre-wrap" }}>
 				{" " + this.props.correctCount + " "}
 			</span>
-		);
-	}
-	AnswerReveal() {
-		return (
-			<div className="secondSection">
-				<AnswerReveal
-					verse={this.props.answer}
-					answerShowing={this.state.answerShowing}
-				/>
-			</div>
 		);
 	}
 }
