@@ -4,7 +4,7 @@ class TextArea extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			cursorOn: true
+			cursorOn: true,
 		};
 		this.cursorFlashInterval = setInterval(
 			() => this.setState({ cursorOn: !this.state.cursorOn }),
@@ -16,16 +16,15 @@ class TextArea extends Component {
 	}
 
 	render() {
-		const { text, checkLength } = this.props;
+		const { text, checkUpTo, selection } = this.props;
 
 		let setOfSpans = [];
 		for (let i = 0; i < text.length + 1; i++) {
 			let char = text[i] || " ";
-			let marked =
-				i >= this.props.selection[0] && i < this.props.selection[1];
+			let marked = i >= selection[0] && i < selection[1];
 			let classNames = "char ";
 
-			if (i < checkLength && i !== text.length) {
+			if (i < checkUpTo && i !== text.length) {
 				classNames += this.props.charCorrect(char, i)
 					? "charSuccess "
 					: "charDanger ";
@@ -36,15 +35,12 @@ class TextArea extends Component {
 			classNames +=
 				this.state.cursorOn &&
 				this.props.showingCursor &&
-				((this.props.selection[0] === this.props.selection[1] &&
-					this.props.selection[1] === i) ||
-					(this.props.selection[1] === i &&
-						this.props.selection[2] === "forward") ||
-					(this.props.selection[0] === i &&
-						this.props.selection[2] === "backward"))
+				((selection[0] === selection[1] && selection[1] === i) ||
+					(selection[1] === i && selection[2] === "forward") ||
+					(selection[0] === i && selection[2] === "backward"))
 					? "cursor "
 					: "";
-			
+
 			setOfSpans.push(
 				<span className={classNames} key={i}>
 					{marked ? <mark>{char}</mark> : char}

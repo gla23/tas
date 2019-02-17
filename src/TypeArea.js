@@ -1,19 +1,14 @@
 import React, { Component } from "react";
-// import ReactDOM from "react-dom";
 import TasButton from "./components/TasButton";
 import TextArea from "./TextArea";
 import AnswerReveal from "./AnswerReveal";
 import HiddenTextarea from "./components/HiddenTextarea";
-
-const checkBaseTime = 35;
-const checkTreacle = 3;
-const checkIncrementJump = 2;
-const jumpMinimumTime = 1;
+import CheckAnimate from "./CheckAnimate";
 
 const freshClueData = {
 	selection: [0, 0, "none"],
-	checkedLength: 0,
-	checkIncrementTime: checkBaseTime,
+	checkUpTo: 0,
+	checking: false,
 	correctLength: 0,
 };
 function updateSelection(event) {
@@ -25,7 +20,7 @@ function updateSelection(event) {
 
 const freshCountData = {
 	text: "",
-	answerShowing: false
+	answerShowing: false,
 };
 
 class TypeArea extends Component {
@@ -36,32 +31,26 @@ class TypeArea extends Component {
 			text: " ",
 			showingUI: true,
 			...freshClueData,
-			...freshCountData
+			...freshCountData,
 		};
 		this.updateSelection = updateSelection.bind(this);
 		let setShowingCursor = function(value) {
-			this.setState({showingCursor: value});
-		}
+			this.setState({ showingCursor: value });
+		};
 		this.setShowingCursor = setShowingCursor.bind(this);
-
-
 		this.onHiddenTextChange = this.onHiddenTextChange.bind(this);
-		this.charCorrect = this.charCorrect.bind(this);
 
 		this.getCorrectLength = this.getCorrectLength.bind(this);
-		this.startSearching = this.startSearching.bind(this);
 		this.focusTextArea = this.focusTextArea.bind(this);
-		this.incrementCheckedLength = this.incrementCheckedLength.bind(this);
 		this.shortcut = this.shortcut.bind(this);
 		this.toggleAnswerReveal = this.toggleAnswerReveal.bind(this);
 		this.toggleUI = this.toggleUI.bind(this);
-		// setTimeout(this.focusTextArea, 1000);
 	}
-	
+
 	shortcut(event) {
 		if (event.key === "Enter") {
 			event.preventDefault();
-			this.startSearching();
+			this.setState({ checking: true });
 		}
 		if (event.key === "[") {
 			event.preventDefault();
@@ -83,73 +72,7 @@ class TypeArea extends Component {
 			}
 		}
 	}
-	incrementCheckedLength() {
-		let correctLength = this.getCorrectLength();
-		let startingCheckedLength = this.state.checkedLength;
-		let charsToJump = Math.min(
-			Math.ceil(
-				(10 + (this.props.answer.length + correctLength) / 2) / 30
-			),
-			6
-		);
-		// console.log(charsToJump);
-		let newCheckedLength = Math.min(
-			this.state.checkedLength + charsToJump,
-			this.state.text.length
-		);
-		if (
-			// /newCheckedLength === startingCheckedLength ||
-			this.props.answer.length === 0 ||
-			this.state.text.length === 0
-		) {
-			return;
-		}
 
-		// console.log(startingCheckedLength, correctLength, newCheckedLength, this.state.checkIncrementTime)
-
-		if (startingCheckedLength < correctLength) {
-			if (newCheckedLength > correctLength) {
-				newCheckedLength = correctLength;
-				// console.log("switching to slowing down");
-			}
-			let timeToNextJump =
-				this.state.checkIncrementTime - checkIncrementJump;
-			this.setState({
-				checkedLength: newCheckedLength,
-				checkIncrementTime: timeToNextJump
-			});
-			setTimeout(
-				this.incrementCheckedLength,
-				Math.max(timeToNextJump, jumpMinimumTime)
-			);
-			// console.log(charsToJump, newCheckedLength);
-			// console.log("timeToNextJump", timeToNextJump, newCheckedLength);
-		} else {
-			// At the end or slowing down
-			if (this.state.text === this.props.answer) {
-				setTimeout(this.props.onComplete, 100);
-				return;
-			}
-
-			let oldIncrementTime = this.state.checkIncrementTime;
-			let newIncrementTime =
-				this.state.checkIncrementTime +
-				checkIncrementJump * checkTreacle;
-
-			if (oldIncrementTime > checkBaseTime + checkIncrementJump + 1) {
-				return;
-			}
-
-			this.setState({
-				checkedLength: this.state.checkedLength + 1,
-				checkIncrementTime: newIncrementTime
-			});
-			setTimeout(
-				this.incrementCheckedLength,
-				Math.max(newIncrementTime * 5, jumpMinimumTime)
-			);
-		}
-	}
 	focusTextArea() {
 		// this.textareaRef.current.focus({ preventScroll: true });
 	}
@@ -172,8 +95,8 @@ class TypeArea extends Component {
 			this.setState({ ...freshClueData, ...freshCountData });
 		} else {
 			if (prevProps.clue !== this.props.clue) {
-				if (prevState.checkedLength > 0) {
-					this.setState(freshClueData, () => this.startSearching());
+				if (prevState.checkUpTo > 0) {
+					this.setState({ ...freshClueData, checking: true });
 				} else {
 					this.setState(freshClueData);
 				}
@@ -184,41 +107,28 @@ class TypeArea extends Component {
 	onHiddenTextChange(event) {
 		let text = event.target.value;
 		let answer = this.props.answer;
-		let oldSelectionPosition = this.state.selection[0];
 		if (!answer) {
 			return;
 		}
+		this.setState({ checking: text === answer });
 		let correctPosition = this.getCorrectLength(text, answer);
-
+		let oldSelectionPosition = this.state.selection[0];
 		this.setState({ text: text }, function() {
-			if (text === answer) {
-				this.startSearching();
-			} else {
-				let newSelectionPosition = this.state.selection[0];
-
-				// console.log(
-				// 	this.state.checkedLength,
-				// 	oldSelectionPosition,
-				// 	newSelectionPosition
-				// );
-				let checkedPosToSet = Math.min(
-					this.state.checkedLength,
-					oldSelectionPosition === 0 ? 10000 : oldSelectionPosition,
-					newSelectionPosition
-				);
-				this.setState(
-					{
-						checkedLength: checkedPosToSet
-					},
-					() => {
-						if (this.state.checkedLength <= correctPosition) {
-							this.setState({
-								checkIncrementTime: checkBaseTime
-							});
-						}
-					}
-				);
-			}
+			let newSelectionPosition = this.state.selection[0];
+			let checkedPosToSet = Math.min(
+				this.state.checkUpTo,
+				oldSelectionPosition === 0 ? 10000 : oldSelectionPosition,
+				newSelectionPosition
+			);
+			console.log(
+				oldSelectionPosition,
+				newSelectionPosition,
+				checkedPosToSet,
+				this.state.checkUpTo
+			);
+			this.setState({
+				checkUpTo: checkedPosToSet,
+			});
 		});
 	}
 	getCorrectLength(text = this.state.text, answer = this.props.answer) {
@@ -233,16 +143,6 @@ class TypeArea extends Component {
 		return correctLength;
 	}
 
-	startSearching(event) {
-		// console.log("start Searching checked: ", this.state.checkedLength);
-		this.incrementCheckedLength();
-	}
-
-	charCorrect(char, pos) {
-		// console.log(this.state.text, pos, char);
-		return;
-	}
-
 	render() {
 		const navigationDiv = this.props.navigationDiv();
 		return (
@@ -254,27 +154,31 @@ class TypeArea extends Component {
 						{this.correctCountText()}
 					</div>
 
-					<TextArea
-						text={this.state.text}
-						charCorrect={(char, pos) =>
-							this.props.answer[pos] === char
+					<CheckAnimate
+						checkUpTo={this.getCorrectLength()}
+						checking={this.state.checking}
+						end={this.state.text.length}
+						onReachEnd={() =>
+							this.state.text === this.props.answer &&
+							setTimeout(this.props.onComplete, 100)
 						}
-						showingCursor={this.state.showingCursor}
-						selection={this.state.selection}
-						checkLength={this.state.checkedLength}
-						// textareaRef={this.textareaRef.current}
-					/>
+					>
+						<TextArea
+							text={this.state.text}
+							charCorrect={(char, pos) => this.props.answer[pos] === char}
+							showingCursor={this.state.showingCursor}
+							selection={this.state.selection}
+						/>
+					</CheckAnimate>
+
 					<div className="controlDiv">
 						{this.props.showControlDiv && this.state.showingUI && (
 							<div>
 								<TasButton
 									text="Check ⏎"
-									onClick={this.startSearching}
+									onClick={() => this.setState({ checking: true })}
 								/>
-								<TasButton
-									text="Reveal ["
-									onClick={this.toggleAnswerReveal}
-								/>
+								<TasButton text="Reveal [" onClick={this.toggleAnswerReveal} />
 							</div>
 						)}
 					</div>
@@ -295,7 +199,7 @@ class TypeArea extends Component {
 									text="Hide UI (Esc)"
 									onClick={() =>
 										this.setState({
-											showingUI: !this.state.showingUI
+											showingUI: !this.state.showingUI,
 										})
 									}
 								/>
