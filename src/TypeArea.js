@@ -182,6 +182,7 @@ class TypeArea extends Component {
 						showingCursor={this.state.showingCursor}
 						selection={this.state.selection}
 					/>
+
 					<div className="controlDiv">
 						{this.props.showControlDiv && this.state.showingUI && (
 							<div>
