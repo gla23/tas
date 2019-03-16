@@ -39,6 +39,8 @@ class TypeArea extends Component {
 		};
 		this.setShowingCursor = setShowingCursor.bind(this);
 		this.onHiddenTextChange = this.onHiddenTextChange.bind(this);
+		this.setNewCheckAnimate()
+		
 
 		this.getCorrectLength = this.getCorrectLength.bind(this);
 		this.focusTextArea = this.focusTextArea.bind(this);
@@ -46,11 +48,26 @@ class TypeArea extends Component {
 		this.toggleAnswerReveal = this.toggleAnswerReveal.bind(this);
 		this.toggleUI = this.toggleUI.bind(this);
 	}
-
+	updateCheckedUpTo(val) {
+		this.setState({ checkedUpTo: val });
+	}
+	ifCorrectComplete() {
+		this.state.text === this.props.answer &&
+		setTimeout(this.props.onComplete, 100)
+	}
+	setNewCheckAnimate = () => {
+		if (this.props.answer) {
+			this.checkAnimate = new CheckAnimate(
+				this.props.answer.length,
+				this.updateCheckedUpTo.bind(this),
+				this.ifCorrectComplete.bind(this)
+			);
+		}
+	}
 	shortcut(event) {
 		if (event.key === "Enter") {
 			event.preventDefault();
-			this.setState({ checking: true });
+			this.checkAnimate.start();
 		}
 		if (event.key === "[") {
 			event.preventDefault();
@@ -95,12 +112,17 @@ class TypeArea extends Component {
 			this.setState({ ...freshClueData, ...freshCountData });
 		} else {
 			if (prevProps.clue !== this.props.clue) {
-				if (prevState.checkUpTo > 0) {
-					this.setState({ ...freshClueData, checking: true });
+				this.setNewCheckAnimate()
+				this.setState(freshClueData);
+				this.checkAnimate.checkUpTo = 0;
+				if (this.checkAnimate.checkUpTo > 0) {
+					this.checkAnimate.start();
 				} else {
-					this.setState(freshClueData);
 				}
 			}
+		}
+		if (prevState.text !== this.state.text) {
+			this.checkAnimate.checkUpTo = this.getCorrectLength();
 		}
 	}
 
@@ -110,25 +132,24 @@ class TypeArea extends Component {
 		if (!answer) {
 			return;
 		}
-		this.setState({ checking: text === answer });
+		
+		text === answer && this.checkAnimate.start()
 		let correctPosition = this.getCorrectLength(text, answer);
 		let oldSelectionPosition = this.state.selection[0];
 		this.setState({ text: text }, function() {
 			let newSelectionPosition = this.state.selection[0];
 			let checkedPosToSet = Math.min(
-				this.state.checkUpTo,
+				this.checkAnimate.checkedUpTo,
 				oldSelectionPosition === 0 ? 10000 : oldSelectionPosition,
 				newSelectionPosition
 			);
-			console.log(
-				oldSelectionPosition,
-				newSelectionPosition,
-				checkedPosToSet,
-				this.state.checkUpTo
-			);
-			this.setState({
-				checkUpTo: checkedPosToSet,
-			});
+			// console.log(
+			// 	oldSelectionPosition,
+			// 	newSelectionPosition,
+			// 	checkedPosToSet,
+			// 	this.checkAnimate.checkedUpTo
+			// );
+			this.checkAnimate.checkedUpTo = checkedPosToSet;
 		});
 	}
 	getCorrectLength(text = this.state.text, answer = this.props.answer) {
@@ -154,7 +175,14 @@ class TypeArea extends Component {
 						{this.correctCountText()}
 					</div>
 
-					<CheckAnimate
+					<TextArea
+						checkUpTo={this.state.checkedUpTo}
+						text={this.state.text}
+						charCorrect={(char, pos) => this.props.answer[pos] === char}
+						showingCursor={this.state.showingCursor}
+						selection={this.state.selection}
+					/>
+					{/*<CheckAnimate
 						checkUpTo={this.getCorrectLength()}
 						checking={this.state.checking}
 						end={this.state.text.length}
@@ -170,13 +198,13 @@ class TypeArea extends Component {
 							selection={this.state.selection}
 						/>
 					</CheckAnimate>
-
+					*/}
 					<div className="controlDiv">
 						{this.props.showControlDiv && this.state.showingUI && (
 							<div>
 								<TasButton
 									text="Check ⏎"
-									onClick={() => this.setState({ checking: true })}
+									onClick={() => this.checkAnimate.start()}
 								/>
 								<TasButton text="Reveal [" onClick={this.toggleAnswerReveal} />
 							</div>
