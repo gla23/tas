@@ -1,90 +1,74 @@
-import React, { Component } from "react";
-
-const checkBaseTime = 35;
+const baseTime = 35;
 const checkTreacle = 3;
-const checkIncrementJump = 2;
+const timeIncrease = 2;
 const jumpMinimumTime = 1;
 
-class CheckAnimate extends Component {
-	constructor(props) {
-		super(props);
-
-		this.state = {
-			checkedUpTo: props.checkUpTo,
-			checkIncrementTime: checkBaseTime,
-		};
-
-		this.incrementCheckLength = this.incrementCheckLength.bind(this);
+class CheckAnimate {
+	constructor(answerSize, update, onReachEnd) {
+		this.end = answerSize;
+		this.incrementTime = baseTime;
+		this.onReachEnd = onReachEnd;
+		this.start = this.start.bind(this);
+		this.increment = this.increment.bind(this);
+		this.update = update;
+		this.checkedUpTo = 0;
 	}
 
-	componentDidUpdate(prevProps, prevState) {
-		if (this.props.checkUpTo < prevProps.checkUpTo) {
-			this.setState({
-				checkedUpTo: this.props.checkUpTo,
-				checkIncrementTime: checkBaseTime,
-			});
-		}
-		if (!prevProps.checking && this.props.checking) {
-			console.log("checking now");
-			this.incrementCheckLength();
-		}
+	get checkedUpTo() {
+		return this._checkedUpTo
+	}
+	set checkedUpTo(val) {
+		this.update(val)
+		this._checkedUpTo = val;
 	}
 
-	incrementCheckLength() {
-		let startingCheckLength = this.state.checkedUpTo;
-		let checkUpTo = this.props.checkUpTo;
-		let end = this.props.end;
-		let charsToJump = Math.min(Math.ceil((1 + (checkUpTo + end)) / 60), 6);
-		let newCheckLength = this.state.checkedUpTo + charsToJump;
+	increment() {
+		let { checkUpTo, end, incrementTime } = this;
+		let checkStart = this.checkedUpTo;
+		let charsToJump = Math.ceil((1 + (checkUpTo + end)) / 60);
+		charsToJump = Math.min(charsToJump, 6);
+		let checkNew = checkStart + charsToJump;
 
-		console.log(this.state);
-
-		if (startingCheckLength < checkUpTo) {
-			if (newCheckLength > checkUpTo) {
-				newCheckLength = checkUpTo;
+		if (checkStart < checkUpTo) {
+			if (checkNew > checkUpTo) {
+				checkNew = checkUpTo;
 				// console.log("switching to slowing down");
 			}
-			let timeToNextJump = this.state.checkIncrementTime - checkIncrementJump;
-			this.setState({
-				checkedUpTo: newCheckLength,
-				checkIncrementTime: timeToNextJump,
-			});
-			setTimeout(
-				this.incrementCheckLength,
-				Math.max(timeToNextJump, jumpMinimumTime)
+			this.incrementTime -= timeIncrease;
+			this.checkedUpTo = checkNew;
+			this.incrementTimer = setTimeout(
+				this.increment,
+				Math.max(incrementTime, jumpMinimumTime)
 			);
 		} else {
 			// At the end or slowing down
-			if (this.state.checkedUpTo === end) {
-				this.props.onReachEnd();
+			if (checkStart === end) {
+				this.onReachEnd
+					? this.onReachEnd()
+					: console.log("no onReachEnd function");
 			}
 
-			let oldIncrementTime = this.state.checkIncrementTime;
-			let newIncrementTime =
-				this.state.checkIncrementTime + checkIncrementJump * checkTreacle;
+			let oldIncrementTime = this.incrementTime;
+			let newIncrementTime = oldIncrementTime + timeIncrease * checkTreacle;
 
-			if (oldIncrementTime > checkBaseTime + checkIncrementJump + 1) {
+			if (oldIncrementTime > baseTime + timeIncrease + 1) {
+				// this.incrementTime = baseTime;
 				return;
 			}
 
-			this.setState({
-				checkedUpTo: this.state.checkedUpTo + 1,
-				checkIncrementTime: newIncrementTime,
-			});
-			setTimeout(
-				this.incrementCheckLength,
+			this.checkedUpTo += 1;
+			this.incrementTime = newIncrementTime;
+			this.incrementTimer = setTimeout(
+				this.increment,
 				Math.max(newIncrementTime * 5, jumpMinimumTime)
 			);
 		}
+		this.update(this.checkedUpTo)
 	}
-
-	render() {
-		return (
-			<div>
-				{React.cloneElement(this.props.children, {
-					checkUpTo: this.state.checkedUpTo,
-				})}
-			</div>
+	start() {
+		this.incrementTimer = setTimeout(
+			() => this.increment(),
+			this.incrementTime
 		);
 	}
 }

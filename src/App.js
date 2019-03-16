@@ -58,7 +58,7 @@ class App extends Component {
                     indicatorColor="primary"
                     textColor="primary"
                     centered
-                    theme="dark"
+                    // theme="dark"
                   >
                     <Tab label="Tas" />
                     <Tab label="Search" />
