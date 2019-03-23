@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import TasButton from "./components/TasButton";
 import TextArea from "./TextArea";
-import AnswerReveal from "./AnswerReveal";
 import HiddenTextarea from "./components/HiddenTextarea";
 import CheckAnimate from "./CheckAnimate";
 
@@ -39,10 +38,8 @@ class TypeArea extends Component {
 		};
 		this.setShowingCursor = setShowingCursor.bind(this);
 		this.onHiddenTextChange = this.onHiddenTextChange.bind(this);
-		this.setNewCheckAnimate()
-		
+		this.setNewCheckAnimate();
 
-		this.getCorrectLength = this.getCorrectLength.bind(this);
 		this.focusTextArea = this.focusTextArea.bind(this);
 		this.shortcut = this.shortcut.bind(this);
 		this.toggleAnswerReveal = this.toggleAnswerReveal.bind(this);
@@ -52,9 +49,11 @@ class TypeArea extends Component {
 		this.setState({ checkedUpTo: val });
 	}
 	ifCorrectComplete() {
+		console.log("completing");
 		this.state.text === this.props.answer &&
-		setTimeout(this.props.onComplete, 100)
+			setTimeout(this.props.onComplete, 100);
 	}
+
 	setNewCheckAnimate = () => {
 		if (this.props.answer) {
 			this.checkAnimate = new CheckAnimate(
@@ -63,7 +62,7 @@ class TypeArea extends Component {
 				this.ifCorrectComplete.bind(this)
 			);
 		}
-	}
+	};
 	shortcut(event) {
 		if (event.key === "Enter") {
 			event.preventDefault();
@@ -112,7 +111,7 @@ class TypeArea extends Component {
 			this.setState({ ...freshClueData, ...freshCountData });
 		} else {
 			if (prevProps.clue !== this.props.clue) {
-				this.setNewCheckAnimate()
+				this.setNewCheckAnimate();
 				this.setState(freshClueData);
 				this.checkAnimate.checkUpTo = 0;
 				if (this.checkAnimate.checkUpTo > 0) {
@@ -122,7 +121,10 @@ class TypeArea extends Component {
 			}
 		}
 		if (prevState.text !== this.state.text) {
-			this.checkAnimate.checkUpTo = this.getCorrectLength();
+			this.checkAnimate.checkUpTo = lengthCorrect(
+				this.state.text,
+				this.props.answer
+			);
 		}
 	}
 
@@ -132,9 +134,9 @@ class TypeArea extends Component {
 		if (!answer) {
 			return;
 		}
-		
-		text === answer && this.checkAnimate.start()
-		let correctPosition = this.getCorrectLength(text, answer);
+
+		text === answer && this.checkAnimate.start();
+		let correctPosition = lengthCorrect(text, answer);
 		let oldSelectionPosition = this.state.selection[0];
 		this.setState({ text: text }, function() {
 			let newSelectionPosition = this.state.selection[0];
@@ -152,28 +154,12 @@ class TypeArea extends Component {
 			this.checkAnimate.checkedUpTo = checkedPosToSet;
 		});
 	}
-	getCorrectLength(text = this.state.text, answer = this.props.answer) {
-		let correctLength = 0;
-		for (let i = 0; i < text.length; i++) {
-			if (text[i] !== answer[i]) {
-				break;
-			} else {
-				correctLength = i + 1;
-			}
-		}
-		return correctLength;
-	}
 
 	render() {
-		const navigationDiv = this.props.navigationDiv();
 		return (
 			<div onClick={this.focusTextArea}>
 				<div className="preNavigation">
-					<div className="clueDiv">
-						<span className="clue">{this.props.clue}</span>
-
-						{this.correctCountText()}
-					</div>
+					{ClueDiv(this.props.clue, this.props.correctCount)}
 
 					<TextArea
 						checkUpTo={this.state.checkedUpTo}
@@ -183,42 +169,25 @@ class TypeArea extends Component {
 						selection={this.state.selection}
 					/>
 
-					<div className="controlDiv">
-						{this.props.showControlDiv && this.state.showingUI && (
-							<div>
-								<TasButton
-									text="Check ⏎"
-									onClick={() => this.checkAnimate.start()}
-								/>
-								<TasButton text="Reveal [" onClick={this.toggleAnswerReveal} />
-							</div>
-						)}
-					</div>
-					<div className="secondSection">
-						<AnswerReveal
-							verse={this.props.answer}
-							answerShowing={this.state.answerShowing}
-						/>
-					</div>
+					{this.props.showControlDiv &&
+						this.state.showingUI &&
+						Buttons("controlDiv", [
+							{
+								text: "Check ⏎",
+								onClick: this.checkAnimate && this.checkAnimate.start,
+							},
+							{ text: "Reveal [", onClick: this.toggleAnswerReveal },
+						])}
+
+					{AnswerReveal(this.props.anwer, this.state.answerShowing)}
 				</div>
 
 				<div className="navigationDiv">
-					{this.props.showNavigationDiv && this.state.showingUI && (
-						<span>
-							{navigationDiv}
-							{navigationDiv || (
-								<TasButton
-									text="Hide UI (Esc)"
-									onClick={() =>
-										this.setState({
-											showingUI: !this.state.showingUI,
-										})
-									}
-								/>
-							)}
-						</span>
-					)}
+					{this.props.showNavigationDiv &&
+						this.state.showingUI &&
+						this.props.navigationDiv()}
 				</div>
+
 				<p className="bigGap" />
 
 				<HiddenTextarea
@@ -231,13 +200,46 @@ class TypeArea extends Component {
 			</div>
 		);
 	}
-	correctCountText() {
-		return (
-			<span className="countText" style={{ whiteSpace: "pre-wrap" }}>
-				{" " + this.props.correctCount + " "}
-			</span>
-		);
-	}
 }
+
+function lengthCorrect(text, answer) {
+	let correctLength = 0;
+	for (let i = 0; i < text.length; i++) {
+		if (text[i] !== answer[i]) {
+			break;
+		} else {
+			correctLength = i + 1;
+		}
+	}
+	return correctLength;
+}
+
+const Buttons = (className, buttons) => (
+	<div className={className}>
+		{buttons.map((button, index) => (
+			<TasButton {...button} key={index} />
+		))}
+	</div>
+);
+
+const ClueDiv = (clue, correctCount) => (
+	<div className="clueDiv">
+		<span className="clue">{clue}</span>
+
+		{CorrectCountText(correctCount)}
+	</div>
+);
+
+const CorrectCountText = correctCount => (
+	<span className="countText" style={{ whiteSpace: "pre-wrap" }}>
+		{" " + correctCount + " "}
+	</span>
+);
+
+const AnswerReveal = (verse, answerShowing) => (
+	<div className="AnswerReveal">
+		<p>{answerShowing && verse}</p>
+	</div>
+);
 
 export default TypeArea;
