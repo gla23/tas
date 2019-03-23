@@ -15,17 +15,27 @@ class CheckAnimate {
 	}
 
 	get checkedUpTo() {
-		return this._checkedUpTo
+		return this._checkedUpTo;
 	}
 	set checkedUpTo(val) {
-		this.update(val)
+		this.update(val);
 		this._checkedUpTo = val;
+	}
+
+	start() {
+		this.incrementTimer = setTimeout(
+			() => this.increment(),
+			this.incrementTime
+		);
+	}
+	stop() {
+		this.incrementTimer && clearTimeout(this.incrementTimer);
 	}
 
 	increment() {
 		let { checkUpTo, end, incrementTime } = this;
 		let checkStart = this.checkedUpTo;
-		let charsToJump = Math.ceil((1 + (checkUpTo + end)) / 60);
+		let charsToJump = Math.ceil((59 + checkUpTo + end) / 60);
 		charsToJump = Math.min(charsToJump, 6);
 		let checkNew = checkStart + charsToJump;
 
@@ -42,6 +52,7 @@ class CheckAnimate {
 			);
 		} else {
 			// At the end or slowing down
+			console.log("checkStart", checkStart, "end", end);
 			if (checkStart === end) {
 				this.onReachEnd
 					? this.onReachEnd()
@@ -63,13 +74,7 @@ class CheckAnimate {
 				Math.max(newIncrementTime * 5, jumpMinimumTime)
 			);
 		}
-		this.update(this.checkedUpTo)
-	}
-	start() {
-		this.incrementTimer = setTimeout(
-			() => this.increment(),
-			this.incrementTime
-		);
+		this.update(this.checkedUpTo);
 	}
 }
 

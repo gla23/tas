@@ -33,14 +33,8 @@ class App extends Component {
       <div
         className="App"
         onClick={function() {
-          let textarea = document.getElementById('textarea')
-            
-            if (textarea) {
-              textarea.focus()
-            } else {
-              console.log("would be doing the error of textarea being null");
-            }
-            
+            let textarea = document.getElementById('textarea')
+            textarea && textarea.focus()
           }
         }
       >
@@ -51,7 +45,7 @@ class App extends Component {
           <p />
         </header>
 
-        {<AppBar position="static" className={this.props.classes.root}>
+        {true && (<AppBar position="static" className={this.props.classes.root}>
                   <Tabs
                     value={this.state.value}
                     onChange={this.handleChange}
@@ -64,7 +58,7 @@ class App extends Component {
                     <Tab label="Search" />
                     <Tab label="Major System" />
                   </Tabs>
-                </AppBar>}
+                </AppBar>)}
 
         <div className="maxWidthFloat">
           <div className="AppSection">
