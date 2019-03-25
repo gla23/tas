@@ -10,17 +10,17 @@ const freshClueData = {
 	checking: false,
 	correctLength: 0,
 };
+const freshCountData = {
+	text: "",
+	answerShowing: false,
+};
+
 function updateSelection(event) {
 	let start = event.target.selectionStart;
 	let end = event.target.selectionEnd;
 	let direction = event.target.selectionDirection;
 	this.setState({ selection: [start, end, direction] });
 }
-
-const freshCountData = {
-	text: "",
-	answerShowing: false,
-};
 
 class TypeArea extends Component {
 	constructor(props) {
@@ -40,10 +40,8 @@ class TypeArea extends Component {
 		this.onHiddenTextChange = this.onHiddenTextChange.bind(this);
 		this.setNewCheckAnimate();
 
-		this.focusTextArea = this.focusTextArea.bind(this);
 		this.shortcut = this.shortcut.bind(this);
 		this.toggleAnswerReveal = this.toggleAnswerReveal.bind(this);
-		this.toggleUI = this.toggleUI.bind(this);
 	}
 	updateCheckedUpTo(val) {
 		this.setState({ checkedUpTo: val });
@@ -74,7 +72,7 @@ class TypeArea extends Component {
 		}
 		if (event.key === "#" || event.key === "Escape") {
 			event.preventDefault();
-			this.toggleUI();
+			this.setState({ showingUI: !this.state.showingUI });
 		}
 		let shortcutFunction = this.props.shortcutMap.get(event.key);
 
@@ -95,17 +93,7 @@ class TypeArea extends Component {
 	toggleAnswerReveal() {
 		this.setState({ answerShowing: !this.state.answerShowing });
 	}
-	toggleUI() {
-		this.setState({ showingUI: !this.state.showingUI });
-	}
 
-	refreshState(keepText = false) {
-		if (keepText) {
-			this.setState(freshClueData);
-		} else {
-			this.setState({ ...freshClueData, ...freshCountData });
-		}
-	}
 	componentDidUpdate(prevProps, prevState) {
 		if (prevProps.correctCount !== this.props.correctCount) {
 			this.setState({ ...freshClueData, ...freshCountData });
@@ -131,33 +119,26 @@ class TypeArea extends Component {
 	onHiddenTextChange(event) {
 		let text = event.target.value;
 		let answer = this.props.answer;
-		if (!answer) {
-			return;
-		}
 
 		text === answer && this.checkAnimate.start();
-		let correctPosition = lengthCorrect(text, answer);
+
 		let oldSelectionPosition = this.state.selection[0];
-		this.setState({ text: text }, function() {
-			let newSelectionPosition = this.state.selection[0];
-			let checkedPosToSet = Math.min(
-				this.checkAnimate.checkedUpTo,
-				oldSelectionPosition === 0 ? 10000 : oldSelectionPosition,
-				newSelectionPosition
-			);
-			// console.log(
-			// 	oldSelectionPosition,
-			// 	newSelectionPosition,
-			// 	checkedPosToSet,
-			// 	this.checkAnimate.checkedUpTo
-			// );
-			this.checkAnimate.checkedUpTo = checkedPosToSet;
-		});
+		let newSelectionPosition = event.target.selectionStart;
+
+		let checkedPosToSet = Math.min(
+			this.checkAnimate.checkedUpTo,
+			oldSelectionPosition === 0 ? 10000 : oldSelectionPosition,
+			newSelectionPosition
+		);
+
+		this.checkAnimate.checkedUpTo = checkedPosToSet;
+
+		this.setState({ text: text });
 	}
 
 	render() {
 		return (
-			<div onClick={this.focusTextArea}>
+			<div>
 				<div className="preNavigation">
 					{ClueDiv(this.props.clue, this.props.correctCount)}
 
@@ -171,15 +152,18 @@ class TypeArea extends Component {
 
 					{this.props.showControlDiv &&
 						this.state.showingUI &&
-						Buttons("controlDiv", [
-							{
-								text: "Check ⏎",
-								onClick: this.checkAnimate && this.checkAnimate.start,
-							},
-							{ text: "Reveal [", onClick: this.toggleAnswerReveal },
-						])}
+						Buttons(
+							[
+								{
+									text: "Check ⏎",
+									onClick: this.checkAnimate && this.checkAnimate.start,
+								},
+								{ text: "Reveal [", onClick: this.toggleAnswerReveal },
+							],
+							"controlDiv"
+						)}
 
-					{AnswerReveal(this.props.anwer, this.state.answerShowing)}
+					{AnswerReveal(this.props.answer, this.state.answerShowing)}
 				</div>
 
 				<div className="navigationDiv">
@@ -192,7 +176,7 @@ class TypeArea extends Component {
 
 				<HiddenTextarea
 					text={this.state.text}
-					onChange={this.onHiddenTextChange}
+					onChange={this.props.answer && this.onHiddenTextChange}
 					onKeyDown={this.shortcut}
 					updateSelection={this.updateSelection}
 					onChangeFocus={this.setShowingCursor}
@@ -214,13 +198,12 @@ function lengthCorrect(text, answer) {
 	return correctLength;
 }
 
-const Buttons = (className, buttons) => (
-	<div className={className}>
-		{buttons.map((button, index) => (
-			<TasButton {...button} key={index} />
-		))}
-	</div>
-);
+export const Buttons = (buttonsDescriptor, className) => {
+	const buttons = buttonsDescriptor.map((button, index) => (
+		<TasButton {...button} key={index} />
+	));
+	return className ? <div className={className}>{buttons}</div> : buttons;
+};
 
 const ClueDiv = (clue, correctCount) => (
 	<div className="clueDiv">

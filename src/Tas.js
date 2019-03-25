@@ -1,155 +1,122 @@
-import React, { Component } from "react";
-import TypeArea from "./TypeArea";
+import React, { Component, Fragment, useState, useEffect } from "react";
+import TypeArea, { Buttons } from "./TypeArea";
 import TasButton from "./components/TasButton";
 import TasCheckbox from "./components/TasCheckbox";
+
+const delay = time => new Promise(resolve => setTimeout(resolve, time));
 
 const learnLoopEnd = 152;
 const learnLoopStart = learnLoopEnd - 15;
 const loopSectionSize = 15;
 
-let verses;
-let verseStrings
-verses = "a b c d".split(" ")
-verseStrings = {
-	a: "aaaa",
-	b: "bbbb",
-	c: "cccc",
-	d: "dddd",
-};
-
-function loadVerses() {
+function parseTextLines(text) {
 	let answers = {};
 	let clues = [];
-	fetch('memory.txt')
-	  .then(response => response.text())
-	  .then(text => OpenTextLines.call(this, text))
-	function OpenTextLines(text) {
-		let lines = text.split("\n");
-		for (var i = 0; i < lines.length; i++) {
-			if (i % 2 === 0) {
-				answers[lines[i]] = lines[i + 1];
-				clues.push(lines[i]);
-			}
+
+	let lines = text.split("\n");
+	for (var i = 0; i < lines.length; i++) {
+		if (i % 2 === 0) {
+			answers[lines[i]] = lines[i + 1];
+			clues.push(lines[i]);
 		}
-		this.answers = answers;
-		this.clues = clues;
-		setTimeout(() => this.setState({loaded: true}), 0)
 	}
+	return { clues, answers };
+}
+function randomInt(int) {
+	return Math.floor(Math.random() * int);
 }
 
+const Tas = () => {
+	const [answers, setAnswers] = useState({ [" "]: "" });
+	const [clues, setClues] = useState([" "]);
+	const [questionIndex, setQuestionIndexExact] = useState(0);
+	const [correctCount, setCorrectCount] = useState(1);
+	const [freeze, setFreeze] = useState(false);
 
-class Tas extends Component {
-	constructor(props) {
-		super(props);
-		this.answers = verseStrings;
-		this.clues = verses;
+	const setQuestionIndex = index => {
+		let newIndex = Math.max(0, Math.min(index, clues.length - 1));
+		console.log(newIndex, clues.length);
+		setQuestionIndexExact(newIndex);
+	};
 
-		this.state = {
-			verseIndex: Math.floor(Math.random() * learnLoopStart),
-			correctCount: 1,
-			questionFreezed: false,
-			loaded: false,
-		};
-		this.setQuestion = this.setQuestion.bind(this);
-		this.learnLoops = this.learnLoops.bind(this);
-		this.toggleFreeze = this.toggleFreeze.bind(this);
-
-		loadVerses.call(this)
-
-		this.shortcutMap = new Map();
-		// this.shortcutMap.set("*", console.log);
-		this.shortcutMap.set("PageDown", () => this.setQuestion(this.increaseVerse(1), false, true));
-		this.shortcutMap.set("PageUp", () => this.setQuestion(this.increaseVerse(-1), false, true));
-		this.shortcutMap.set("]", this.toggleFreeze);
-
-		document.title = "Type and see";
-	}
-
-	incrementVerse = () => Math.min(this.state.verseIndex + 1, this.clues.length - 1);
-	randomVerse = () => Math.floor(Math.random() * this.clues.length)
-	toggleFreeze() {
-		this.setState({questionFreezed: !this.state.questionFreezed});
-	}
-	increaseVerse(increase) {
-		return () => {
-			let newVerse = this.state.verseIndex + increase;
-			let cappedAtTop = Math.min(newVerse, this.clues.length - 1);
-			let clamped = Math.max(0, cappedAtTop);
-			return clamped;	
-		}
-	}
-	learnLoops() {
-		if (this.state.correctCount < loopSectionSize) {
-			return Math.floor(Math.random() * learnLoopStart)
-		} else if (this.state.correctCount < 2 * loopSectionSize) {
-			return learnLoopStart + Math.floor(
-				Math.random() * (learnLoopEnd - learnLoopStart)
-			);
+	const increaseQuestion = (inc = 1) => setQuestionIndex(questionIndex + inc);
+	const setRandomQuestion = () => setQuestionIndex(randomInt(clues.length));
+	const newFirstLoop = () => setQuestionIndex(randomInt(learnLoopStart));
+	const newSecondLoop = () =>
+		setQuestionIndex(learnLoopStart + randomInt(learnLoopEnd - learnLoopStart));
+	const nextLearnLoops = () => {
+		if (correctCount < loopSectionSize) {
+			newFirstLoop();
+		} else if (correctCount < 2 * loopSectionSize) {
+			newFirstLoop();
 		} else {
-			if (this.state.verseIndex < learnLoopEnd) {
-				return learnLoopEnd;
+			if (questionIndex < learnLoopEnd) {
+				setQuestionIndex(learnLoopEnd);
 			}
-			return this.incrementVerse();
+			setQuestionIndex(questionIndex + 1);
 		}
-	}
-	setQuestion(verseFn, incrementCorrectCount = true, overrideFrozen = false) {
-		let setStateObj = {};
-		 
-		if (!this.state.questionFreezed || overrideFrozen) {
-			setStateObj.verseIndex = verseFn();
-		}
-		if (incrementCorrectCount) {
-			setStateObj.correctCount = this.state.correctCount + 1;
-			setStateObj.verseShowing = false;
-		}
-		this.setState(setStateObj);
-	}
+	};
 
-	render() {
-		return (
-			<div>
-				<TypeArea
-					answer={this.answers[this.clues[this.state.verseIndex]]}
-					clue={this.clues[this.state.verseIndex]}
-					correctCount={this.state.correctCount}
-					shortcutMap={this.shortcutMap}
-					onComplete={function(){ this.setQuestion(this.learnLoops)}.bind(this)}
-					navigationDiv={() => this.loopsNavigationDiv()}
-					showControlDiv={true}
-					showNavigationDiv={true}
-				/>
-			</div>
-		);
-	}
-	loopsNavigationDiv() {
-		return this.clues[learnLoopStart] && (
+	useEffect(() => {
+		fetch("memory.txt")
+			.then(response => response.text())
+			.then(text => parseTextLines(text))
+			.then(({ clues, answers }) => {
+				setAnswers(answers);
+				setClues(clues);
+				setQuestionIndex(Math.floor(Math.random() * learnLoopStart));
+				console.log("loaded");
+			});
+	}, []);
+
+	let shortcutMap = new Map();
+	// shortcutMap.set("*", console.log);
+	shortcutMap.set("PageDown", () => increaseQuestion(1));
+	shortcutMap.set("PageUp", () => increaseQuestion(-1));
+	shortcutMap.set("]", () => setFreeze(!freeze));
+
+	let loopsNavigationDiv = () =>
+		clues[learnLoopStart] && (
 			<span>
 				<h5>Change mem</h5>
-
 				<TasButton
-					text={"Recent - " + (this.clues[learnLoopStart])}
-					onClick={() => this.setState({correctCount: loopSectionSize + 1, verseIndex: learnLoopStart})}
+					text={"Recent - " + clues[learnLoopStart]}
+					onClick={() => {
+						setCorrectCount(loopSectionSize + 1);
+						setQuestionIndex(learnLoopStart);
+					}}
 				/>
 				<TasButton
-					text={"New - " + (this.clues[learnLoopEnd])}
-					onClick={() => this.setState({correctCount: 2 * loopSectionSize + 1, verseIndex: learnLoopEnd})}
+					text={"New - " + clues[learnLoopEnd]}
+					onClick={() => {
+						setCorrectCount(2 * loopSectionSize + 1);
+						setQuestionIndex(learnLoopEnd);
+					}}
 				/>
-				<TasButton
-					text="Random"
-					onClick={() => this.setQuestion(this.randomVerse, false)}
-				/>
-				<TasButton
-					text="Complete"
-					onClick={() => this.setQuestion(this.learnLoops)}
-				/>
+				<TasButton text="Random" onClick={setRandomQuestion} />
+				<TasButton text="Complete" onClick={nextLearnLoops} />
 				<TasCheckbox
 					text="Freeze"
-					onClick={this.toggleFreeze}
-					checked={this.state.questionFreezed}
+					onClick={() => setFreeze(!freeze)}
+					checked={freeze}
 				/>
 			</span>
-		)
-	}
-}
+		);
+
+	document.title = "Type and see";
+
+	return (
+		<TypeArea
+			answer={answers[clues[questionIndex]]}
+			clue={clues[questionIndex]}
+			correctCount={correctCount}
+			shortcutMap={shortcutMap}
+			onComplete={nextLearnLoops}
+			navigationDiv={loopsNavigationDiv}
+			showControlDiv={true}
+			showNavigationDiv={true}
+		/>
+	);
+};
 
 export default Tas;
