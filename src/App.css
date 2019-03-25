@@ -124,13 +124,30 @@ textarea {
 .AnswerReveal {
   font-size: 1.6rem; /* 35 43px */  
 }
-.charSuccess, .countText {
+.charGreen, .countText {
   background-color: #28a745;
   background-color: #e7fbd3;
   background-color: #c7fbc3;
-
 }
-.charDanger {
+.charGreen2 {
+  background-color: #40c745;
+  /*background-color: #e7fbd3;*/
+}
+.charGreen3 {
+  background-color: #40c775;
+  /*background-color: #c7fbc3;*/
+}
+.charGrey {
+  background-color: #bfbfbf;
+}
+.charGrey2 {
+  background-color: #dbdbdb;
+}
+.charGrey3 {
+  background-color: #e4e4e4;
+}
+
+.charRed {
   background-color: #dc3545;
   background-color: #f2dede;
   background-color: pink;
