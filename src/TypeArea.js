@@ -10,17 +10,11 @@ const freshClueData = {
 	checking: false,
 	correctLength: 0,
 };
+
 const freshCountData = {
 	text: "",
 	answerShowing: false,
 };
-
-function updateSelection(event) {
-	let start = event.target.selectionStart;
-	let end = event.target.selectionEnd;
-	let direction = event.target.selectionDirection;
-	this.setState({ selection: [start, end, direction] });
-}
 
 class TypeArea extends Component {
 	constructor(props) {
@@ -32,16 +26,19 @@ class TypeArea extends Component {
 			...freshClueData,
 			...freshCountData,
 		};
-		this.updateSelection = updateSelection.bind(this);
 		let setShowingCursor = function(value) {
 			this.setState({ showingCursor: value });
 		};
 		this.setShowingCursor = setShowingCursor.bind(this);
 		this.onHiddenTextChange = this.onHiddenTextChange.bind(this);
+		this.setSelection = this.setSelection.bind(this);
 		this.setNewCheckAnimate();
 
 		this.shortcut = this.shortcut.bind(this);
 		this.toggleAnswerReveal = this.toggleAnswerReveal.bind(this);
+	}
+	setSelection(obj) {
+		this.setState({ selection: obj });
 	}
 	updateCheckedUpTo(val) {
 		this.setState({ checkedUpTo: val });
@@ -145,7 +142,9 @@ class TypeArea extends Component {
 					<TextArea
 						checkUpTo={this.state.checkedUpTo}
 						text={this.state.text}
-						charCorrect={(char, pos) => this.props.answer[pos] === char}
+						charType={(char, pos) =>
+							this.props.answer[pos] === char ? "green" : "red"
+						}
 						showingCursor={this.state.showingCursor}
 						selection={this.state.selection}
 					/>
@@ -178,7 +177,7 @@ class TypeArea extends Component {
 					text={this.state.text}
 					onChange={this.props.answer && this.onHiddenTextChange}
 					onKeyDown={this.shortcut}
-					updateSelection={this.updateSelection}
+					updateSelection={this.setSelection}
 					onChangeFocus={this.setShowingCursor}
 				/>
 			</div>

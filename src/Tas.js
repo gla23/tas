@@ -1,9 +1,9 @@
-import React, { Component, Fragment, useState, useEffect } from "react";
-import TypeArea, { Buttons } from "./TypeArea";
+import React, { useState, useEffect } from "react";
+import TypeArea from "./TypeArea";
 import TasButton from "./components/TasButton";
 import TasCheckbox from "./components/TasCheckbox";
 
-const delay = time => new Promise(resolve => setTimeout(resolve, time));
+// const delay = time => new Promise(resolve => setTimeout(resolve, time));
 
 const learnLoopEnd = 152;
 const learnLoopStart = learnLoopEnd - 15;
@@ -27,16 +27,14 @@ function randomInt(int) {
 }
 
 const Tas = () => {
-	const [answers, setAnswers] = useState({ [" "]: "" });
+	const [answers, setAnswers] = useState({ " ": "" });
 	const [clues, setClues] = useState([" "]);
 	const [questionIndex, setQuestionIndexExact] = useState(0);
 	const [correctCount, setCorrectCount] = useState(1);
 	const [freeze, setFreeze] = useState(false);
 
 	const setQuestionIndex = index => {
-		let newIndex = Math.max(0, Math.min(index, clues.length - 1));
-		console.log(newIndex, clues.length);
-		setQuestionIndexExact(newIndex);
+		setQuestionIndexExact(Math.max(0, Math.min(index, clues.length - 1)));
 	};
 
 	const increaseQuestion = (inc = 1) => setQuestionIndex(questionIndex + inc);
@@ -45,10 +43,11 @@ const Tas = () => {
 	const newSecondLoop = () =>
 		setQuestionIndex(learnLoopStart + randomInt(learnLoopEnd - learnLoopStart));
 	const nextLearnLoops = () => {
+		setCorrectCount(correctCount + 1);
 		if (correctCount < loopSectionSize) {
 			newFirstLoop();
 		} else if (correctCount < 2 * loopSectionSize) {
-			newFirstLoop();
+			newSecondLoop();
 		} else {
 			if (questionIndex < learnLoopEnd) {
 				setQuestionIndex(learnLoopEnd);
@@ -64,10 +63,12 @@ const Tas = () => {
 			.then(({ clues, answers }) => {
 				setAnswers(answers);
 				setClues(clues);
-				setQuestionIndex(Math.floor(Math.random() * learnLoopStart));
-				console.log("loaded");
 			});
 	}, []);
+
+	useEffect(() => {
+		setQuestionIndex(randomInt(learnLoopStart));
+	}, [clues]);
 
 	let shortcutMap = new Map();
 	// shortcutMap.set("*", console.log);
@@ -111,7 +112,9 @@ const Tas = () => {
 			clue={clues[questionIndex]}
 			correctCount={correctCount}
 			shortcutMap={shortcutMap}
-			onComplete={nextLearnLoops}
+			onComplete={() => {
+				nextLearnLoops();
+			}}
 			navigationDiv={loopsNavigationDiv}
 			showControlDiv={true}
 			showNavigationDiv={true}

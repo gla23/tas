@@ -1,20 +1,32 @@
 import React from "react";
 
 export default props => {
-	let nothing = () => "why";
+	const nothing = () => "why";
+
+	const selectionArrayFromEvent = event => [
+		event.target.selectionStart,
+		event.target.selectionEnd,
+		event.target.selectionDirection,
+	];
+
+	const updateSelection = event =>
+		props.updateSelection
+			? props.updateSelection(selectionArrayFromEvent(event))
+			: nothing;
+
 	return (
 		<textarea
 			id="textarea"
 			value={props.text}
 			onChange={props.onChange || nothing}
-			onSelect={props.updateSelection}
-			onKeyPress={props.updateSelection}
-			onKeyUp={props.updateSelection}
-			onInput={props.updateSelection}
+			onSelect={updateSelection}
+			onKeyPress={updateSelection}
+			onKeyUp={updateSelection}
+			onInput={updateSelection}
 			onKeyDown={props.onKeyDown}
 			spellCheck={false}
-			onFocus={() => props.onChangeFocus(true)}
-			onBlur={() => props.onChangeFocus(false)}
+			onFocus={props.onChangeFocus ? () => props.onChangeFocus(true) : nothing}
+			onBlur={props.onChangeFocus ? () => props.onChangeFocus(false) : nothing}
 			autoFocus={true}
 			placeholder={""}
 		/>
