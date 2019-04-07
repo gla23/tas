@@ -35,7 +35,7 @@ class CheckAnimate {
 	increment() {
 		let { checkUpTo, end, incrementTime } = this;
 		let checkStart = this.checkedUpTo;
-		let charsToJump = Math.ceil((59 + checkUpTo + end) / 60);
+		let charsToJump = Math.ceil((59 + checkUpTo * 4 + end) / 60);
 		charsToJump = Math.min(charsToJump, 6);
 		let checkNew = checkStart + charsToJump;
 
