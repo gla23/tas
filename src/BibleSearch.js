@@ -4,6 +4,8 @@ import HiddenTextarea from "./components/HiddenTextarea";
 
 import {
 	getVerseDesciptor,
+	getTextFromDescriptor,
+	getErrorsFromDescriptor,
 	OverMaximumError,
 	UndefinedCharacterError,
 } from "./verseCodeParsing";
@@ -18,49 +20,9 @@ import {
 	// otAbbrev,
 } from "./verseData.js";
 
-function getTextFromDescriptor(verseDesciptor) {
-	const { testament, book, chapter, verse } = verseDesciptor;
-	let expanded = "";
-	if (typeof book === "number" || typeof book === "string") {
-		expanded += testament === "new" ? ntBooks[book - 1] : otBooks[book - 1];
-		expanded += " ";
-	}
-	if (typeof chapter === "number" || typeof book === "string") {
-		expanded += chapter;
-	}
-	if (typeof verse === "number" || typeof book === "string") {
-		expanded += ":" + verse;
-	}
-	// if (versesEnd !== undefined) {
-	// 	expanded += "-" + versesEnd;
-	// }
-
-	return expanded;
-}
-
-function getErrorsFromDescriptor(verseDesciptor) {
-	const { book, chapter, verse } = verseDesciptor;
-	let errors = [];
-	if (book instanceof OverMaximumError) {
-		errors.push(book.message + " books");
-	}
-	if (book instanceof UndefinedCharacterError) {
-		errors.push(book.message);
-	}
-	if (chapter instanceof OverMaximumError) {
-		errors.push(chapter.message + " chapters");
-	}
-	if (chapter instanceof UndefinedCharacterError) {
-		errors.push(chapter.message);
-	}
-	if (verse instanceof OverMaximumError) {
-		errors.push(verse.message + " verses");
-	}
-	if (verse instanceof UndefinedCharacterError) {
-		errors.push(verse.message);
-	}
-	return errors;
-}
+const GatewayPage = props => {
+	// return <p>hi</p>;
+};
 
 const BibleSearch = props => {
 	const [text, setText] = useState(props.text);
@@ -69,6 +31,7 @@ const BibleSearch = props => {
 	const [showingCursor, setShowingCursor] = useState(0);
 
 	const verseDesciptor = getVerseDesciptor(text, 0);
+
 	const expanded = getTextFromDescriptor(verseDesciptor);
 	const errors = getErrorsFromDescriptor(verseDesciptor);
 
@@ -113,6 +76,8 @@ const BibleSearch = props => {
 			{errors.map((message, index) => (
 				<p key={index}>{message}</p>
 			))}
+
+			{GatewayPage("old", 19, 25)}
 
 			<p className="bigGap" />
 

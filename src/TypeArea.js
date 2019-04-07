@@ -46,7 +46,7 @@ class TypeArea extends Component {
 	ifCorrectComplete() {
 		console.log("completing");
 		this.state.text === this.props.answer &&
-			setTimeout(this.props.onComplete, 100);
+			setTimeout(this.props.onComplete, 10);
 	}
 
 	setNewCheckAnimate = () => {
@@ -71,15 +71,17 @@ class TypeArea extends Component {
 			event.preventDefault();
 			this.setState({ showingUI: !this.state.showingUI });
 		}
-		let shortcutFunction = this.props.shortcutMap.get(event.key);
+		if (this.props.shortcutMap) {
+			let shortcutFunction = this.props.shortcutMap.get(event.key);
 
-		if (shortcutFunction) {
-			event.preventDefault();
-			shortcutFunction(event.key);
-		} else {
-			let allFunction = this.props.shortcutMap.get("*");
-			if (allFunction) {
-				allFunction(event.key);
+			if (shortcutFunction) {
+				event.preventDefault();
+				shortcutFunction(event.key);
+			} else {
+				let allFunction = this.props.shortcutMap.get("*");
+				if (allFunction) {
+					allFunction(event.key);
+				}
 			}
 		}
 	}
