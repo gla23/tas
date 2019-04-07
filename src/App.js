@@ -7,8 +7,8 @@ import { withStyles } from "@material-ui/core/styles";
 // import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 // import word from './word.png';
 import logo from "./tasLogo.png";
-import Tas from "./Tas.js";
-import BibleSearch from "./BibleSearch.js";
+import MemoriseTab from "./MemoriseTab";
+import BibleSearch from "./BibleSearch";
 import MajorSystem from "./MajorSystem";
 import { parseVerse } from "./verseCodeParsing";
 
@@ -94,7 +94,7 @@ const App = props => {
       <div className="maxWidthFloat">
         <div className="AppSection">
           {currentTab === 0 && (
-            <Tas
+            <MemoriseTab
               answers={answers}
               clues={clues}
               loopStart={loopStart}

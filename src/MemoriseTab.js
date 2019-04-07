@@ -3,13 +3,11 @@ import TypeArea from "./TypeArea";
 import TasButton from "./components/TasButton";
 import TasCheckbox from "./components/TasCheckbox";
 
-// const delay = time => new Promise(resolve => setTimeout(resolve, time));
-
 function randomInt(int) {
 	return Math.floor(Math.random() * int);
 }
 
-const Tas = props => {
+const MemoriseTab = props => {
 	const { answers, clues } = props;
 	const {
 		loopStart = clues.length - 1,
@@ -106,4 +104,4 @@ const Tas = props => {
 	);
 };
 
-export default Tas;
+export default MemoriseTab;
