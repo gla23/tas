@@ -94,6 +94,11 @@ class TypeArea extends Component {
 	}
 
 	componentDidUpdate(prevProps, prevState) {
+		// Object.entries(this.props).forEach(
+		// 	([key, val]) =>
+		// 		prevProps[key] !== val && console.log(`Prop '${key}' changed`)
+		// );
+
 		if (prevProps.correctCount !== this.props.correctCount) {
 			this.setState({ ...freshClueData, ...freshCountData });
 		} else {

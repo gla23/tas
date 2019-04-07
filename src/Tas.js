@@ -2,34 +2,21 @@ import React, { useState, useEffect } from "react";
 import TypeArea from "./TypeArea";
 import TasButton from "./components/TasButton";
 import TasCheckbox from "./components/TasCheckbox";
-import { parseVerse } from "./verseCodeParsing";
 
 // const delay = time => new Promise(resolve => setTimeout(resolve, time));
 
-const learnLoopEnd = 162;
-const learnLoopStart = learnLoopEnd - 15;
-const loopSectionSize = 15;
-
-function parseTextLines(text) {
-	let answers = {};
-	let clues = [];
-
-	let lines = text.split("\n");
-	for (var i = 0; i < lines.length; i++) {
-		if (i % 2 === 0) {
-			answers[lines[i]] = lines[i + 1];
-			clues.push(lines[i]);
-		}
-	}
-	return { clues, answers };
-}
 function randomInt(int) {
 	return Math.floor(Math.random() * int);
 }
 
-const Tas = () => {
-	const [answers, setAnswers] = useState({ " ": "" });
-	const [clues, setClues] = useState([" "]);
+const Tas = props => {
+	const { answers, clues } = props;
+	const {
+		loopStart = clues.length - 1,
+		loopEnd = clues.length - 1,
+		loopSectionSize = 15,
+	} = props;
+
 	const [questionIndex, setQuestionIndexExact] = useState(0);
 	const [correctCount, setCorrectCount] = useState(1);
 	const [freeze, setFreeze] = useState(false);
@@ -40,9 +27,9 @@ const Tas = () => {
 
 	const increaseQuestion = (inc = 1) => setQuestionIndex(questionIndex + inc);
 	const setRandomQuestion = () => setQuestionIndex(randomInt(clues.length));
-	const newFirstLoop = () => setQuestionIndex(randomInt(learnLoopStart));
+	const newFirstLoop = () => setQuestionIndex(randomInt(loopStart));
 	const newSecondLoop = () =>
-		setQuestionIndex(learnLoopStart + randomInt(learnLoopEnd - learnLoopStart));
+		setQuestionIndex(loopStart + randomInt(loopEnd - loopStart));
 	const nextLearnLoops = () => {
 		setCorrectCount(correctCount + 1);
 		if (freeze) {
@@ -54,9 +41,9 @@ const Tas = () => {
 		} else if (correctCount < 2 * loopSectionSize) {
 			newSecondLoop();
 		} else {
-			console.log(questionIndex, learnLoopEnd);
-			if (questionIndex < learnLoopEnd) {
-				setQuestionIndex(learnLoopEnd);
+			console.log(questionIndex, loopEnd);
+			if (questionIndex < loopEnd) {
+				setQuestionIndex(loopEnd);
 			} else {
 				setQuestionIndex(questionIndex + 1);
 			}
@@ -64,23 +51,8 @@ const Tas = () => {
 	};
 
 	useEffect(() => {
-		fetch("memory.txt")
-			.then(response => response.text())
-			.then(text => parseTextLines(text))
-			.then(({ clues, answers }) => {
-				setAnswers(answers);
-				setClues(clues);
-			});
-	}, []);
-
-	useEffect(() => {
-		setQuestionIndex(randomInt(learnLoopStart));
+		setQuestionIndex(randomInt(loopStart));
 	}, [clues]);
-
-	const clue = clues[questionIndex];
-	const parsedClue = clue.length <= 6 ? parseVerse(clue) : clue;
-
-	console.log(clue, parsedClue);
 
 	let shortcutMap = new Map();
 	// shortcutMap.set("*", console.log);
@@ -89,21 +61,21 @@ const Tas = () => {
 	shortcutMap.set("]", () => setFreeze(!freeze));
 
 	let loopsNavigationDiv = () =>
-		clues[learnLoopStart] && (
+		clues[loopStart] && (
 			<span>
 				<h5>Change mem</h5>
 				<TasButton
-					text={"Recent - " + clues[learnLoopStart]}
+					text={"Recent - " + clues[loopStart]}
 					onClick={() => {
 						setCorrectCount(loopSectionSize + 1);
-						setQuestionIndex(learnLoopStart);
+						setQuestionIndex(loopStart);
 					}}
 				/>
 				<TasButton
-					text={"New - " + clues[learnLoopEnd]}
+					text={"New - " + clues[loopEnd]}
 					onClick={() => {
 						setCorrectCount(2 * loopSectionSize + 1);
-						setQuestionIndex(learnLoopEnd);
+						setQuestionIndex(loopEnd);
 					}}
 				/>
 				<TasButton text="Random" onClick={setRandomQuestion} />
@@ -121,7 +93,7 @@ const Tas = () => {
 	return (
 		<TypeArea
 			answer={answers[clues[questionIndex]]}
-			clue={parsedClue}
+			clue={clues[questionIndex]}
 			correctCount={correctCount}
 			shortcutMap={shortcutMap}
 			onComplete={() => {
