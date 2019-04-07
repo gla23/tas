@@ -2,10 +2,11 @@ import React, { useState, useEffect } from "react";
 import TypeArea from "./TypeArea";
 import TasButton from "./components/TasButton";
 import TasCheckbox from "./components/TasCheckbox";
+import { parseVerse } from "./verseCodeParsing";
 
 // const delay = time => new Promise(resolve => setTimeout(resolve, time));
 
-const learnLoopEnd = 152;
+const learnLoopEnd = 162;
 const learnLoopStart = learnLoopEnd - 15;
 const loopSectionSize = 15;
 
@@ -44,15 +45,21 @@ const Tas = () => {
 		setQuestionIndex(learnLoopStart + randomInt(learnLoopEnd - learnLoopStart));
 	const nextLearnLoops = () => {
 		setCorrectCount(correctCount + 1);
+		if (freeze) {
+			increaseQuestion(0);
+			return;
+		}
 		if (correctCount < loopSectionSize) {
 			newFirstLoop();
 		} else if (correctCount < 2 * loopSectionSize) {
 			newSecondLoop();
 		} else {
+			console.log(questionIndex, learnLoopEnd);
 			if (questionIndex < learnLoopEnd) {
 				setQuestionIndex(learnLoopEnd);
+			} else {
+				setQuestionIndex(questionIndex + 1);
 			}
-			setQuestionIndex(questionIndex + 1);
 		}
 	};
 
@@ -69,6 +76,11 @@ const Tas = () => {
 	useEffect(() => {
 		setQuestionIndex(randomInt(learnLoopStart));
 	}, [clues]);
+
+	const clue = clues[questionIndex];
+	const parsedClue = clue.length <= 6 ? parseVerse(clue) : clue;
+
+	console.log(clue, parsedClue);
 
 	let shortcutMap = new Map();
 	// shortcutMap.set("*", console.log);
@@ -109,7 +121,7 @@ const Tas = () => {
 	return (
 		<TypeArea
 			answer={answers[clues[questionIndex]]}
-			clue={clues[questionIndex]}
+			clue={parsedClue}
 			correctCount={correctCount}
 			shortcutMap={shortcutMap}
 			onComplete={() => {

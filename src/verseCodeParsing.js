@@ -113,7 +113,7 @@ function getNextBook(string, index) {
 	return ["new", ...next];
 }
 
-export function getVerseDesciptor(string, start) {
+export function getVerseDesciptor(string, start = 0) {
 	let verseDesciptor = {};
 	if (!string) return verseDesciptor;
 
@@ -202,4 +202,56 @@ export function getVerseDesciptor(string, start) {
 	// 	expanded += "-" + versesEnd;
 	// }
 	// return [expanded, charUpTo];
+}
+
+export function parseVerse(string) {
+	if (string === undefined || string === " " || string === "") {
+		return "";
+	}
+	const verseDesciptor = getVerseDesciptor(string);
+	return getTextFromDescriptor(verseDesciptor);
+}
+
+export function getTextFromDescriptor(verseDesciptor) {
+	const { testament, book, chapter, verse } = verseDesciptor;
+	let expanded = "";
+	if (typeof book === "number") {
+		expanded += testament === "new" ? ntBooks[book - 1] : otBooks[book - 1];
+		expanded += " ";
+	}
+	if (typeof chapter === "number") {
+		expanded += chapter;
+	}
+	if (typeof verse === "number") {
+		expanded += ":" + verse;
+	}
+	// if (versesEnd !== undefined) {
+	// 	expanded += "-" + versesEnd;
+	// }
+
+	return expanded;
+}
+
+export function getErrorsFromDescriptor(verseDesciptor) {
+	const { book, chapter, verse } = verseDesciptor;
+	let errors = [];
+	if (book instanceof OverMaximumError) {
+		errors.push(book.message + " books");
+	}
+	if (book instanceof UndefinedCharacterError) {
+		errors.push(book.message);
+	}
+	if (chapter instanceof OverMaximumError) {
+		errors.push(chapter.message + " chapters");
+	}
+	if (chapter instanceof UndefinedCharacterError) {
+		errors.push(chapter.message);
+	}
+	if (verse instanceof OverMaximumError) {
+		errors.push(verse.message + " verses");
+	}
+	if (verse instanceof UndefinedCharacterError) {
+		errors.push(verse.message);
+	}
+	return errors;
 }

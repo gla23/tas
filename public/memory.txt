@@ -74,49 +74,49 @@ aey
 Come to terms quickly with your accuser while you are going with him to court, lest your accuser hand you over to the judge, and the judge to the guard, and you be put in prison.
 aez
 Truly, I say to you, you will never get out until you have paid the last penny.
-aeA0
+ae0
 You have heard that it was said, 'You shall not commit adultery.'
-aeAa
+aeA
 But I say to you that everyone who looks at a woman with lustful intent has already committed adultery with her in his heart.
-aeAb
+aeB
 If your right eye causes you to sin, tear it out and throw it away. For it is better that you lose one of your members than that your whole body be thrown into hell.
-aeAc
+aeC
 And if your right hand causes you to sin, cut it off and throw it away. For it is better that you lose one of your members than that your whole body go into hell.
-aeAd
+aeD
 It was also said, 'Whoever divorces his wife, let him give her a certificate of divorce.'
-aeAe
+aeE
 But I say to you that everyone who divorces his wife, except on the ground of sexual immorality, makes her commit adultery, and whoever marries a divorced woman commits adultery.
-aeAf
+aeF
 Again you have heard that it was said to those of old, 'You shall not swear falsely, but shall perform to the Lord what you have sworn.'
-aeAg
+aeG
 But I say to you, Do not take an oath at all, either by heaven, for it is the throne of God,
-aeAh
+aeH
 or by the earth, for it is his footstool, or by Jerusalem, for it is the city of the great King.
-aeAi
+aeI
 And do not take an oath by your head, for you cannot make one hair white or black.
-aeAj
+aeJ
 Let what you say be simply 'Yes' or 'No'; anything more than this comes from evil.
-aeAk
+aeK
 You have heard that it was said, 'An eye for an eye and a tooth for a tooth.'
-aeAl
+aeL
 But I say to you, Do not resist the one who is evil. But if anyone slaps you on the right cheek, turn to him the other also.
-aeAm
+aeM
 And if anyone would sue you and take your tunic, let him have your cloak as well.
-aeAn
+aeN
 And if anyone forces you to go one mile, go with him two miles.
-aeAo
+aeO
 Give to the one who begs from you, and do not refuse the one who would borrow from you.
-aeAp
+aeP
 You have heard that it was said, 'You shall love your neighbour and hate your enemy.'
-aeAq
+aeQ
 But I say to you, Love your enemies and pray for those who persecute you,
-aeAr
+aeR
 so that you may be sons of your Father who is in heaven. For he makes his sun rise on the evil and on the good, and sends rain on the just and on the unjust.
-aeAs
+aeS
 For if you love those who love you, what reward do you have? Do not even the tax collectors do the same?
-aeAt
+aeT
 And if you greet only your brothers, what more are you doing than others? Do not even the Gentiles do the same?
-aeAu
+aeU
 You therefore must be perfect, as your heavenly Father is perfect.
 pspa
 Preserve me, O God, for in you I take refuge.
@@ -282,11 +282,11 @@ afD
 Therefore do not be anxious, saying, 'What shall we eat?' or 'What shall we drink?' or 'What shall we wear?'
 afE
 For the Gentiles seek after all these things, and your heavenly Father knows that you need them all.
-afAf
+afF
 But seek first the kingdom of God and his righteousness, and all these things will be added to you.
 afG
 Therefore do not be anxious about tomorrow, for tomorrow will be anxious for itself. Sufficient for the day is its own trouble.
-fhAa
+fhA
 And we know that for those who love God all things work together for good, for those who are called according to his purpose.
 ban
 Now after John was arrested, Jesus came into Galilee, proclaiming the gospel of God,

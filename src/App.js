@@ -1,6 +1,4 @@
 import React, { useState, Fragment } from "react";
-import Tas from "./Tas.js";
-import BibleSearch from "./BibleSearch.js";
 import "./App.css";
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
@@ -9,6 +7,9 @@ import { withStyles } from "@material-ui/core/styles";
 // import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 // import word from './word.png';
 import logo from "./tasLogo.png";
+import Tas from "./Tas.js";
+import BibleSearch from "./BibleSearch.js";
+import MajorSystem from "./MajorSystem";
 
 const styles = theme => ({
   root: {
@@ -35,7 +36,7 @@ const focusTextArea = () => {
 };
 
 const App = props => {
-  const [currentTab, setCurrentTab] = useState(1);
+  const [currentTab, setCurrentTab] = useState(0);
 
   return (
     <div className="App" onClick={focusTextArea}>
@@ -68,7 +69,7 @@ const App = props => {
           )}
           {currentTab === 2 && (
             <Fragment>
-              <p>Major</p>
+              <MajorSystem />
             </Fragment>
           )}
         </div>
