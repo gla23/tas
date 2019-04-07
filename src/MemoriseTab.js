@@ -15,6 +15,10 @@ const MemoriseTab = props => {
 		loopSectionSize = 15,
 	} = props;
 
+	if (!answers || !clues) {
+		return <p>Loading</p>;
+	}
+
 	const [questionIndex, setQuestionIndexExact] = useState(0);
 	const [correctCount, setCorrectCount] = useState(1);
 	const [freeze, setFreeze] = useState(false);
