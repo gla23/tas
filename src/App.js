@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import "./App.css";
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
@@ -10,6 +10,7 @@ import logo from "./tasLogo.png";
 import Tas from "./Tas.js";
 import BibleSearch from "./BibleSearch.js";
 import MajorSystem from "./MajorSystem";
+import { parseVerse } from "./verseCodeParsing";
 
 const styles = theme => ({
   root: {
@@ -17,6 +18,10 @@ const styles = theme => ({
     // width: 500,
   },
 });
+
+const loopEnd = 162;
+const loopStart = loopEnd - 15;
+const loopSectionSize = 15;
 
 const appHeader = () => (
   <header className="App-header">
@@ -30,6 +35,21 @@ const appHeader = () => (
   </header>
 );
 
+function parseTextLines(text) {
+  let answers = {};
+  let clues = [];
+
+  let lines = text.split("\n");
+  for (var i = 0; i < lines.length; i++) {
+    if (i % 2 === 0) {
+      let clue = lines[i].length <= 6 ? parseVerse(lines[i]) : lines[i];
+      answers[clue] = lines[i + 1];
+      clues.push(clue);
+    }
+  }
+  return { clues, answers };
+}
+
 const focusTextArea = () => {
   let textarea = document.getElementById("textarea");
   textarea && textarea.focus();
@@ -37,6 +57,18 @@ const focusTextArea = () => {
 
 const App = props => {
   const [currentTab, setCurrentTab] = useState(0);
+  const [answers, setAnswers] = useState({ " ": "" });
+  const [clues, setClues] = useState([" "]);
+
+  useEffect(() => {
+    fetch("memory.txt")
+      .then(response => response.text())
+      .then(text => parseTextLines(text))
+      .then(({ clues, answers }) => {
+        setAnswers(answers);
+        setClues(clues);
+      });
+  }, []);
 
   return (
     <div className="App" onClick={focusTextArea}>
@@ -61,7 +93,15 @@ const App = props => {
 
       <div className="maxWidthFloat">
         <div className="AppSection">
-          {currentTab === 0 && <Tas />}
+          {currentTab === 0 && (
+            <Tas
+              answers={answers}
+              clues={clues}
+              loopStart={loopStart}
+              loopEnd={loopEnd}
+              loopSectionSize={loopSectionSize}
+            />
+          )}
           {currentTab === 1 && (
             <Fragment>
               <BibleSearch text="" />
