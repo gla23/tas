@@ -7,14 +7,14 @@ const loopStart = loopEnd - 15;
 const loopSectionSize = 15;
 
 function parseTextLines(text) {
-	let answers = {};
+	let answers = [];
 	let clues = [];
 
 	let lines = text.split("\n");
 	for (var i = 0; i < lines.length; i++) {
 		if (i % 2 === 0) {
 			let clue = lines[i].length <= 6 ? parseVerse(lines[i]) : lines[i];
-			answers[clue] = lines[i + 1];
+			answers.push(lines[i + 1]);
 			clues.push(clue);
 		}
 	}
