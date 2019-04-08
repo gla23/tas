@@ -91,11 +91,18 @@ const MemoriseTab = props => {
 		);
 
 	document.title = "Type and see";
+	let answer = answers[questionIndex];
+	let clue = clues[questionIndex];
+
+	if (!answer || !clue) {
+		console.log(answer, clue, "hmmm", answers, clues, questionIndex);
+		return <p>Loading 2</p>;
+	}
 
 	return (
 		<TypeArea
-			answer={answers[clues[questionIndex]]}
-			clue={clues[questionIndex]}
+			answer={answer}
+			clue={clue}
 			correctCount={correctCount}
 			shortcutMap={shortcutMap}
 			onComplete={() => {

@@ -56,6 +56,8 @@ class TypeArea extends Component {
 				this.updateCheckedUpTo.bind(this),
 				this.ifCorrectComplete.bind(this)
 			);
+		} else {
+			console.log("not setting checkAnimate");
 		}
 	};
 	shortcut(event) {
