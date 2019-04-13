@@ -12,11 +12,11 @@ const peg2 = [
 	["sick", "sock", "soak"], // sick sky soak ascii ask sack sag seek sock
 	["safe", "sofa", "save"], // savvy sofa save safe
 	["sappy", "soup", "sob"], // sappy soap sob sap sip soup
-	["dizzy", "dice", "toss"], // as in seismic // toss toys dice dies dizzy daisy tease dose
+	["dizzy", "Tess", "toss"], // as in seismic // toss toys dice dies dizzy daisy tease dose
 	["tatty", "dad", "tattoo"], // dad dead died edit idiot tat tattoo tatty tidy tight toot
 	["tin", "tuna", "tune"], // Aidan den deny tan tawny teen teeny tiny thin tin tuna twin tune as in like a piano or conducting or as you would a fork
 	["tame", "tome", "tomb"], // adam atom adeem damn dumb tame tome tomb thumb time Tim Tom
-	["tar", "thor", "tear"], // tar tear thor throw tire torah tower tree
+	["tar", "Thor", "tear"], // tar tear thor throw tire torah tower tree
 	["tall", "tail", "duel"], // <adj> tail as in the <adj> squirrel superhero // tall teal // tail telly tool towel// tally tell duel //
 	["tash", "doge", "dodge"], // dutch tash teach dosh doge ditch dodge
 	["thug", "taco", "take"], // take could be as in steal // dog Deke take thick attack attic tack/y taco take talk tech thick thug toga took tuck tug twig
@@ -40,7 +40,8 @@ const generateClue = num => {
 	}
 	return str;
 };
-const numberOfClues = 22;
+// Includes 00
+const numberOfClues = 23;
 const answers = [];
 const clues = [];
 for (let i = 0; i < numberOfClues; i++) {
@@ -52,39 +53,39 @@ const MajorSystem = props => {
 		<MemoriseTab
 			answers={answers}
 			clues={clues}
-			learnLoopStart={numberOfClues}
-			learnLoopEnd={numberOfClues}
-			loopSectionSize={10}
+			loopStart={numberOfClues}
+			loopEnd={numberOfClues}
+			// loopSectionSize={10}
 		/>
 	);
 };
 
 export default MajorSystem;
 
-let peg1 = [
-	[
-		"easy",
-		"hot",
-		"new",
-		"yummy",
-		"hairy",
-		"oily",
-		"itchy",
-		"key",
-		"key",
-		"happy",
-	],
-	[
-		"hose",
-		"hat",
-		"hen",
-		"home",
-		"arrow",
-		"whale",
-		"shoe",
-		"cow",
-		"hoof",
-		"pie",
-	],
-	["sew", "hate", "know", "aim", "row", "heal", "chew", "hook", "view", "buy"],
-];
+// let peg1 = [
+// 	[
+// 		"easy",
+// 		"hot",
+// 		"new",
+// 		"yummy",
+// 		"hairy",
+// 		"oily",
+// 		"itchy",
+// 		"key",
+// 		"key",
+// 		"happy",
+// 	],
+// 	[
+// 		"hose",
+// 		"hat",
+// 		"hen",
+// 		"home",
+// 		"arrow",
+// 		"whale",
+// 		"shoe",
+// 		"cow",
+// 		"hoof",
+// 		"pie",
+// 	],
+// 	["sew", "hate", "know", "aim", "row", "heal", "chew", "hook", "view", "buy"],
+// ];
