@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useMemo } from "react";
 import TextArea from "./TextArea";
 import HiddenTextarea from "./components/HiddenTextarea";
 
@@ -30,10 +30,14 @@ const BibleSearch = props => {
 	const [selection, setSelection] = useState([0, 0, "none"]);
 	const [showingCursor, setShowingCursor] = useState(0);
 
-	const verseDesciptor = getVerseDesciptor(text, 0);
+	console.log("rerender");
 
-	const expanded = getTextFromDescriptor(verseDesciptor);
-	const errors = getErrorsFromDescriptor(verseDesciptor);
+	const [verseDesciptor, expanded, errors] = useMemo(() => {
+		const verseDesciptor = getVerseDesciptor(text, 0);
+		const expanded = getTextFromDescriptor(verseDesciptor);
+		const errors = getErrorsFromDescriptor(verseDesciptor);
+		return [verseDesciptor, expanded, errors];
+	}, [text]);
 
 	const {
 		book,

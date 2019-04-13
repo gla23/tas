@@ -41,23 +41,25 @@ function getNextNumber(string, position, maximum = 150) {
 	if (num === undefined) {
 		return [undefined, 0];
 	}
-	// Letters
-	if (num >= 1 && num <= 26) {
-		return num <= maximum
+
+	const filterMax = (num, maximum) =>
+		num <= maximum
 			? [num, 1]
 			: [new OverMaximumError(num + " is over maximum of " + maximum), 1];
+
+	// Letters
+	if (num >= 1 && num <= 26) {
+		return filterMax(num, maximum);
 	}
 
 	// Capital letters
 	if (num >= -31 && num <= -6) {
 		num = num + 32 + 27;
-		return num <= maximum
-			? [num, 1]
-			: [new OverMaximumError(num + " is over maximum of " + maximum), 1];
+		return filterMax(num, maximum);
 	}
 	// 0
 	if (num === -48) {
-		return [27, 1];
+		return filterMax(27, maximum);
 	}
 
 	// " "
@@ -73,34 +75,29 @@ function getNextNumber(string, position, maximum = 150) {
 
 	// Numbers
 	if (num >= -48 && num <= -39) {
-		let nextDigit, twoDigits;
+		let nextDigit, twoDigits, threeDigits;
 		num = num + 48;
 		nextDigit = getCharDigit(string, position + 1);
-		if (
-			nextDigit === false ||
-			num.toString() + nextDigit.toString() > maximum
-		) {
-			return num <= maximum
-				? [num, 1]
-				: [new OverMaximumError(num + " is over maximum of " + maximum), 1];
-		} else {
-			twoDigits = num.toString() + nextDigit.toString();
+		twoDigits = num.toString() + nextDigit.toString();
+		if (!nextDigit || Number(twoDigits) > maximum) {
+			return filterMax(num, maximum);
 		}
 
 		nextDigit = getCharDigit(string, position + 2);
-		let threeDigits = twoDigits + nextDigit.toString();
-		if (nextDigit === false || threeDigits > maximum) {
-			return [Number(twoDigits), 2];
-		} else {
-			return [Number(threeDigits), 3];
-		}
+		threeDigits = twoDigits + nextDigit.toString();
+		return nextDigit && Number(threeDigits) <= maximum
+			? [Number(threeDigits), 3]
+			: [Number(twoDigits), 2];
 	}
 	return [new UndefinedCharacterError(string[position] + " not number"), 1];
 }
 
 function getNextBook(string, index) {
 	let otBook = otAbbrev.filter(abbr =>
-		string.toLowerCase().startsWith(abbr.toLowerCase())
+		string
+			.slice(index)
+			.toLowerCase()
+			.startsWith(abbr.toLowerCase())
 	);
 	if (otBook.length > 0) {
 		let otIndex = otAbbrev.indexOf(otBook[0]);
@@ -117,8 +114,12 @@ export function getVerseDesciptor(string, start = 0) {
 	let verseDesciptor = {};
 	if (!string) return verseDesciptor;
 
-	// Testament/book
 	let charUpTo = start;
+
+	console.log("computing verseDesciptor for ", string);
+
+	// Testament/book
+	charUpTo += numberOfSpaces(string, charUpTo);
 	let [testament, book, bookCodeLength] = getNextBook(string, charUpTo);
 	if (book === undefined || book instanceof Error) {
 		verseDesciptor.book = book;
@@ -135,6 +136,7 @@ export function getVerseDesciptor(string, start = 0) {
 	charUpTo += bookCodeLength;
 
 	// Chapter
+	charUpTo += numberOfSpaces(string, charUpTo);
 	let [chapter, chapterCodeLength] = getNextNumber(
 		string,
 		charUpTo,
@@ -154,6 +156,7 @@ export function getVerseDesciptor(string, start = 0) {
 	charUpTo += chapterCodeLength;
 
 	// Verse
+	charUpTo += numberOfSpaces(string, charUpTo);
 	let [verse, verseCodeLength] = getNextNumber(
 		string,
 		charUpTo,
@@ -202,6 +205,19 @@ export function getVerseDesciptor(string, start = 0) {
 	// 	expanded += "-" + versesEnd;
 	// }
 	// return [expanded, charUpTo];
+}
+
+function numberOfSpaces(string, charUpTo) {
+	let count = 0;
+	while (charUpTo < string.length) {
+		if (string[charUpTo] === " ") {
+			charUpTo += 1;
+			count += 1;
+		} else {
+			return count;
+		}
+	}
+	return count;
 }
 
 export function parseVerse(string) {

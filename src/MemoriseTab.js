@@ -10,9 +10,9 @@ function randomInt(int) {
 const MemoriseTab = props => {
 	const { answers, clues } = props;
 	const {
-		loopStart = clues.length - 1,
-		loopEnd = clues.length - 1,
-		loopSectionSize = 15,
+		loopStart = clues.length,
+		loopEnd = clues.length,
+		loopSectionSize = 150000,
 	} = props;
 
 	if (!answers || !clues) {
@@ -62,33 +62,36 @@ const MemoriseTab = props => {
 	shortcutMap.set("PageUp", () => increaseQuestion(-1));
 	shortcutMap.set("]", () => setFreeze(!freeze));
 
-	let loopsNavigationDiv = () =>
-		clues[loopStart] && (
-			<span>
-				<h5>Change mem</h5>
-				<TasButton
-					text={"Recent - " + clues[loopStart]}
-					onClick={() => {
-						setCorrectCount(loopSectionSize + 1);
-						setQuestionIndex(loopStart);
-					}}
-				/>
-				<TasButton
-					text={"New - " + clues[loopEnd]}
-					onClick={() => {
-						setCorrectCount(2 * loopSectionSize + 1);
-						setQuestionIndex(loopEnd);
-					}}
-				/>
-				<TasButton text="Random" onClick={setRandomQuestion} />
-				<TasButton text="Complete" onClick={nextLearnLoops} />
-				<TasCheckbox
-					text="Freeze"
-					onClick={() => setFreeze(!freeze)}
-					checked={freeze}
-				/>
-			</span>
-		);
+	let loopsNavigationDiv = () => (
+		<span>
+			<h5>Change mem</h5>
+			{clues[loopStart] && (
+				<>
+					<TasButton
+						text={"Recent - " + clues[loopStart]}
+						onClick={() => {
+							setCorrectCount(loopSectionSize + 1);
+							setQuestionIndex(loopStart);
+						}}
+					/>
+					<TasButton
+						text={"New - " + clues[loopEnd]}
+						onClick={() => {
+							setCorrectCount(2 * loopSectionSize + 1);
+							setQuestionIndex(loopEnd);
+						}}
+					/>
+				</>
+			)}
+			<TasButton text="Random" onClick={setRandomQuestion} />
+			<TasButton text="Complete" onClick={nextLearnLoops} />
+			<TasCheckbox
+				text="Freeze"
+				onClick={() => setFreeze(!freeze)}
+				checked={freeze}
+			/>
+		</span>
+	);
 
 	document.title = "Type and see";
 	let answer = answers[questionIndex];
