@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 
 const TextArea = props => {
+	const { text, checkUpTo, selection, focused } = props;
 	const [cursorOn, setCursorOn] = useState(true);
 	useEffect(() => {
-		let cursorFlashInterval = setInterval(() => setCursorOn(!cursorOn), 600);
-		return () => clearInterval(cursorFlashInterval);
-	});
+		setCursorOn(true);
+		let flashInterval = setInterval(() => setCursorOn(old => !old), 600);
+		return () => clearInterval(flashInterval);
+	}, [focused, text]);
 
-	const { text, checkUpTo, selection } = props;
 	let charType;
 	let setOfSpans = [];
 
@@ -26,7 +27,7 @@ const TextArea = props => {
 		// Cursor
 		// Need to make it display on the right side if you've just moved into it on the right like in the other one...
 		cursorOn &&
-			props.showingCursor &&
+			focused &&
 			(classNames +=
 				(selection[0] === selection[1] && selection[1] === i) ||
 				(selection[1] === i && selection[2] === "forward") ||

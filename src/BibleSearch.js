@@ -6,19 +6,19 @@ import {
 	getVerseDesciptor,
 	getTextFromDescriptor,
 	getErrorsFromDescriptor,
-	OverMaximumError,
-	UndefinedCharacterError,
+	// OverMaximumError,
+	// UndefinedCharacterError,
 } from "./verseCodeParsing";
 
-import {
-	ntBooks,
-	// ntChapters,
-	// ntVerses,
-	otBooks,
-	// otChapters,
-	// otVerses,
-	// otAbbrev,
-} from "./verseData.js";
+// import {
+// ntBooks,
+// ntChapters,
+// ntVerses,
+// otBooks,
+// otChapters,
+// otVerses,
+// otAbbrev,
+// } from "./verseData.js";
 
 const GatewayPage = props => {
 	// return <p>hi</p>;

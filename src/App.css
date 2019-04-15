@@ -1,7 +1,7 @@
-
 /* General App stuff*/
 
-html, body {
+html,
+body {
   /*overflow: hidden;*/
   position: fixed;
   width: 100%;
@@ -9,8 +9,8 @@ html, body {
 }
 
 .App-header {
-  background-color: #1E90FF;
-  background-color: #6495ED;
+  background-color: #1e90ff;
+  background-color: #6495ed;
   min-height: 10vh;
   max-height: 10vh;
   display: flex;
@@ -26,7 +26,8 @@ html, body {
   /*min-width: 800px;*/
 }
 
-.maxWidthFloat, #textarea {
+.maxWidthFloat,
+#textarea {
   margin: auto;
   /*padding-top: 0px;
   padding-bottom: 0px;*/
@@ -46,10 +47,6 @@ html, body {
   min-height: 80vh;
   max-height: 80vh;
 }
-.preNavigation {
-  /*min-height: 80vh; */
-  /*max-height: 65vh;*/
-}
 .navigationDiv {
   /*background-color: #f0f0f0;*/
   /*min-height: 20vh; */
@@ -60,7 +57,7 @@ html, body {
   top: calc(100vh - 130px);
 }
 .typeArea {
-  min-height: 30vh; 
+  min-height: 30vh;
   max-height: 30vh;
 }
 .controlDiv {
@@ -75,17 +72,16 @@ html, body {
   padding-bottom: 700px;
 }
 
-
 /* Text */
 
 mark {
-  background-color: #6495ED;
-  background-color: #94B5FF;
+  background-color: #6495ed;
+  background-color: #94b5ff;
   color: black;
 }
 .cursor {
   /*border-bottom: 3px solid #6495ED;*/
-  box-shadow: -2px 0 #000
+  box-shadow: -2px 0 #000;
 }
 .clue {
   font-size: 24px;
@@ -105,26 +101,32 @@ mark {
 }
 
 textarea {
-  max-width: 100%; 
-  
+  max-width: 100%;
+
   /*Show the box*/
   /*position: absolute;
   top: 300px;*/
 }
 
-.char, textarea, .TextArea, .AnswerReveal {
+.char,
+textarea,
+.TextArea,
+.AnswerReveal {
   min-width: 25px;
   white-space: pre-wrap;
   word-wrap: break-word;
   /*outline: 1px solid white;*/
 }
-.char, textarea, .TextArea {
-  font-size: 2.2rem; /* 35 43px */  
+.char,
+textarea,
+.TextArea {
+  font-size: 2.2rem; /* 35 43px */
 }
 .AnswerReveal {
-  font-size: 1.6rem; /* 35 43px */  
+  font-size: 1.6rem; /* 35 43px */
 }
-.charGreen, .countText {
+.charGreen,
+.countText {
   background-color: #28a745;
   background-color: #e7fbd3;
   background-color: #c7fbc3;
@@ -157,24 +159,23 @@ textarea {
 }
 
 textarea {
-    padding: 10px;
-    line-height: 1.5;
-    width: 100%;
-    /*height: 400px;*/
-    height: auto;
-    /*border-radius: 5px;    */
-    /*border: 1px solid #ccc;*/
-    border: none;
-    /*box-shadow: 1px 1px 1px #999;*/
-    box-shadow: none;
-    -webkit-box-shadow: none;
-    -moz-box-shadow: none;
+  padding: 10px;
+  line-height: 1.5;
+  width: 100%;
+  /*height: 400px;*/
+  height: auto;
+  /*border-radius: 5px;    */
+  /*border: 1px solid #ccc;*/
+  border: none;
+  /*box-shadow: 1px 1px 1px #999;*/
+  box-shadow: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
 
-    overflow: auto;
-    outline: none;
+  overflow: auto;
+  outline: none;
 
-    resize: none; /*remove the resize handle on the bottom right*/
-
+  resize: none; /*remove the resize handle on the bottom right*/
 }
 
 /* Others */
@@ -188,7 +189,6 @@ textarea {
   height: 10vmin;
   display: inline;
   /*float: left;*/
-
 }
 .App-paper {
   paddingtop: 100 * 2;

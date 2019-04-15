@@ -1,44 +1,51 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import TasButton from "./components/TasButton";
 import TextArea from "./TextArea";
 import HiddenTextarea from "./components/HiddenTextarea";
 import CheckAnimate from "./CheckAnimate";
 
 const freshClueData = {
-	selection: [0, 0, "none"],
 	checkUpTo: 0,
-	checking: false,
-	correctLength: 0,
 };
 
 const freshCountData = {
 	text: "",
-	answerShowing: false,
 };
 
-class TypeArea extends Component {
+const TypeArea = props => {
+	const [focused, setFocused] = useState(false);
+	const [selection, setSelection] = useState([0, 0, "none"]);
+	const [showingAnswer, setShowingAnswer] = useState(false);
+	const toggleAnswer = () => setShowingAnswer(r => !r);
+	const [showingUI, setshowingUI] = useState(true);
+	const toggleUI = () => setshowingUI(r => !r);
+	return (
+		<OldTypeArea
+			{...props}
+			focused={focused}
+			setFocused={setFocused}
+			selection={selection}
+			setSelection={setSelection}
+			showingAnswer={showingAnswer}
+			toggleAnswer={toggleAnswer}
+			showingUI={showingUI}
+			toggleUI={toggleUI}
+		/>
+	);
+};
+
+class OldTypeArea extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			showingCursor: false,
 			text: " ",
-			showingUI: true,
 			...freshClueData,
 			...freshCountData,
 		};
-		let setShowingCursor = function(value) {
-			this.setState({ showingCursor: value });
-		};
-		this.setShowingCursor = setShowingCursor.bind(this);
 		this.onHiddenTextChange = this.onHiddenTextChange.bind(this);
-		this.setSelection = this.setSelection.bind(this);
 		this.setNewCheckAnimate();
 
 		this.shortcut = this.shortcut.bind(this);
-		this.toggleAnswerReveal = this.toggleAnswerReveal.bind(this);
-	}
-	setSelection(obj) {
-		this.setState({ selection: obj });
 	}
 	updateCheckedUpTo(val) {
 		this.setState({ checkedUpTo: val });
@@ -67,11 +74,11 @@ class TypeArea extends Component {
 		}
 		if (event.key === "[") {
 			event.preventDefault();
-			this.toggleAnswerReveal();
+			this.props.toggleAnswer();
 		}
 		if (event.key === "#" || event.key === "Escape") {
 			event.preventDefault();
-			this.setState({ showingUI: !this.state.showingUI });
+			this.props.toggleUI();
 		}
 		if (this.props.shortcutMap) {
 			let shortcutFunction = this.props.shortcutMap.get(event.key);
@@ -88,13 +95,6 @@ class TypeArea extends Component {
 		}
 	}
 
-	focusTextArea() {
-		// this.textareaRef.current.focus({ preventScroll: true });
-	}
-	toggleAnswerReveal() {
-		this.setState({ answerShowing: !this.state.answerShowing });
-	}
-
 	componentDidUpdate(prevProps, prevState) {
 		// Object.entries(this.props).forEach(
 		// 	([key, val]) =>
@@ -108,10 +108,6 @@ class TypeArea extends Component {
 				this.setNewCheckAnimate();
 				this.setState(freshClueData);
 				this.checkAnimate.checkUpTo = 0;
-				if (this.checkAnimate.checkUpTo > 0) {
-					this.checkAnimate.start();
-				} else {
-				}
 			}
 		}
 		if (prevState.text !== this.state.text) {
@@ -123,12 +119,13 @@ class TypeArea extends Component {
 	}
 
 	onHiddenTextChange(event) {
+		const { selection } = this.props;
 		let text = event.target.value;
 		let answer = this.props.answer;
 
 		text === answer && this.checkAnimate.start();
 
-		let oldSelectionPosition = this.state.selection[0];
+		let oldSelectionPosition = selection[0];
 		let newSelectionPosition = event.target.selectionStart;
 
 		let checkedPosToSet = Math.min(
@@ -143,41 +140,36 @@ class TypeArea extends Component {
 	}
 
 	render() {
+		const {
+			focused,
+			setFocused,
+			selection,
+			setSelection,
+			showingAnswer,
+			toggleAnswer,
+			showingUI,
+		} = this.props;
+
 		return (
 			<div>
-				<div className="preNavigation">
-					{ClueDiv(this.props.clue, this.props.correctCount)}
+				{ClueDiv(this.props.clue, this.props.correctCount)}
 
-					<TextArea
-						checkUpTo={this.state.checkedUpTo}
-						text={this.state.text}
-						charType={(char, pos) =>
-							this.props.answer[pos] === char ? "green" : "red"
-						}
-						showingCursor={this.state.showingCursor}
-						selection={this.state.selection}
-					/>
+				<TextArea
+					checkUpTo={this.state.checkedUpTo}
+					text={this.state.text}
+					charType={(char, pos) =>
+						this.props.answer[pos] === char ? "green" : "red"
+					}
+					focused={focused}
+					selection={selection}
+				/>
 
-					{this.props.showControlDiv &&
-						this.state.showingUI &&
-						Buttons(
-							[
-								{
-									text: "Check ⏎",
-									onClick: this.checkAnimate && this.checkAnimate.start,
-								},
-								{ text: "Reveal [", onClick: this.toggleAnswerReveal },
-							],
-							"controlDiv"
-						)}
+				{showingUI && ControlDiv(this.checkAnimate, toggleAnswer)}
 
-					{AnswerReveal(this.props.answer, this.state.answerShowing)}
-				</div>
+				{AnswerReveal(this.props.answer, showingAnswer)}
 
 				<div className="navigationDiv">
-					{this.props.showNavigationDiv &&
-						this.state.showingUI &&
-						this.props.navigationDiv()}
+					{showingUI && this.props.navigationDiv()}
 				</div>
 
 				<p className="bigGap" />
@@ -186,8 +178,8 @@ class TypeArea extends Component {
 					text={this.state.text}
 					onChange={this.props.answer && this.onHiddenTextChange}
 					onKeyDown={this.shortcut}
-					updateSelection={this.setSelection}
-					onChangeFocus={this.setShowingCursor}
+					updateSelection={setSelection}
+					onChangeFocus={setFocused}
 				/>
 			</div>
 		);
@@ -213,6 +205,18 @@ export const Buttons = (buttonsDescriptor, className) => {
 	return className ? <div className={className}>{buttons}</div> : buttons;
 };
 
+const ControlDiv = (checkAnimate, toggleAnswer) =>
+	Buttons(
+		[
+			{
+				text: "Check ⏎",
+				onClick: checkAnimate && checkAnimate.start,
+			},
+			{ text: "Reveal [", onClick: toggleAnswer },
+		],
+		"controlDiv"
+	);
+
 const ClueDiv = (clue, correctCount) => (
 	<div className="clueDiv">
 		<span className="clue">{clue}</span>
@@ -227,9 +231,9 @@ const CorrectCountText = correctCount => (
 	</span>
 );
 
-const AnswerReveal = (verse, answerShowing) => (
+const AnswerReveal = (verse, showingAnswer) => (
 	<div className="AnswerReveal">
-		<p>{answerShowing && verse}</p>
+		<p>{showingAnswer && verse}</p>
 	</div>
 );
 

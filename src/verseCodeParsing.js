@@ -116,8 +116,6 @@ export function getVerseDesciptor(string, start = 0) {
 
 	let charUpTo = start;
 
-	console.log("computing verseDesciptor for ", string);
-
 	// Testament/book
 	charUpTo += numberOfSpaces(string, charUpTo);
 	let [testament, book, bookCodeLength] = getNextBook(string, charUpTo);

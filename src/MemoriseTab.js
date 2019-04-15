@@ -43,7 +43,6 @@ const MemoriseTab = props => {
 		} else if (correctCount < 2 * loopSectionSize) {
 			newSecondLoop();
 		} else {
-			console.log(questionIndex, loopEnd);
 			if (questionIndex < loopEnd) {
 				setQuestionIndex(loopEnd);
 			} else {
@@ -98,7 +97,6 @@ const MemoriseTab = props => {
 	let clue = clues[questionIndex];
 
 	if (!answer || !clue) {
-		console.log(answer, clue, "hmmm", answers, clues, questionIndex);
 		return <p>Loading 2</p>;
 	}
 
@@ -112,8 +110,6 @@ const MemoriseTab = props => {
 				nextLearnLoops();
 			}}
 			navigationDiv={loopsNavigationDiv}
-			showControlDiv={true}
-			showNavigationDiv={true}
 		/>
 	);
 };
