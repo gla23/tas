@@ -3,6 +3,8 @@ const checkTreacle = 3;
 const timeIncrease = 2;
 const jumpMinimumTime = 1;
 
+// Change this into a custom hook?? maybe after doing the other bit first
+
 class CheckAnimate {
 	constructor(answerSize, update, onReachEnd) {
 		this.end = answerSize;
