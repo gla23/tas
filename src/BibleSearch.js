@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useMemo } from "react";
+import React, { useState, useMemo } from "react";
 import TextArea from "./TextArea";
 import HiddenTextarea from "./components/HiddenTextarea";
 
@@ -10,27 +10,11 @@ import {
 	// UndefinedCharacterError,
 } from "./verseCodeParsing";
 
-// import {
-// ntBooks,
-// ntChapters,
-// ntVerses,
-// otBooks,
-// otChapters,
-// otVerses,
-// otAbbrev,
-// } from "./verseData.js";
-
-const GatewayPage = props => {
-	// return <p>hi</p>;
-};
-
 const BibleSearch = props => {
 	const [text, setText] = useState(props.text);
 
 	const [selection, setSelection] = useState([0, 0, "none"]);
-	const [showingCursor, setShowingCursor] = useState(0);
-
-	console.log("rerender");
+	const [focused, setFocused] = useState(0);
 
 	const [verseDesciptor, expanded, errors] = useMemo(() => {
 		const verseDesciptor = getVerseDesciptor(text, 0);
@@ -54,7 +38,7 @@ const BibleSearch = props => {
 	// console.log(verseDesciptor);
 
 	return (
-		<Fragment>
+		<>
 			<p />
 			<TextArea
 				text={text}
@@ -69,10 +53,11 @@ const BibleSearch = props => {
 						pos < verseEnd &&
 						(verse instanceof Error ? "red" : "grey3"))
 				}
-				showingCursor={showingCursor}
+				showingCursor={focused}
 				selection={selection}
 				checkUpTo={text.length}
 				wrap={"off"}
+				focused={focused}
 			/>
 
 			<p>{expanded}</p>
@@ -81,8 +66,6 @@ const BibleSearch = props => {
 				<p key={index}>{message}</p>
 			))}
 
-			{GatewayPage("old", 19, 25)}
-
 			<p className="bigGap" />
 
 			<HiddenTextarea
@@ -90,9 +73,9 @@ const BibleSearch = props => {
 				onChange={event => setText(event.target.value)}
 				onKeyDown={shortcuts}
 				updateSelection={setSelection}
-				onChangeFocus={setShowingCursor}
+				onChangeFocus={setFocused}
 			/>
-		</Fragment>
+		</>
 	);
 };
 

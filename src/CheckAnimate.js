@@ -1,83 +1,71 @@
+import { useState, useEffect, useCallback, useRef } from "react";
+
 const baseTime = 35;
 const checkTreacle = 3;
 const timeIncrease = 2;
 const jumpMinimumTime = 1;
 
-// Change this into a custom hook?? maybe after doing the other bit first
+const useCheckAnimate = (text, answer, onReachEnd) => {
+	const [checkedUpTo, setCheckedUpTo] = useState(0);
+	const [checkUpTo, setCheckUpTo] = useState(0);
+	const [checking, setChecking] = useState(false);
+	const incrementTime = useRef(baseTime);
+	const incrementTimer = useRef();
+	const incrementFn = useRef();
+	const startChecking = useCallback(() => setChecking(true), []);
 
-class CheckAnimate {
-	constructor(answerSize, update, onReachEnd) {
-		this.end = answerSize;
-		this.incrementTime = baseTime;
-		this.onReachEnd = onReachEnd;
-		this.start = this.start.bind(this);
-		this.increment = this.increment.bind(this);
-		this.update = update;
-		this.checkedUpTo = 0;
-	}
-
-	get checkedUpTo() {
-		return this._checkedUpTo;
-	}
-	set checkedUpTo(val) {
-		this.update(val);
-		this._checkedUpTo = val;
-	}
-
-	start() {
-		this.incrementTimer = setTimeout(
-			() => this.increment(),
-			this.incrementTime
-		);
-	}
-	stop() {
-		this.incrementTimer && clearTimeout(this.incrementTimer);
-	}
-
-	increment() {
-		let { checkUpTo, end, incrementTime } = this;
-		let checkStart = this.checkedUpTo;
+	incrementFn.current = () => {
+		let checkStart = checkedUpTo;
+		let end = answer.length;
 		let charsToJump = Math.ceil((59 + checkUpTo * 4 + end) / 60);
 		charsToJump = Math.min(charsToJump, 6);
 		let checkNew = checkStart + charsToJump;
-
+		// console.log("incrementFn", checking, checkStart, checkedUpTo);
 		if (checkStart < checkUpTo) {
 			if (checkNew > checkUpTo) {
 				checkNew = checkUpTo;
 				// console.log("switching to slowing down");
 			}
-			this.incrementTime -= timeIncrease;
-			this.checkedUpTo = checkNew;
-			this.incrementTimer = setTimeout(
-				this.increment,
-				Math.max(incrementTime, jumpMinimumTime)
+			incrementTime.current -= timeIncrease;
+			setCheckedUpTo(checkNew);
+			incrementTimer.current = setTimeout(
+				() => incrementFn.current(),
+				Math.max(incrementTime.current, jumpMinimumTime)
 			);
 		} else {
+			if (checkStart === checkUpTo) {
+				setCheckedUpTo(checkedUpTo + 1);
+			}
 			// At the end or slowing down
-			console.log("checkStart", checkStart, "end", end);
 			if (checkStart === end) {
-				this.onReachEnd
-					? this.onReachEnd()
-					: console.log("no onReachEnd function");
+				onReachEnd ? onReachEnd() : console.log("no onReachEnd function");
 			}
 
-			let oldIncrementTime = this.incrementTime;
+			let oldIncrementTime = incrementTime.current;
 			let newIncrementTime = oldIncrementTime + timeIncrease * checkTreacle;
 
 			if (oldIncrementTime > baseTime + timeIncrease + 1) {
-				// this.incrementTime = baseTime;
+				setChecking(false);
 				return;
 			}
 
-			this.checkedUpTo += 1;
-			this.incrementTime = newIncrementTime;
-			this.incrementTimer = setTimeout(
-				this.increment,
+			setCheckedUpTo(checkedUpTo + 1);
+			incrementTime.current = newIncrementTime;
+			incrementTimer.current = setTimeout(
+				() => incrementFn.current(),
 				Math.max(newIncrementTime * 5, jumpMinimumTime)
 			);
 		}
-		this.update(this.checkedUpTo);
-	}
-}
+	};
 
-export default CheckAnimate;
+	useEffect(() => {
+		if (checking) {
+			incrementFn.current();
+		}
+		return () => clearTimeout(incrementTimer.current);
+	}, [checking]);
+
+	return [checkedUpTo, setCheckedUpTo, setCheckUpTo, startChecking];
+};
+
+export default useCheckAnimate;

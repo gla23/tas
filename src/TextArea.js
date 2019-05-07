@@ -7,7 +7,7 @@ const TextArea = props => {
 		setCursorOn(true);
 		let flashInterval = setInterval(() => setCursorOn(old => !old), 600);
 		return () => clearInterval(flashInterval);
-	}, [focused, text]);
+	}, [focused, selection]);
 
 	let charType;
 	let setOfSpans = [];
@@ -36,7 +36,7 @@ const TextArea = props => {
 					: "");
 
 		setOfSpans.push(
-			<span className={classNames} key={i}>
+			<span className={classNames} key={char.codePointAt() * 1000 + i}>
 				{marked ? <mark>{char}</mark> : char}
 			</span>
 		);

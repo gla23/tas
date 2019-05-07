@@ -154,6 +154,9 @@ textarea,
   background-color: #f2dede;
   background-color: pink;
 }
+.charOrange {
+  background-color: #ffd699;
+}
 .countText {
   vertical-align: 19%;
 }
