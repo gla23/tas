@@ -1,202 +1,127 @@
-import React, { Component, useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import TasButton from "./components/TasButton";
 import TextArea from "./TextArea";
 import HiddenTextarea from "./components/HiddenTextarea";
-import CheckAnimate from "./CheckAnimate";
-
-const freshClueData = {
-	checkUpTo: 0,
-};
-
-const freshCountData = {
-	text: "",
-};
+import useCheckAnimate from "./CheckAnimate";
 
 const TypeArea = props => {
 	const [focused, setFocused] = useState(false);
 	const [selection, setSelection] = useState([0, 0, "none"]);
 	const [showingAnswer, setShowingAnswer] = useState(false);
-	const toggleAnswer = () => setShowingAnswer(r => !r);
+	const toggleAnswer = useCallback(() => setShowingAnswer(r => !r), []);
 	const [showingUI, setshowingUI] = useState(true);
-	const toggleUI = () => setshowingUI(r => !r);
-	return (
-		<OldTypeArea
-			{...props}
-			focused={focused}
-			setFocused={setFocused}
-			selection={selection}
-			setSelection={setSelection}
-			showingAnswer={showingAnswer}
-			toggleAnswer={toggleAnswer}
-			showingUI={showingUI}
-			toggleUI={toggleUI}
-		/>
+	const toggleUI = useCallback(() => setshowingUI(r => !r), []);
+
+	const [text, setText] = useState("");
+
+	const {
+		answer,
+		clue,
+		onComplete,
+		correctCount,
+		shortcutMap,
+		NavigationDiv,
+		lengthCorrect,
+		charColour,
+	} = props;
+
+	const [
+		checkedUpTo,
+		setCheckedUpTo,
+		setCheckUpTo,
+		startChecking,
+	] = useCheckAnimate(
+		text,
+		answer,
+		() =>
+			lengthCorrect(text, answer) === answer.length &&
+			setTimeout(onComplete, 100)
 	);
-};
 
-class OldTypeArea extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			text: " ",
-			...freshClueData,
-			...freshCountData,
-		};
-		this.onHiddenTextChange = this.onHiddenTextChange.bind(this);
-		this.setNewCheckAnimate();
+	useEffect(() => {
+		lengthCorrect(text, answer) === answer.length && startChecking();
+	}, [text]);
 
-		this.shortcut = this.shortcut.bind(this);
-	}
-	updateCheckedUpTo(val) {
-		this.setState({ checkedUpTo: val });
-	}
-	ifCorrectComplete() {
-		console.log("completing");
-		this.state.text === this.props.answer &&
-			setTimeout(this.props.onComplete, 10);
-	}
-
-	setNewCheckAnimate = () => {
-		if (this.props.answer) {
-			this.checkAnimate = new CheckAnimate(
-				this.props.answer.length,
-				this.updateCheckedUpTo.bind(this),
-				this.ifCorrectComplete.bind(this)
-			);
-		} else {
-			console.log("not setting checkAnimate");
+	useEffect(() => {
+		setCheckUpTo(lengthCorrect(text, answer));
+		setCheckedUpTo(0);
+		if (answer) {
+			if (text.length > 0) startChecking();
 		}
-	};
-	shortcut(event) {
+	}, [answer, clue]);
+
+	useEffect(() => {
+		setText("");
+		setCheckUpTo(0);
+	}, [correctCount]);
+
+	const shortcut = useCallback(event => {
 		if (event.key === "Enter") {
 			event.preventDefault();
-			this.checkAnimate.start();
+			startChecking();
 		}
 		if (event.key === "[") {
 			event.preventDefault();
-			this.props.toggleAnswer();
+			toggleAnswer();
 		}
 		if (event.key === "#" || event.key === "Escape") {
 			event.preventDefault();
-			this.props.toggleUI();
+			toggleUI();
 		}
-		if (this.props.shortcutMap) {
-			let shortcutFunction = this.props.shortcutMap.get(event.key);
-
+		if (shortcutMap) {
+			let shortcutFunction = shortcutMap.get(event.key);
 			if (shortcutFunction) {
 				event.preventDefault();
 				shortcutFunction(event.key);
-			} else {
-				let allFunction = this.props.shortcutMap.get("*");
-				if (allFunction) {
-					allFunction(event.key);
-				}
 			}
 		}
-	}
+	}, []);
 
-	componentDidUpdate(prevProps, prevState) {
-		// Object.entries(this.props).forEach(
-		// 	([key, val]) =>
-		// 		prevProps[key] !== val && console.log(`Prop '${key}' changed`)
-		// );
-
-		if (prevProps.correctCount !== this.props.correctCount) {
-			this.setState({ ...freshClueData, ...freshCountData });
-		} else {
-			if (prevProps.clue !== this.props.clue) {
-				this.setNewCheckAnimate();
-				this.setState(freshClueData);
-				this.checkAnimate.checkUpTo = 0;
-			}
-		}
-		if (prevState.text !== this.state.text) {
-			this.checkAnimate.checkUpTo = lengthCorrect(
-				this.state.text,
-				this.props.answer
-			);
-		}
-	}
-
-	onHiddenTextChange(event) {
-		const { selection } = this.props;
+	const onHiddenTextChange = event => {
 		let text = event.target.value;
-		let answer = this.props.answer;
-
-		text === answer && this.checkAnimate.start();
-
 		let oldSelectionPosition = selection[0];
 		let newSelectionPosition = event.target.selectionStart;
-
-		let checkedPosToSet = Math.min(
-			this.checkAnimate.checkedUpTo,
-			oldSelectionPosition === 0 ? 10000 : oldSelectionPosition,
+		let checkPosToSet = Math.min(
+			checkedUpTo,
+			oldSelectionPosition,
 			newSelectionPosition
 		);
+		setCheckedUpTo(checkPosToSet);
 
-		this.checkAnimate.checkedUpTo = checkedPosToSet;
+		setText(text);
+		setCheckUpTo(lengthCorrect(text, answer));
+	};
 
-		this.setState({ text: text });
-	}
+	return (
+		<div>
+			{ClueDiv(clue, correctCount)}
 
-	render() {
-		const {
-			focused,
-			setFocused,
-			selection,
-			setSelection,
-			showingAnswer,
-			toggleAnswer,
-			showingUI,
-		} = this.props;
+			<TextArea
+				checkUpTo={checkedUpTo}
+				text={text}
+				charType={charColour}
+				focused={focused}
+				selection={selection}
+			/>
 
-		return (
-			<div>
-				{ClueDiv(this.props.clue, this.props.correctCount)}
+			{showingUI && ControlDiv(startChecking, toggleAnswer)}
 
-				<TextArea
-					checkUpTo={this.state.checkedUpTo}
-					text={this.state.text}
-					charType={(char, pos) =>
-						this.props.answer[pos] === char ? "green" : "red"
-					}
-					focused={focused}
-					selection={selection}
-				/>
+			{AnswerReveal(answer, showingAnswer)}
 
-				{showingUI && ControlDiv(this.checkAnimate, toggleAnswer)}
+			<div className="navigationDiv">{showingUI && <NavigationDiv />}</div>
 
-				{AnswerReveal(this.props.answer, showingAnswer)}
+			<p className="bigGap" />
 
-				<div className="navigationDiv">
-					{showingUI && this.props.navigationDiv()}
-				</div>
-
-				<p className="bigGap" />
-
-				<HiddenTextarea
-					text={this.state.text}
-					onChange={this.props.answer && this.onHiddenTextChange}
-					onKeyDown={this.shortcut}
-					updateSelection={setSelection}
-					onChangeFocus={setFocused}
-				/>
-			</div>
-		);
-	}
-}
-
-function lengthCorrect(text, answer) {
-	let correctLength = 0;
-	for (let i = 0; i < text.length; i++) {
-		if (text[i] !== answer[i]) {
-			break;
-		} else {
-			correctLength = i + 1;
-		}
-	}
-	return correctLength;
-}
+			<HiddenTextarea
+				text={text}
+				onChange={answer && onHiddenTextChange}
+				onKeyDown={shortcut}
+				updateSelection={setSelection}
+				onChangeFocus={setFocused}
+			/>
+		</div>
+	);
+};
 
 export const Buttons = (buttonsDescriptor, className) => {
 	const buttons = buttonsDescriptor.map((button, index) => (
@@ -205,12 +130,12 @@ export const Buttons = (buttonsDescriptor, className) => {
 	return className ? <div className={className}>{buttons}</div> : buttons;
 };
 
-const ControlDiv = (checkAnimate, toggleAnswer) =>
+const ControlDiv = (startChecking, toggleAnswer) =>
 	Buttons(
 		[
 			{
 				text: "Check ⏎",
-				onClick: checkAnimate && checkAnimate.start,
+				onClick: startChecking,
 			},
 			{ text: "Reveal [", onClick: toggleAnswer },
 		],

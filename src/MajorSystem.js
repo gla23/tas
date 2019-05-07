@@ -23,13 +23,20 @@ const peg2 = [
 	["toffee", "dove", "dive"], // dive like football or water //  deaf dove defy dafoe dive thief thieve though toffee
 	["tape", "Toby", "dab"], // Toby from scorpion made of sellotape? // tape deep dubai dip tuba type tabby tap dab teepee tip toby top tub dope
 	["nasa", "Ness", "ionise"], // Ness from smash bros // noisy nose ionise nasa nice ness
-	["knight", "newt", "knit"], // newt as in amphibian version? // neat net unite knight knit knot neat newt nut
+	["knight", "newt", "knit"], // newt as in amphibian version? // neat net unite knight knit knot neat newt nut knead
 	["neon", "nun", "nani"], // neon onion nanny nun naan nano inane no-no
-	["", "Nemo", "nom"], // numb enemy name Nemo nom gnome
-	["", "", ""], // narrow winery honour Nero
-	["", "", ""], // annual nail inhale Neil nail
-	["", "", ""], // nudgy nacho enjoy nudge hinge angel notch
-	// Future Mane Chef Yakul
+	["numb", "Nemo", "nom"], // numb enemy name Nemo nom gnome
+	["noir", "Nero", "gnaw"], // narrow winery honour Nero henry gnaw near knorr knower norway noir
+	["noel", "Neil", "kneel"], // annual nail inhale Neil kneel nil noel
+	["hench", "angel", "nudge"], // nudgy nacho enjoy nudge hinge angel notch gnash hench nosh
+	["nike", "Nick", "knock"], // neck knock naggy enoch eunuch gnocchi hang nick nag nike nuke nokia
+	["navy", "knave", "knife"], // envy info knife naff naive navy knave - a dishonest or unscrupulous man
+	["newbie", "honeybee", "nope"], // nap nab nape nib nip nope wannabe honeybee
+	["Moss", "moose", "Mace"], // moose amaze amos amuse Holmes hummus Mace mace mass mouse mess miss moss Moyes muzzo ohms
+	["mute", "moth", "meet"], // emote emit mate mad maid matt mat math meat meaty met meth mit mote mood moth mud mute myth mouth
+
+	// Future
+	// Mane Chef Yakul
 ];
 
 const generateAnswer = num => peg2[num].join(" ");
@@ -41,7 +48,7 @@ const generateClue = num => {
 	return str;
 };
 // Includes 00
-const numberOfClues = 23;
+const numberOfClues = 32;
 const answers = [];
 const clues = [];
 for (let i = 0; i < numberOfClues; i++) {
@@ -53,9 +60,10 @@ const MajorSystem = props => {
 		<MemoriseTab
 			answers={answers}
 			clues={clues}
-			loopStart={numberOfClues}
+			loopStart={numberOfClues - 10}
 			loopEnd={numberOfClues}
-			// loopSectionSize={10}
+			loopSectionSize={20}
+			caseSensitive={false}
 		/>
 	);
 };
