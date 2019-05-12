@@ -32,8 +32,8 @@ const peg2 = [
 	["nike", "Nick", "knock"], // neck knock naggy enoch eunuch gnocchi hang nick nag nike nuke nokia
 	["navy", "knave", "knife"], // envy info knife naff naive navy knave - a dishonest or unscrupulous man
 	["newbie", "honeybee", "nope"], // nap nab nape nib nip nope wannabe honeybee
-	["Moss", "moose", "Mace"], // moose amaze amos amuse Holmes hummus Mace mace mass mouse mess miss moss Moyes muzzo ohms
-	["mute", "moth", "meet"], // emote emit mate mad maid matt mat math meat meaty met meth mit mote mood moth mud mute myth mouth
+	["moss", "moose", "Mace"], // Yoe Windu with mace, // moose amaze amos amuse Holmes hummus Mace mace mass mouse mess miss moss Moss Moyes muzzo ohms
+	["mute", "moth", "meth"], // emote emit mate mad maid matt mat math meat meaty met meth mit moat mood moth mud mute myth mouth
 
 	// Future
 	// Mane Chef Yakul

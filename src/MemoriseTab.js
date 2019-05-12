@@ -86,7 +86,7 @@ const MemoriseTab = props => {
 	let shortcutMap = new Map();
 	shortcutMap.set("PageDown", () => increaseQuestion(1));
 	shortcutMap.set("PageUp", () => increaseQuestion(-1));
-	shortcutMap.set("]", () => setFreeze(!freeze));
+	shortcutMap.set("]", () => setFreeze(freeze => !freeze));
 
 	let LoopsNavigationDiv = () => (
 		<span>
