@@ -40,7 +40,10 @@ const useCheckAnimate = (text, answer, onReachEnd) => {
 			if (checkStart === end) {
 				onReachEnd ? onReachEnd() : console.log("no onReachEnd function");
 			}
-
+			if (checkStart === text.length) {
+				// Hard stop when you reach the end of the output
+				incrementTime.current = baseTime + timeIncrease + 2;
+			}
 			let oldIncrementTime = incrementTime.current;
 			let newIncrementTime = oldIncrementTime + timeIncrease * checkTreacle;
 
