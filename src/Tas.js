@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import MemoriseTab from "./MemoriseTab";
 import { parseVerse } from "./verseCodeParsing";
 
-const loopEnd = 170;
+const loopEnd = 175;
 const loopStart = loopEnd - 15;
 const loopSectionSize = 15;
 
