@@ -12,13 +12,13 @@ function getCharNumber(string, position) {
 	if (position >= string.length) {
 		return undefined;
 	}
-	return string.codePointAt(position) - 96;
+	return string.codePointAt(position);
 }
 
 function getCharDigit(string, position) {
 	let num = getCharNumber(string, position);
-	if (num >= -48 && num <= -39) {
-		return num + 48;
+	if (num >= 48 && num <= 57) {
+		return num + 144;
 	}
 	return false;
 }
@@ -48,35 +48,48 @@ function getNextNumber(string, position, maximum = 150) {
 			: [new OverMaximumError(num + " is over maximum of " + maximum), 1];
 
 	// Letters
-	if (num >= 1 && num <= 26) {
-		return filterMax(num, maximum);
+	if (num >= 97 && num <= 122) {
+		return filterMax(num - 96, maximum);
 	}
 
 	// Capital letters
-	if (num >= -31 && num <= -6) {
-		num = num + 32 + 27;
+	if (num >= 65 && num <= 90) {
+		num = num + 128 - 192 + 30;
 		return filterMax(num, maximum);
 	}
 	// 0
-	if (num === -48) {
-		return filterMax(27, maximum);
+	if (num === 48) {
+		return filterMax(30, maximum);
+	}
+	let letters = {
+		231: 27, // ç
+		351: 28, // ş
+		246: 29, // ö
+		252: 30, // ü
+		199: 57, // Ç
+		350: 58, // Ş
+		214: 59, // Ö
+		220: 60, // Ü
+	};
+	if (letters[num]) {
+		return filterMax(letters[num], maximum);
 	}
 
 	// " "
-	if (num === -64) {
+	if (num === 32) {
 		let lookNext = getNextNumber(string, position + 1, maximum);
 		return [lookNext[0], lookNext[1] + 1];
 	}
 
 	// -
-	if (num === -51) {
+	if (num === 45) {
 		return ["-", 1];
 	}
 
 	// Numbers
-	if (num >= -48 && num <= -39) {
+	if (num >= 48 && num <= 57) {
 		let nextDigit, twoDigits, threeDigits;
-		num = num + 48;
+		num = num - 48;
 		nextDigit = getCharDigit(string, position + 1);
 		twoDigits = num.toString() + nextDigit.toString();
 		if (!nextDigit || Number(twoDigits) > maximum) {
@@ -103,9 +116,6 @@ function getNextBook(string, index) {
 		let otIndex = otAbbrev.indexOf(otBook[0]);
 		return ["old", otIndex + 1, otBook[0].length];
 	}
-	// new OverMaximumError(
-	// 			"There are not this many chapters!"
-	// 		);
 	let next = getNextNumber(string, index, 27);
 	return ["new", ...next];
 }
