@@ -37,7 +37,7 @@ const useCheckAnimate = (text, answer, onReachEnd) => {
 				setCheckedUpTo(checkedUpTo + 1);
 			}
 			// At the end or slowing down
-			if (checkStart === end) {
+			if (checkStart >= end) {
 				onReachEnd ? onReachEnd() : console.log("no onReachEnd function");
 			}
 			if (checkStart === text.length) {

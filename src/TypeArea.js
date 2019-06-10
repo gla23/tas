@@ -33,8 +33,9 @@ const TypeArea = props => {
 	] = useCheckAnimate(
 		text,
 		answer,
+		// onReachEnd
 		() =>
-			lengthCorrect(text, answer) === answer.length &&
+			lengthCorrect(text, answer) >= answer.length &&
 			setTimeout(onComplete, 100)
 	);
 

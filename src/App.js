@@ -9,6 +9,7 @@ import logo from "./tasLogo.png";
 // import MemoriseTab from "./MemoriseTab";
 import BibleSearch from "./BibleSearch";
 import MajorSystem from "./MajorSystem";
+import MemOTBooks from "./MemOTBooks";
 import Tas from "./Tas";
 
 const styles = theme => ({
@@ -55,6 +56,7 @@ const App = props => {
             <Tab label="Tas" />
             <Tab label="Search" />
             <Tab label="Major System" />
+            <Tab label="OT books" />
           </Tabs>
         </AppBar>
       )}
@@ -72,6 +74,7 @@ const App = props => {
               <MajorSystem />
             </>
           )}
+          {currentTab === 3 && <MemOTBooks />}
         </div>
       </div>
     </div>
