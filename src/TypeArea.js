@@ -20,7 +20,7 @@ const TypeArea = props => {
 		onComplete,
 		correctCount,
 		shortcutMap,
-		NavigationDiv,
+		navigation,
 		lengthCorrect,
 		charColour,
 	} = props;
@@ -56,7 +56,7 @@ const TypeArea = props => {
 		setCheckUpTo(0);
 	}, [correctCount]);
 
-	const shortcut = useCallback(event => {
+	const shortcut = event => {
 		if (event.key === "Enter") {
 			event.preventDefault();
 			startChecking();
@@ -76,7 +76,7 @@ const TypeArea = props => {
 				shortcutFunction(event.key);
 			}
 		}
-	}, []);
+	};
 
 	const onHiddenTextChange = event => {
 		let text = event.target.value;
@@ -109,7 +109,9 @@ const TypeArea = props => {
 
 			{AnswerReveal(answer, showingAnswer)}
 
-			<div className="navigationDiv">{showingUI && <NavigationDiv />}</div>
+			<div className="navigationDiv" style={{ width: "100%" }}>
+				{showingUI && navigation}
+			</div>
 
 			<p className="bigGap" />
 

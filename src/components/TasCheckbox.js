@@ -1,22 +1,20 @@
 import React from "react";
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-export default function(props) {
-	return (
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
 
-		<FormControlLabel
-          control={
-            <Checkbox
-            	// variant="outlined"
-            	checked={props.checked}
-            	color="primary"
-            	onChange={props.onClick}
-            	style={{marginRight: "-10px"}}
-            >
-            	{props.children}
-            </Checkbox>
-          }
-          label={props.text}
-        />
-	)
-};
+export default props => (
+	<FormControlLabel
+		control={
+			<Checkbox
+				// variant="outlined"
+				checked={props.checked}
+				color="primary"
+				onChange={(event, value) => props.onChange(value)}
+				style={{ marginRight: "-5px" }}
+			>
+				{props.children}
+			</Checkbox>
+		}
+		label={props.label}
+	/>
+);
