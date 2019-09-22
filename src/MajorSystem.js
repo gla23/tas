@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useState, useMemo } from "react";
 import MemoriseTab from "./MemoriseTab";
+import TasRadioGroup from "./components/TasRadioGroup";
+import TasSlider from "./components/TasSlider";
 
 const peg2 = [
 	["isis", "sauce", "assess"], // swazzy sassy
@@ -12,7 +14,7 @@ const peg2 = [
 	["sick", "sock", "soak"], // sick sky soak ascii ask sack sag seek sock
 	["safe", "sofa", "save"], // savvy sofa save safe
 	["sappy", "soup", "sob"], // sappy soap sob sap sip soup
-	["dizzy", "Tess", "toss"], // as in seismic // toss toys dice dies dizzy daisy tease dose
+	["dizzy", "Tess", "toss"], // as in seismic // toss Tess toys dice dies dizzy daisy tease dose
 	["tatty", "dad", "tattoo"], // dad dead died edit idiot tat tattoo tatty tidy tight toot
 	["tin", "tuna", "tune"], // Aidan den deny tan tawny teen teeny tiny thin tin tuna twin tune as in like a piano or conducting or as you would a fork
 	["tame", "tome", "tomb"], // adam atom adeem damn dumb tame tome tomb thumb time Tim Tom
@@ -33,44 +35,206 @@ const peg2 = [
 	["navy", "knave", "knife"], // envy info knife naff naive navy knave - a dishonest or unscrupulous man
 	["newbie", "honeybee", "nope"], // nap nab nape nib nip nope wannabe honeybee
 	["moss", "moose", "Mace"], // Yoe Windu with mace, // moose amaze amos amuse Holmes hummus Mace mace mass mouse mess miss moss Moss Moyes muzzo ohms
-	["mute", "moth", "meth"], // emote emit mate mad maid matt mat math meat meaty met meth mit moat mood moth mud mute myth mouth
-
+	["mud", "mute", "meth"], // emote emit mate mad maid matt mat math meat meaty met meth mit moat mood moth mud mute myth mouth
+	["mane", "Mane", "ameen"], // man amen/ameen human humane immune main mana mane (aslan) mayan mean moan money moon omani omen
+	["mayhem", "imam", "meme"], // imam maim mum mayhem meme mime memo
+	["merry", "mario", "marry"], // amari homer humour mare mario marrow marry (peach?) mayor merry (tipsy to diff from noel) mire moore Murray ymir omar
+	["mole", "mule", "maul"], // email mail Emily male maul melee mellow mill moghul mole mule
+	["mesh", "magi", "mash"], // amish image macho magi mash match mesh mojo mosh much mushy
+	["", "", ""], //
+	["", "", ""], //
 	// Future
-	// Mane Chef Yakul
+	// Chef Yakul
 ];
 
-const generateAnswer = num => peg2[num].join(" ");
-const generateClue = num => {
-	let str = num.toString();
-	if (str.length === 1) {
-		str = "0" + str;
-	}
-	return str;
-};
 // Includes 00
-const numberOfClues = 32;
-const answers = [];
-const clues = [];
-for (let i = 0; i < numberOfClues; i++) {
-	answers[i] = generateAnswer(i);
-	clues[i] = generateClue(i);
-}
+const numberOfClues = 37;
+
+const peg2Notes = [];
+peg2Notes[0] = ["", "Sauce is a live ketchup bottle", ""];
+peg2Notes[3] = [
+	"",
+	["Sam in Gisbourne road kitchen?", "Mulitude of sam: lines parkin watson"],
+	"",
+];
+peg2Notes[7] = ["", "Soup can fly out the bowl and be magical", ""];
+
+const initialRangeOfRandom = [20, numberOfClues - 1];
+
 const MajorSystem = props => {
+	const [mode, setMode] = useState("aaa");
+	const [rangeOfRandom, setRangeOfRandom] = useState(initialRangeOfRandom);
+
+	const questionsGeneratorFunction = useMemo(() => createQuestions({ mode }), [
+		mode,
+		numberOfClues,
+		peg2,
+		digitsToPegQuestion,
+	]);
+
 	return (
 		<MemoriseTab
-			answers={answers}
-			clues={clues}
-			loopStart={numberOfClues - 10}
-			loopEnd={numberOfClues}
-			loopSectionSize={20}
+			key={mode}
+			questions={questionsGeneratorFunction}
+			modes={mode !== "aaa" ? ["next"] : ["random", "next"]}
+			questionOptions={{
+				randomStart: rangeOfRandom[0],
+				randomEnd: rangeOfRandom[1],
+			}}
 			caseSensitive={false}
+			navigation={currentMode => (
+				<>
+					<TasRadioGroup
+						options={[
+							{
+								label: "Adjective Object Verb pegs",
+								value: "aaa",
+							},
+							{
+								label: "abc",
+								value: "abc",
+							},
+							{
+								label: "abcde",
+								value: "abcde",
+							},
+							{
+								label: "Usage",
+								value: "usage",
+							},
+						]}
+						value={mode}
+						onChange={value => setMode(value)}
+					/>
+					{currentMode === "random" && (
+						<TasSlider
+							value={rangeOfRandom}
+							onChange={value => setRangeOfRandom(value)}
+							max={numberOfClues - 1}
+							valueLabelDisplay="auto"
+							// valueLabelFormat={book => otBooks[book]}
+							width="400px"
+						/>
+					)}
+				</>
+			)}
 		/>
 	);
 };
 
 export default MajorSystem;
 
-// let peg1 = [
+const toDigits = num => {
+	let str = num.toString();
+	if (str.length === 1) {
+		str = "0" + str;
+	}
+	return str;
+};
+
+const intsToPegString = ints =>
+	ints.map((int, intIndex) => peg2[int][intIndex % 3]).join(" ");
+
+const digitsToPegQuestion = size => {
+	const ints = Array(size)
+		.fill()
+		.map((_, index) => Math.floor(Math.random() * numberOfClues));
+	return {
+		clue: ints.map(int => toDigits(int)).join(" "),
+		answer: intsToPegString(ints),
+	};
+};
+
+const createQuestions = ({ mode }) => {
+	if (mode === "aaa")
+		return function*() {
+			for (var i = 0; i < numberOfClues; i++) {
+				yield { clue: toDigits(i), answer: peg2[i].join(" ") };
+			}
+		};
+	if (mode === "abc")
+		return function*() {
+			while (true) {
+				yield digitsToPegQuestion(3);
+			}
+		};
+	if (mode === "abcde")
+		return function*() {
+			while (true) {
+				yield digitsToPegQuestion(5);
+			}
+		};
+	if (mode === "usage") {
+		return function*() {
+			// Give a usage to convert
+			// e.g. time, date, ot verse, door code, uno cards? normal cards? phone number
+			// then ask for the numbers back after a bit
+			const uses = [
+				{
+					label: "Door code",
+					format: numbers => numbers.join(""),
+					size: 4,
+				},
+				{
+					label: "Time",
+					format: numbers => numbers.join(":"),
+					size: 4,
+					maxes: [23, 59],
+				},
+				{
+					label: "Date",
+					format: numbers => numbers.join("/"),
+					size: 4,
+					maxes: [31, 12],
+					mins: [1, 1],
+				},
+				{
+					label: "Phone",
+					format: numbers => numbers.join(" "),
+					size: 10,
+				},
+			];
+
+			while (true) {
+				let memories = uses.map(use =>
+					Array(use.size / 2)
+						.fill()
+						.map((_, index) => {
+							const min =
+								use.mins && use.mins[index] !== null ? use.mins[index] : 0;
+							const max =
+								use.maxes && use.maxes[index] !== null
+									? use.maxes[index]
+									: Number.POSITIVE_INFINITY;
+							return (
+								min +
+								Math.floor(
+									Math.random() * (Math.min(max + 1, numberOfClues) - min)
+								)
+							);
+						})
+				);
+
+				let formattedCodes = memories.map((memoryInts, useIndex) =>
+					uses[useIndex].format(memoryInts.map(int => toDigits(int)))
+				);
+				let learn = memories.map((memoryInts, useIndex) => ({
+					clue: uses[useIndex].label + " " + formattedCodes[useIndex],
+					answer: intsToPegString(memoryInts),
+				}));
+				let recall = memories.map((memoryInts, useIndex) => ({
+					clue: uses[useIndex].label,
+					answer: formattedCodes[useIndex],
+				}));
+
+				yield* learn;
+				yield* recall;
+			}
+		};
+	}
+};
+
+// const peg1 = [
 // 	[
 // 		"easy",
 // 		"hot",
