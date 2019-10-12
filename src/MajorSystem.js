@@ -37,7 +37,7 @@ const peg2 = [
 	["moss", "moose", "Mace"], // Yoe Windu with mace, // moose amaze amos amuse Holmes hummus Mace mace mass mouse mess miss moss Moss Moyes muzzo ohms
 	["mud", "mute", "meth"], // emote emit mate mad maid matt mat math meat meaty met meth mit moat mood moth mud mute myth mouth
 	["mane", "Mane", "ameen"], // man amen/ameen human humane immune main mana mane (aslan) mayan mean moan money moon omani omen
-	["mayhem", "imam", "meme"], // imam maim mum mayhem meme mime memo
+	["meme", "imam", "mime"], // imam maim mum mayhem meme mime memo
 	["merry", "mario", "marry"], // amari homer humour mare mario marrow marry (peach?) mayor merry (tipsy to diff from noel) mire moore Murray ymir omar
 	["mole", "mule", "maul"], // email mail Emily male maul melee mellow mill moghul mole mule
 	["mesh", "magi", "mash"], // amish image macho magi mash match mesh mojo mosh much mushy

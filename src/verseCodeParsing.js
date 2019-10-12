@@ -18,7 +18,7 @@ function getCharNumber(string, position) {
 function getCharDigit(string, position) {
 	let num = getCharNumber(string, position);
 	if (num >= 48 && num <= 57) {
-		return num + 144;
+		return num - 48;
 	}
 	return false;
 }
