@@ -81,16 +81,18 @@ const Tas = props => {
 								onChange={value => setLoop(Number(value))}
 							/>
 						</div>
-						<div style={{ display: "flex" }}>
-							<TasSlider
-								value={loopRange}
-								onChange={value => setLoopRange(value)}
-								max={clues.length - 1}
-								valueLabelDisplay="auto"
-								valueLabelFormat={book => clues[book]}
-								width="600px"
-							/>
-						</div>
+						{mode === "random" && (
+							<div style={{ display: "flex" }}>
+								<TasSlider
+									value={loopRange}
+									onChange={value => setLoopRange(value)}
+									max={clues.length - 1}
+									valueLabelDisplay="auto"
+									valueLabelFormat={book => clues[book]}
+									width="600px"
+								/>
+							</div>
+						)}
 					</>
 				)}
 			/>
