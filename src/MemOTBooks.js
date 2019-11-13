@@ -3,7 +3,7 @@ import MemoriseTab from "./MemoriseTab";
 import { otBooks } from "./verseData";
 import TasSlider from "./components/TasSlider";
 
-const initialRangeOfRandom = [2, 13];
+const initialRangeOfRandom = [13, 28];
 
 const MemOTBooks = props => {
 	const [rangeOfRandom, setRangeOfRandom] = useState(initialRangeOfRandom);
