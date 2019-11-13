@@ -21,7 +21,7 @@ const peg2 = [
 	["tar", "Thor", "tear"], // tar tear thor throw tire torah tower tree
 	["tall", "tail", "duel"], // <adj> tail as in the <adj> squirrel superhero // tall teal // tail telly tool towel// tally tell duel //
 	["tash", "doge", "dodge"], // dutch tash teach dosh doge ditch dodge
-	["thug", "taco", "take"], // take could be as in steal // dog Deke take thick attack attic tack/y taco take talk tech thick thug toga took tuck tug twig
+	["thug", "taco", "take"], // dog Deke take thick attack attic tack/y taco take talk tech thick thug toga took tuck tug twig
 	["toffee", "dove", "dive"], // dive like football or water //  deaf dove defy dafoe dive thief thieve though toffee
 	["tape", "Toby", "dab"], // Toby from scorpion made of sellotape? // tape deep dubai dip tuba type tabby tap dab teepee tip toby top tub dope
 	["nasa", "Ness", "ionise"], // Ness from smash bros // noisy nose ionise nasa nice ness
@@ -58,6 +58,7 @@ peg2Notes[3] = [
 	"",
 ];
 peg2Notes[7] = ["", "Soup can fly out the bowl and be magical", ""];
+peg2Notes[17] = ["as in thug life", "", "take as in steal"];
 
 const initialRangeOfRandom = [20, numberOfClues - 1];
 
@@ -78,7 +79,7 @@ const MajorSystem = props => {
 			questions={questionsGeneratorFunction}
 			modes={mode !== "aaa" ? ["next"] : ["random", "next"]}
 			questionOptions={{
-				randomStart: rangeOfRandom[0],
+				randomStart: mode === "usage" ? 0 : rangeOfRandom[0],
 				randomEnd: rangeOfRandom[1],
 			}}
 			caseSensitive={false}
