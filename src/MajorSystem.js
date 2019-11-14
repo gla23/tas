@@ -16,7 +16,7 @@ const peg2 = [
 	["sappy", "soup", "sob"], // sappy soap sob sap sip soup
 	["dizzy", "Tess", "toss"], // as in seismic // toss Tess toys dice dies dizzy daisy tease dose
 	["tatty", "dad", "tattoo"], // dad dead died edit idiot tat tattoo tatty tidy tight toot
-	["tin", "tuna", "tune"], // Aidan den deny tan tawny teen teeny tiny thin tin tuna twin tune as in like a piano or conducting or as you would a fork
+	["tin", "tuna", "tune"], // Aidan den deny tan tawny teen teeny tiny thin tin tuna twin tune
 	["tame", "tome", "tomb"], // adam atom adeem damn dumb tame tome tomb thumb time Tim Tom
 	["tar", "Thor", "tear"], // tar tear thor throw tire torah tower tree
 	["tall", "tail", "duel"], // <adj> tail as in the <adj> squirrel superhero // tall teal // tail telly tool towel// tally tell duel //
@@ -58,6 +58,7 @@ peg2Notes[3] = [
 	"",
 ];
 peg2Notes[7] = ["", "Soup can fly out the bowl and be magical", ""];
+peg2Notes[12] = ["", "", "tune a piano or fork, or conducting"];
 peg2Notes[17] = ["as in thug life", "", "take as in steal"];
 
 const initialRangeOfRandom = [20, numberOfClues - 1];
@@ -191,7 +192,15 @@ const createQuestions = ({ mode }) => {
 				},
 				{
 					label: "Phone",
-					format: numbers => numbers.join(" "),
+					format: numbers =>
+						numbers[0] +
+						numbers[1] +
+						" " +
+						numbers[2] +
+						numbers[3].slice(0, 1) +
+						" " +
+						numbers[3].slice(1, 2) +
+						numbers[4],
 					size: 10,
 				},
 			];
