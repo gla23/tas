@@ -7,12 +7,12 @@ import TasSlider from "./components/TasSlider";
 // import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
 // import IconButton from "@material-ui/core/IconButton";
 
-const loopSectionSize = 15;
+const loopSectionSize = 14;
 const parsingVerses = true;
-const currentVerse = 203;
+const currentVerse = 206;
 
 const Tas = props => {
-	const [loopRange, setLoopRange] = useState([currentVerse - 12, currentVerse]);
+	const [loopRange, setLoopRange] = useState([currentVerse - 15, currentVerse]);
 	const [loopStart, loopEnd] = loopRange;
 	const [answers, setAnswers] = useState();
 	const [clues, setClues] = useState();
