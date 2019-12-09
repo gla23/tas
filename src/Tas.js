@@ -9,10 +9,10 @@ import TasSlider from "./components/TasSlider";
 
 const loopSectionSize = 14;
 const parsingVerses = true;
-const currentVerse = 206;
+const currentVerse = 219;
 
 const Tas = props => {
-	const [loopRange, setLoopRange] = useState([currentVerse - 15, currentVerse]);
+	const [loopRange, setLoopRange] = useState([currentVerse - 18, currentVerse]);
 	const [loopStart, loopEnd] = loopRange;
 	const [answers, setAnswers] = useState();
 	const [clues, setClues] = useState();
