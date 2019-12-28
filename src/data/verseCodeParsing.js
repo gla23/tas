@@ -98,7 +98,7 @@ function getNextNumber(string, position, maximum = 150) {
 
 		nextDigit = getCharDigit(string, position + 2);
 		threeDigits = twoDigits + nextDigit.toString();
-		return nextDigit && Number(threeDigits) <= maximum
+		return nextDigit !== false && Number(threeDigits) <= maximum
 			? [Number(threeDigits), 3]
 			: [Number(twoDigits), 2];
 	}

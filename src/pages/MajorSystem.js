@@ -1,7 +1,8 @@
-import React, { useState, useMemo } from "react";
-import MemoriseTab from "./MemoriseTab";
-import TasRadioGroup from "./components/TasRadioGroup";
-import TasSlider from "./components/TasSlider";
+import React, { useMemo } from "react";
+import MemoriseTab from "../components/MemoriseTab";
+import TasRadioGroup from "../widgets/TasRadioGroup";
+import TasSlider from "../widgets/TasSlider";
+import useLocalStorage from "../hooks/useLocalStorage";
 
 const peg2 = [
 	["isis", "sauce", "assess"], // swazzy sassy
@@ -15,7 +16,7 @@ const peg2 = [
 	["safe", "sofa", "save"], // savvy sofa save safe
 	["sappy", "soup", "sob"], // sappy soap sob sap sip soup
 	["dizzy", "Tess", "toss"], // toss Tess toys dice dies dizzy daisy tease dose
-	["tatty", "dad", "tattoo"], // dad dead died edit idiot tat tattoo tatty tidy tight toot
+	["tatty", "dodo", "tattoo"], // dad dead died edit idiot tat tattoo tatty tidy tight toot dodo
 	["tin", "tuna", "tune"], // Aidan den deny tan tawny teen teeny tiny thin tin tuna twin tune
 	["tame", "tome", "tomb"], // adam atom adeem damn dumb tame tome tomb thumb time Tim Tom
 	["tar", "Thor", "tear"], // tar tear thor throw tire torah tower tree
@@ -63,11 +64,11 @@ peg2Notes[12] = ["", "", "tune a piano or fork, or conducting"];
 peg2Notes[17] = ["as in thug life", "", "take as in steal"];
 peg2Notes[99] = ["", "", ""];
 
-const initialRangeOfRandom = [20, numberOfClues - 1];
+const initialRange = [20, numberOfClues - 1];
 
 const MajorSystem = props => {
-	const [mode, setMode] = useState("aaa");
-	const [rangeOfRandom, setRangeOfRandom] = useState(initialRangeOfRandom);
+	const [mode, setMode] = useLocalStorage("majorMode", "aaa");
+	const [range, setRange] = useLocalStorage("majorRange", initialRange);
 
 	const questionsGeneratorFunction = useMemo(() => createQuestions({ mode }), [
 		mode,
@@ -82,8 +83,8 @@ const MajorSystem = props => {
 			questions={questionsGeneratorFunction}
 			modes={mode !== "aaa" ? ["next"] : ["random", "next"]}
 			questionOptions={{
-				randomStart: mode === "usage" ? 0 : rangeOfRandom[0],
-				randomEnd: rangeOfRandom[1],
+				randomStart: mode === "usage" ? 0 : range[0],
+				randomEnd: range[1],
 			}}
 			caseSensitive={false}
 			navigation={currentMode => (
@@ -112,8 +113,8 @@ const MajorSystem = props => {
 					/>
 					{currentMode === "random" && (
 						<TasSlider
-							value={rangeOfRandom}
-							onChange={value => setRangeOfRandom(value)}
+							value={range}
+							onChange={value => setRange(value)}
 							max={numberOfClues - 1}
 							valueLabelDisplay="auto"
 							// valueLabelFormat={book => otBooks[book]}

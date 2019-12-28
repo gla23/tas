@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useCallback } from "react";
-import TasButton from "./components/TasButton";
 import TextArea from "./TextArea";
-import HiddenTextarea from "./components/HiddenTextarea";
-import useCheckAnimate from "./CheckAnimate";
+import HiddenTextarea from "./HiddenTextarea";
+import TasButton from "../widgets/TasButton";
+import useCheckAnimate from "../hooks/useCheckAnimate";
 
 const TypeArea = props => {
 	const [focused, setFocused] = useState(false);

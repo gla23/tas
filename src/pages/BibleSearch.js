@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from "react";
-import TextArea from "./TextArea";
-import HiddenTextarea from "./components/HiddenTextarea";
+import TextArea from "../components/TextArea";
+import HiddenTextarea from "../components/HiddenTextarea";
 
 import {
 	getVerseDesciptor,
@@ -8,7 +8,7 @@ import {
 	getErrorsFromDescriptor,
 	// OverMaximumError,
 	// UndefinedCharacterError,
-} from "./verseCodeParsing";
+} from "../data/verseCodeParsing";
 
 const BibleSearch = props => {
 	const [text, setText] = useState(props.text);

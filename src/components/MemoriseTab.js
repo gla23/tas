@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import TypeArea from "./TypeArea";
-import useQuestions from "./useQuestions";
+import useQuestions from "../hooks/useQuestions";
 import ErrorBoundary from "./ErrorBoundary";
-import TasRadioGroup from "./components/TasRadioGroup";
-import TasCheckbox from "./components/TasCheckbox";
+import TasRadioGroup from "../widgets/TasRadioGroup";
+import TasCheckbox from "../widgets/TasCheckbox";
 
 const MemoriseTab = props => {
 	const [mode, setMode] = useState(props.modes[0]);

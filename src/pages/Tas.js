@@ -1,18 +1,18 @@
 import React, { useState, useEffect, useMemo } from "react";
-import MemoriseTab from "./MemoriseTab";
-import { parseVerse } from "./verseCodeParsing";
-import TasRadioGroup from "./components/TasRadioGroup";
-import TasSlider from "./components/TasSlider";
+import MemoriseTab from "../components/MemoriseTab";
+import { parseVerse } from "../data/verseCodeParsing";
+import TasRadioGroup from "../widgets/TasRadioGroup";
+import TasSlider from "../widgets/TasSlider";
+import useLocalStorage from "../hooks/useLocalStorage";
 // import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
 // import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
 // import IconButton from "@material-ui/core/IconButton";
 
-const loopSectionSize = 14;
+const loopSectionSize = 16;
 const parsingVerses = true;
-const currentVerse = 219;
 
 const Tas = props => {
-	const [loopRange, setLoopRange] = useState([currentVerse - 18, currentVerse]);
+	const [loopRange, setLoopRange] = useLocalStorage("tasLoop", [1, 2]);
 	const [loopStart, loopEnd] = loopRange;
 	const [answers, setAnswers] = useState();
 	const [clues, setClues] = useState();
