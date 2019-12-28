@@ -1,12 +1,13 @@
-import React, { useState } from "react";
-import MemoriseTab from "./MemoriseTab";
-import { otBooks } from "./verseData";
-import TasSlider from "./components/TasSlider";
+import React from "react";
+import useLocalStorage from "../hooks/useLocalStorage";
+import MemoriseTab from "../components/MemoriseTab";
+import { otBooks } from "../data/verseData";
+import TasSlider from "../widgets/TasSlider";
 
-const initialRangeOfRandom = [13, 28];
+const initialRange = [1, 10];
 
 const MemOTBooks = props => {
-	const [rangeOfRandom, setRangeOfRandom] = useState(initialRangeOfRandom);
+	const [range, setRange] = useLocalStorage("otBooks", initialRange);
 
 	function* questionsGeneratorFunction() {
 		yield* otBooks.map((book, index) => ({ clue: index + 1, answer: book }));
@@ -19,14 +20,14 @@ const MemOTBooks = props => {
 				modes={["random", "next"]}
 				caseSensitive={false}
 				questionOptions={{
-					randomStart: rangeOfRandom[0],
-					randomEnd: rangeOfRandom[1],
+					randomStart: range[0],
+					randomEnd: range[1],
 				}}
 				navigation={mode =>
 					mode === "random" && (
 						<TasSlider
-							value={rangeOfRandom}
-							onChange={value => setRangeOfRandom(value)}
+							value={range}
+							onChange={value => setRange(value)}
 							max={38}
 							valueLabelDisplay="auto"
 							valueLabelFormat={book => otBooks[book]}

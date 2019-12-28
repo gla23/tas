@@ -59,6 +59,13 @@ const useQuestions = ({
 		[questions]
 	);
 	const { randomStart = 0, randomEnd = clues.length } = options;
+	if (randomStart === randomEnd) {
+		console.log(
+			"randomStart and randomEnd should not both be " +
+				randomStart +
+				", leaving a sequence of length 0"
+		);
+	}
 
 	const randomGenerator = useMemo(
 		() =>
