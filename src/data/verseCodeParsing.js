@@ -36,7 +36,7 @@ export class UndefinedCharacterError extends Error {
 	}
 }
 
-function getNextNumber(string, position, maximum = 150) {
+export function getNextNumber(string, position, maximum = 150) {
 	let num = getCharNumber(string, position);
 	if (num === undefined) {
 		return [undefined, 0];
@@ -182,6 +182,7 @@ export function getVerseDesciptor(string, start = 0) {
 		verseDesciptor.verse = verse;
 		verseDesciptor.verseStart = charUpTo;
 		verseDesciptor.verseEnd = charUpTo + verseCodeLength;
+		verseDesciptor.verseLetter = string[charUpTo]
 	}
 	charUpTo += verseCodeLength;
 

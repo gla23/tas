@@ -19,17 +19,21 @@ const styles = theme => ({
 	},
 });
 
-const appHeader = () => (
-	<header className="App-header">
-		<h3>Type and see</h3>
-		<img
-			src={logo}
-			alt={"tasLogo"}
-			style={{ width: "100px", marginLeft: "30px", marginTop: "-10px" }}
-		/>
-		<p />
-	</header>
-);
+const AppHeader = props => {
+	const [parsing, setParsing] = useLocalStorage("parsingVerses", true);
+	return (
+		<header className="App-header">
+			<h3>Type and see</h3>
+			<img
+				src={logo}
+				alt={"tasLogo"}
+				style={{ width: "100px", marginLeft: "30px", marginTop: "-10px" }}
+				onClick={() => setParsing(old => !old)}
+			/>
+			<p />
+		</header>
+	);
+};
 
 const focusTextArea = () => {
 	let textarea = document.getElementById("textarea");
@@ -42,7 +46,7 @@ const App = props => {
 
 	return (
 		<div className="App" onClick={focusTextArea}>
-			{appHeader()}
+			<AppHeader />
 
 			{true && (
 				<AppBar position="static" className={props.classes.root}>
