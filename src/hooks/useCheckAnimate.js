@@ -22,9 +22,12 @@ const useCheckAnimate = (text, answer, onReachEnd) => {
 		let checkNew = checkStart + charsToJump;
 		// console.log("incrementFn", checking, checkStart, checkedUpTo);
 		if (checkStart < checkUpTo) {
-			if (checkNew > checkUpTo) {
+			if (checkNew >= checkUpTo) {
 				checkNew = checkUpTo;
 				// console.log("switching to slowing down");
+				if (checkNew >= end) {
+					onReachEnd ? onReachEnd() : console.log("no onReachEnd function");					
+				}
 			}
 			incrementTime.current -= timeIncrease;
 			setCheckedUpTo(checkNew);
@@ -37,9 +40,8 @@ const useCheckAnimate = (text, answer, onReachEnd) => {
 				setCheckedUpTo(checkedUpTo + 1);
 			}
 			// At the end or slowing down
-			if (checkStart >= end) {
-				onReachEnd ? onReachEnd() : console.log("no onReachEnd function");
-			}
+			// const atEnd = checkStart >= end;
+
 			if (checkStart === text.length) {
 				// Hard stop when you reach the end of the output
 				incrementTime.current = baseTime + timeIncrease + 2;

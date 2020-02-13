@@ -8,11 +8,11 @@ import useLocalStorage from "../hooks/useLocalStorage";
 // import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
 // import IconButton from "@material-ui/core/IconButton";
 
-const loopSectionSize = 16;
-const parsingVerses = true;
+const loopSectionSize = 20;
 
 const Tas = props => {
 	const [loopRange, setLoopRange] = useLocalStorage("tasLoop", [1, 2]);
+	const [parsingVerses] = useLocalStorage("parsingVerses", true);
 	const [loopStart, loopEnd] = loopRange;
 	const [answers, setAnswers] = useState();
 	const [clues, setClues] = useState();
@@ -43,7 +43,7 @@ const Tas = props => {
 	useEffect(() => {
 		fetch("memory.txt")
 			.then(response => response.text())
-			.then(text => parseTextLines(text))
+			.then(text => parseTextLines(text, parsingVerses))
 			.then(({ clues, answers }) => {
 				setAnswers(answers);
 				setClues(clues);
@@ -81,7 +81,7 @@ const Tas = props => {
 								onChange={value => setLoop(Number(value))}
 							/>
 						</div>
-						{mode === "random" && (
+						{(mode === "random" || true) && (
 							<div style={{ display: "flex" }}>
 								<TasSlider
 									value={loopRange}
@@ -100,7 +100,7 @@ const Tas = props => {
 	);
 };
 
-function parseTextLines(text) {
+function parseTextLines(text, parsingVerses) {
 	let answers = [];
 	let clues = [];
 

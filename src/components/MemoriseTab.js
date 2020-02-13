@@ -43,7 +43,7 @@ const MemoriseTab = props => {
 	shortcutMap.set("PageDown", () => increaseQuestion(1));
 	shortcutMap.set("PageUp", () => increaseQuestion(-1));
 	shortcutMap.set("]", () => setAgain(again => !again));
-	shortcutMap.set("=", changeQuestion);
+	shortcutMap.set("=", () => console.log("= pressed") || changeQuestion());
 
 	if (!question.answer || !question.clue) {
 		return <p>Loading</p>;

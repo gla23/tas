@@ -58,6 +58,7 @@ const useQuestions = ({
 		() => expandQuestionsGenerator(questions()),
 		[questions]
 	);
+
 	const { randomStart = 0, randomEnd = clues.length } = options;
 	if (randomStart === randomEnd) {
 		console.log(
@@ -105,6 +106,8 @@ const useQuestions = ({
 
 	const clue = clues[questionIndex];
 	const answer = answers[questionIndex];
+
+	console.log(questionIndex, clue, correctCount);
 
 	return [
 		{ clue, answer },
