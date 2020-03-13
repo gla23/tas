@@ -7,83 +7,83 @@ import { otBooks } from "../data/verseData";
 
 const peg2 = [
 	// swazzy sassy
-	["isis", "sauce", "assess"], 
+	["isis", "sauce", "assess"],
 	// sat seat
-	["sad", "seed", "swat"], 
+	["sad", "seed", "swat"],
 	// assign Sign Cyan Asian son
-	["snowy", "sun", "sign"], 
+	["snowy", "sun", "sign"],
 	// Zoom Assume sumo awesome
-	["sumo", "Sam", "swim"], 
+	["sumo", "Sam", "swim"],
 	// seer
-	["sorry", "sir", "swear"], 
+	["sorry", "sir", "swear"],
 	// Cell Hazel Hassle Hustle Seal
-	["slow", "Salah", "sell"], 
+	["slow", "Salah", "sell"],
 	// swishy Sewage switch sachet sash sage siege
-	["sage", "sash", "siege"], 
+	["sage", "sash", "siege"],
 	// sick sky soak ascii ask sack sag seek sock
-	["sick", "sock", "soak"], 
+	["sick", "sock", "soak"],
 	// savvy sofa save safe
-	["safe", "sofa", "save"], 
+	["safe", "sofa", "save"],
 	// sappy soap sob sap sip soup
-	["sappy", "soup", "sob"], 
+	["sappy", "soup", "sob"],
 	// toss Tess toys dice dies dizzy daisy tease dose
-	["dizzy", "Tess", "toss"], 
+	["dizzy", "Tess", "toss"],
 	// dad dead died edit idiot tat tattoo tatty tidy tight toot dodo
-	["tatty", "dodo", "tattoo"], 
+	["tatty", "dodo", "tattoo"],
 	// Aidan den deny tan tawny teen teeny tiny thin tin tuna twin tune
-	["tin", "tuna", "tune"], 
+	["tin", "tuna", "tune"],
 	// adam atom adeem damn dumb tame tome tomb thumb time Tim Tom
-	["tame", "tome", "tomb"], 
+	["tame", "tome", "tomb"],
 	// tar tear thor throw tire torah tower tree
-	["tar", "Thor", "tear"], 
+	["tar", "Thor", "tear"],
 	// <adj> tail as in the <adj> squirrel superhero // tall teal // tail telly tool towel// tally tell duel //
-	["tall", "tail", "duel"], 
+	["tall", "tail", "duel"],
 	// dutch tash teach dosh doge ditch dodge
-	["tash", "doge", "dodge"], 
+	["tash", "doge", "dodge"],
 	// dog Deke take thick attack attic tack/y taco take talk tech thick thug toga took tuck tug twig
-	["thug", "taco", "take"], 
+	["thug", "taco", "take"],
 	// dive like football or water //  deaf dove defy dafoe dive thief thieve though toffee
-	["toffee", "dove", "dive"], 
+	["toffee", "dove", "dive"],
 	// tape deep dubai dip tuba type tabby tap dab teepee tip toby top tub dope
-	["tape", "Toby", "dab"], 
+	["tape", "Toby", "dab"],
 	// Ness from smash bros // noisy nose ionise nasa nice ness
-	["nasa", "Ness", "ionise"], 
+	["nasa", "Ness", "ionise"],
 	// newt as in amphibian version? // neat net unite knight knit knot neat newt nut knead
-	["knight", "newt", "knit"], 
+	["knight", "newt", "knit"],
 	// neon onion nanny nun naan nano inane no-no
-	["neon", "nun", "nani"], 
+	["neon", "nun", "nani"],
 	// numb enemy name Nemo nom gnome
-	["numb", "Nemo", "nom"], 
+	["numb", "Nemo", "nom"],
 	// narrow winery honour Nero henry gnaw near knorr knower norway noir
-	["noir", "Nero", "gnaw"], 
+	["noir", "Nero", "gnaw"],
 	// annual nail inhale Neil kneel nil noel
-	["noel", "Neil", "kneel"], 
+	["noel", "Neil", "kneel"],
 	// nudgy nacho enjoy nudge hinge angel notch gnash hench nosh
-	["hench", "angel", "nudge"], 
+	["hench", "angel", "nudge"],
 	// neck knock naggy enoch eunuch gnocchi hang nick nag nike nuke nokia
-	["nike", "Nick", "knock"], 
+	["nike", "Nick", "knock"],
 	// envy info knife naff naive navy knave - a dishonest or unscrupulous man
-	["navy", "knave", "knife"], 
+	["navy", "knave", "knife"],
 	// nap nab nape nib nip nope wannabe honeybee
-	["newbie", "honeybee", "nope"], 
+	["newbie", "honeybee", "nope"],
 	// Yoe Windu with mace, // moose amaze amos amuse Holmes hummus Mace mace mass mouse mess miss moss Moss Moyes muzzo ohms
-	["moss", "moose", "Mace"], 
+	["moss", "moose", "Mace"],
 	// emote emit mate mad maid matt mat math meat meaty met meth mit moat mood moth mud mute myth mouth meadow aimed amati amd amity emmet hemmed homed humid m8 mata math mead
-	["mud", "moth", "mayday"], 
+	["mud", "moth", "mayday"],
 	// man amen/ameen human humane immune main mana mane (aslan) mayan mean moan money moon omani omen
-	["mane", "Mane", "ameen"], 
+	["mane", "Mane", "ameen"],
 	// imam maim mum mayhem meme mime memo
-	["meme", "imam", "mime"], 
+	["meme", "imam", "mime"],
 	// amari homer humour mare mario marrow marry mayor merry mire moore Murray ymir omar
-	["merry", "mario", "marry"], 
+	["merry", "mario", "marry"],
 	// email mail Emily male maul melee mellow mill moghul mole mule
-	["mole", "mule", "maul"], 
+	["mole", "mule", "maul"],
 	// amish image macho magi mash match mesh mojo mosh much mushy
-	["mesh", "magi", "mash"], 
+	["mesh", "magi", "mash"],
 	//
-	["", "", ""], 
+	["", "", ""],
 	//
-	["", "", ""], 
+	["", "", ""],
 	// Future
 	// Chef Yakul
 ];
@@ -126,7 +126,7 @@ const MajorSystem = props => {
 			modes={mode !== "aaa" ? ["next"] : ["random", "next"]}
 			questionOptions={{
 				randomStart: mode === "usage" ? 0 : range[0],
-				randomEnd: range[1],
+				randomEnd: range[1] + 1,
 			}}
 			caseSensitive={false}
 			navigation={currentMode => (
