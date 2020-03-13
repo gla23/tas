@@ -10,7 +10,7 @@ function shuffleArray(array) {
 	return array;
 }
 
-function* consecutive(from, size) {
+function* yieldConsecutive(from, size) {
 	for (var i = 0; i < size; i++) {
 		yield from + i;
 	}
@@ -31,7 +31,7 @@ function* generateRandomConsecutiveIndexes(howMany, inARow = 1, offset = 0) {
 			);
 		}
 		nextId = queue.pop();
-		yield* consecutive(nextId + offset, inARow);
+		yield* yieldConsecutive(nextId + offset, inARow);
 	}
 }
 
@@ -59,7 +59,13 @@ const useQuestions = ({
 		[questions]
 	);
 
-	const { randomStart = 0, randomEnd = clues.length } = options;
+	const {
+		randomStart = 0,
+		randomEnd = clues.length,
+		invert = false,
+		consecutive = 2,
+	} = options;
+
 	if (randomStart === randomEnd) {
 		console.log(
 			"randomStart and randomEnd should not both be " +
@@ -70,7 +76,11 @@ const useQuestions = ({
 
 	const randomGenerator = useMemo(
 		() =>
-			generateRandomConsecutiveIndexes(randomEnd - randomStart, 2, randomStart),
+			generateRandomConsecutiveIndexes(
+				randomEnd - randomStart,
+				consecutive,
+				randomStart
+			),
 		[randomStart, randomEnd]
 	);
 
@@ -104,10 +114,10 @@ const useQuestions = ({
 		onQuestionAnswered && onQuestionAnswered(correctCount);
 	};
 
-	const clue = clues[questionIndex];
-	const answer = answers[questionIndex];
+	const clue = (invert ? answers : clues)[questionIndex].toString();
+	const answer = (invert ? clues : answers)[questionIndex].toString();
 
-	console.log(questionIndex, clue, correctCount);
+	// console.log(questionIndex, clue, correctCount);
 
 	return [
 		{ clue, answer },

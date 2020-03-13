@@ -92,7 +92,7 @@ export const otAbbrev = [
 	"Ps",
 	"Pr",
 	"Ecc",
-	"So",
+	"Son",
 	"Is",
 	"Jer",
 	"Lam",
@@ -1269,7 +1269,7 @@ export const ntChapters = [
 	1,
 	1,
 	1,
-	21,
+	22,
 ];
 
 export const otChapters = [

@@ -11,6 +11,8 @@ import Tas from "../pages/Tas";
 import BibleSearch from "../pages/BibleSearch";
 import MajorSystem from "../pages/MajorSystem";
 import MemOTBooks from "../pages/MemOTBooks";
+import MemNTBooks from "../pages/MemNTBooks";
+import MemLetters from "../pages/MemLetters";
 
 const styles = theme => ({
 	root: {
@@ -59,7 +61,9 @@ const App = props => {
 						// theme="dark" hmm supposed to be object
 					>
 						<Tab label="Tas" />
+						<Tab label="Letters" />
 						<Tab label="OT books" />
+						<Tab label="NT books" />
 						<Tab label="Major System" />
 						<Tab label="Search" />
 					</Tabs>
@@ -69,13 +73,15 @@ const App = props => {
 			<div className="maxWidthFloat">
 				<div className="AppSection">
 					{currentTab === 0 && <Tas />}
-					{currentTab === 1 && <MemOTBooks />}
-					{currentTab === 2 && (
+					{currentTab === 2 && <MemOTBooks />}
+					{currentTab === 3 && <MemNTBooks />}
+					{currentTab === 4 && (
 						<>
 							<MajorSystem />
 						</>
 					)}
-					{currentTab === 3 && (
+					{currentTab === 1 && <MemLetters />}
+					{currentTab === 5 && (
 						<>
 							<BibleSearch text="" />
 						</>

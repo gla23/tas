@@ -8,12 +8,12 @@ import TasCheckbox from "../widgets/TasCheckbox";
 const MemoriseTab = props => {
 	const [mode, setMode] = useState(props.modes[0]);
 	const [again, setAgain] = useState(false);
+	const [invert, setInvert] = useState(false);
 	// TODO:
 	// Add ability to change consecutive. redux? truly global?
 	// Set again on too slow
 	// don't let slider have both sliders on the same point
 	// more splitting up?
-	// make phone number string proper
 
 	useEffect(() => {
 		if (!props.modes.includes(mode)) {
@@ -31,7 +31,7 @@ const MemoriseTab = props => {
 		questions: props.questions,
 		onQuestionAnswered: props.onQuestionAnswered,
 		mode: again ? "same" : mode,
-		options: props.questionOptions,
+		options: { ...props.questionOptions, invert },
 	});
 
 	const complete = () => {
@@ -71,6 +71,11 @@ const MemoriseTab = props => {
 							checked={again}
 							onChange={checked => setAgain(checked)}
 							label="Again"
+						/>
+						<TasCheckbox
+							label="Invert"
+							checked={invert}
+							onChange={value => setInvert(value)}
 						/>
 					</div>
 					{props.navigation && props.navigation(mode)}

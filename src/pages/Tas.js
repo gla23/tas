@@ -10,6 +10,14 @@ import useLocalStorage from "../hooks/useLocalStorage";
 
 const loopSectionSize = 20;
 
+const convertToTypable = {
+	"—": "-",
+	"”": '"',
+	"“": '"',
+	"‘": '"',
+	"’": '"',
+};
+
 const Tas = props => {
 	const [loopRange, setLoopRange] = useLocalStorage("tasLoop", [1, 2]);
 	const [parsingVerses] = useLocalStorage("parsingVerses", true);
