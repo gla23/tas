@@ -18,7 +18,7 @@ const convertToTypable = {
 	"’": '"',
 };
 
-const Tas = props => {
+const Tas = (props) => {
 	const [loopRange, setLoopRange] = useLocalStorage("tasLoop", [1, 2]);
 	const [parsingVerses] = useLocalStorage("parsingVerses", true);
 	const [loopStart, loopEnd] = loopRange;
@@ -50,8 +50,8 @@ const Tas = props => {
 
 	useEffect(() => {
 		fetch("memory.txt")
-			.then(response => response.text())
-			.then(text => parseTextLines(text, parsingVerses))
+			.then((response) => response.text())
+			.then((text) => parseTextLines(text, parsingVerses))
 			.then(({ clues, answers }) => {
 				setAnswers(answers);
 				setClues(clues);
@@ -59,7 +59,7 @@ const Tas = props => {
 	}, []);
 
 	const [loop, setLoop] = useState(0);
-	const nextLoop = () => loop < loops.length - 1 && setLoop(loop => loop + 1);
+	const nextLoop = () => loop < loops.length - 1 && setLoop((loop) => loop + 1);
 
 	if (!clues) return null;
 
@@ -72,12 +72,12 @@ const Tas = props => {
 			<MemoriseTab
 				key={loop}
 				questions={questionGeneratorFunction}
-				onQuestionAnswered={correctCount =>
+				onQuestionAnswered={(correctCount) =>
 					correctCount >= loopSectionSize && nextLoop()
 				}
 				modes={loops[loop].modes}
 				questionOptions={loops[loop]}
-				navigation={mode => (
+				navigation={(mode) => (
 					<>
 						<div style={{ display: "flex" }}>
 							<TasRadioGroup
@@ -86,17 +86,17 @@ const Tas = props => {
 									value: String(index),
 								}))}
 								value={String(loop)}
-								onChange={value => setLoop(Number(value))}
+								onChange={(value) => setLoop(Number(value))}
 							/>
 						</div>
 						{(mode === "random" || true) && (
 							<div style={{ display: "flex" }}>
 								<TasSlider
 									value={loopRange}
-									onChange={value => setLoopRange(value)}
+									onChange={(value) => setLoopRange(value)}
 									max={clues.length - 1}
 									valueLabelDisplay="auto"
-									valueLabelFormat={book => clues[book]}
+									valueLabelFormat={(book) => clues[book]}
 									width="600px"
 								/>
 							</div>

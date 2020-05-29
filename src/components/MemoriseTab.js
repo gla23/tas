@@ -5,7 +5,9 @@ import ErrorBoundary from "./ErrorBoundary";
 import TasRadioGroup from "../widgets/TasRadioGroup";
 import TasCheckbox from "../widgets/TasCheckbox";
 
-const MemoriseTab = props => {
+const verseTime = (verse) => verse.length * 100;
+
+const MemoriseTab = (props) => {
 	const [mode, setMode] = useState(props.modes[0]);
 	const [again, setAgain] = useState(false);
 	const [invert, setInvert] = useState(false);
@@ -31,8 +33,22 @@ const MemoriseTab = props => {
 		questions: props.questions,
 		onQuestionAnswered: props.onQuestionAnswered,
 		mode: again ? "same" : mode,
-		options: { ...props.questionOptions, invert },
+		options: {
+			...props.questionOptions,
+			invert,
+			consecutive: invert ? 1 : props.questionOptions.consecutive,
+		},
 	});
+
+	// This should be in the type area (probably redux) as you need to record from the first letter to allow thinking time
+	// useEffect(() => {
+	// 	const timer = setTimeout(() => {
+	// 		console.log("timeout");
+	// 		setAgain(true)
+	// 	}, verseTime(question.answer));
+	// 	console.log("start");
+	// 	return () => clearTimeout(timer);
+	// }, [question]);
 
 	const complete = () => {
 		setAgain(false);
@@ -42,7 +58,7 @@ const MemoriseTab = props => {
 	let shortcutMap = new Map();
 	shortcutMap.set("PageDown", () => increaseQuestion(1));
 	shortcutMap.set("PageUp", () => increaseQuestion(-1));
-	shortcutMap.set("]", () => setAgain(again => !again));
+	shortcutMap.set("]", () => setAgain((again) => !again));
 	shortcutMap.set("=", () => console.log("= pressed") || changeQuestion());
 
 	if (!question.answer || !question.clue) {
@@ -63,19 +79,19 @@ const MemoriseTab = props => {
 								{ value: "random", label: "Random" },
 								{ value: "next", label: "Next" },
 								{ value: "same", label: "Same" },
-							].filter(mode => props.modes.includes(mode.value))}
-							onChange={value => setMode(value)}
+							].filter((mode) => props.modes.includes(mode.value))}
+							onChange={(value) => setMode(value)}
 							value={mode}
 						/>
 						<TasCheckbox
 							checked={again}
-							onChange={checked => setAgain(checked)}
+							onChange={(checked) => setAgain(checked)}
 							label="Again"
 						/>
 						<TasCheckbox
 							label="Invert"
 							checked={invert}
-							onChange={value => setInvert(value)}
+							onChange={(value) => setInvert(value)}
 						/>
 					</div>
 					{props.navigation && props.navigation(mode)}
@@ -100,7 +116,7 @@ const MemoriseTab = props => {
 
 MemoriseTab.defaultProps = { caseSensitive: true };
 
-const MemoriseTabWithBoundary = props => (
+const MemoriseTabWithBoundary = (props) => (
 	<ErrorBoundary message="Error caught within MemoriseTab">
 		<MemoriseTab {...props} />
 	</ErrorBoundary>
