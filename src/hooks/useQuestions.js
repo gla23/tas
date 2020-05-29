@@ -81,7 +81,7 @@ const useQuestions = ({
 				consecutive,
 				randomStart
 			),
-		[randomStart, randomEnd]
+		[randomStart, randomEnd, consecutive]
 	);
 
 	const [questionIndex, setQuestionExact] = useState(() => {

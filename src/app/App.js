@@ -13,15 +13,16 @@ import MajorSystem from "../pages/MajorSystem";
 import MemOTBooks from "../pages/MemOTBooks";
 import MemNTBooks from "../pages/MemNTBooks";
 import MemLetters from "../pages/MemLetters";
+import Factors from "../pages/Factors";
 
-const styles = theme => ({
+const styles = (theme) => ({
 	root: {
 		backgroundColor: theme.palette.background.paper,
 		// width: 500,
 	},
 });
 
-const AppHeader = props => {
+const AppHeader = (props) => {
 	const [parsing, setParsing] = useLocalStorage("parsingVerses", true);
 	return (
 		<header className="App-header">
@@ -30,7 +31,7 @@ const AppHeader = props => {
 				src={logo}
 				alt={"tasLogo"}
 				style={{ width: "100px", marginLeft: "30px", marginTop: "-10px" }}
-				onClick={() => setParsing(old => !old)}
+				onClick={() => setParsing((old) => !old)}
 			/>
 			<p />
 		</header>
@@ -42,7 +43,7 @@ const focusTextArea = () => {
 	textarea && textarea.focus();
 };
 
-const App = props => {
+const App = (props) => {
 	document.title = "Type and see";
 	const [currentTab, setCurrentTab] = useLocalStorage("tabId", 0);
 
@@ -66,6 +67,7 @@ const App = props => {
 						<Tab label="NT books" />
 						<Tab label="Major System" />
 						<Tab label="Search" />
+						<Tab label="Factors" />
 					</Tabs>
 				</AppBar>
 			)}
@@ -73,19 +75,12 @@ const App = props => {
 			<div className="maxWidthFloat">
 				<div className="AppSection">
 					{currentTab === 0 && <Tas />}
+					{currentTab === 1 && <MemLetters />}
 					{currentTab === 2 && <MemOTBooks />}
 					{currentTab === 3 && <MemNTBooks />}
-					{currentTab === 4 && (
-						<>
-							<MajorSystem />
-						</>
-					)}
-					{currentTab === 1 && <MemLetters />}
-					{currentTab === 5 && (
-						<>
-							<BibleSearch text="" />
-						</>
-					)}
+					{currentTab === 4 && <MajorSystem />}
+					{currentTab === 5 && <BibleSearch text="" />}
+					{currentTab === 6 && <Factors />}
 				</div>
 			</div>
 		</div>
