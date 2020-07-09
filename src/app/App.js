@@ -1,19 +1,11 @@
-import React from "react";
 import "./App.css";
-import { withStyles } from "@material-ui/core/styles";
-import logo from "./tasLogo.png";
-import AppBar from "@material-ui/core/AppBar";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
-import useLocalStorage from "../hooks/useLocalStorage";
 
-import Tas from "../pages/Tas";
-import BibleSearch from "../pages/BibleSearch";
-import MajorSystem from "../pages/MajorSystem";
-import MemOTBooks from "../pages/MemOTBooks";
-import MemNTBooks from "../pages/MemNTBooks";
-import MemLetters from "../pages/MemLetters";
-import Factors from "../pages/Factors";
+import { withStyles } from "@material-ui/core/styles";
+import React from "react";
+
+import New from "../pages/New";
+import logo from "./tasLogo.png";
+import useLocalStorage from "../hooks/useLocalStorage";
 
 const styles = (theme) => ({
 	root: {
@@ -23,7 +15,7 @@ const styles = (theme) => ({
 });
 
 const AppHeader = (props) => {
-	const [parsing, setParsing] = useLocalStorage("parsingVerses", true);
+	const [, setParsing] = useLocalStorage("parsingVerses", true);
 	return (
 		<header className="App-header">
 			<h3>Type and see</h3>
@@ -45,44 +37,10 @@ const focusTextArea = () => {
 
 const App = (props) => {
 	document.title = "Type and see";
-	const [currentTab, setCurrentTab] = useLocalStorage("tabId", 0);
-
 	return (
 		<div className="App" onClick={focusTextArea}>
 			<AppHeader />
-
-			{true && (
-				<AppBar position="static" className={props.classes.root}>
-					<Tabs
-						value={currentTab}
-						onChange={(event, value) => setCurrentTab(value)}
-						indicatorColor="primary"
-						textColor="primary"
-						centered
-						// theme="dark" hmm supposed to be object
-					>
-						<Tab label="Tas" />
-						<Tab label="Letters" />
-						<Tab label="OT books" />
-						<Tab label="NT books" />
-						<Tab label="Major System" />
-						<Tab label="Search" />
-						<Tab label="Factors" />
-					</Tabs>
-				</AppBar>
-			)}
-
-			<div className="maxWidthFloat">
-				<div className="AppSection">
-					{currentTab === 0 && <Tas />}
-					{currentTab === 1 && <MemLetters />}
-					{currentTab === 2 && <MemOTBooks />}
-					{currentTab === 3 && <MemNTBooks />}
-					{currentTab === 4 && <MajorSystem />}
-					{currentTab === 5 && <BibleSearch text="" />}
-					{currentTab === 6 && <Factors />}
-				</div>
-			</div>
+			<New />
 		</div>
 	);
 };
