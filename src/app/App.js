@@ -14,6 +14,7 @@ import MemOTBooks from "../pages/MemOTBooks";
 import MemNTBooks from "../pages/MemNTBooks";
 import MemLetters from "../pages/MemLetters";
 import Factors from "../pages/Factors";
+import Mod from "../pages/Mod";
 
 const styles = (theme) => ({
 	root: {
@@ -66,8 +67,9 @@ const App = (props) => {
 						<Tab label="OT books" />
 						<Tab label="NT books" />
 						<Tab label="Major System" />
-						<Tab label="Search" />
 						<Tab label="Factors" />
+						<Tab label="Mod" />
+						<Tab label="Search" />
 					</Tabs>
 				</AppBar>
 			)}
@@ -79,8 +81,9 @@ const App = (props) => {
 					{currentTab === 2 && <MemOTBooks />}
 					{currentTab === 3 && <MemNTBooks />}
 					{currentTab === 4 && <MajorSystem />}
-					{currentTab === 5 && <BibleSearch text="" />}
-					{currentTab === 6 && <Factors />}
+					{currentTab === 5 && <Factors />}
+					{currentTab === 6 && <Mod />}
+					{currentTab === 7 && <BibleSearch text="" />}
 				</div>
 			</div>
 		</div>

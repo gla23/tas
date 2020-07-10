@@ -108,7 +108,7 @@ peg2Notes[99] = ["", "", ""];
 
 const initialRange = [20, numberOfClues - 1];
 
-const MajorSystem = props => {
+const MajorSystem = (props) => {
 	const [mode, setMode] = useLocalStorage("majorMode", "aaa");
 	const [range, setRange] = useLocalStorage("majorRange", initialRange);
 
@@ -129,7 +129,7 @@ const MajorSystem = props => {
 				randomEnd: range[1] + 1,
 			}}
 			caseSensitive={false}
-			navigation={currentMode => (
+			navigation={(currentMode) => (
 				<>
 					<TasRadioGroup
 						options={[
@@ -151,18 +151,15 @@ const MajorSystem = props => {
 							},
 						]}
 						value={mode}
-						onChange={value => setMode(value)}
+						onChange={(value) => setMode(value)}
 					/>
-					{currentMode === "random" && (
-						<TasSlider
-							value={range}
-							onChange={value => setRange(value)}
-							max={numberOfClues - 1}
-							valueLabelDisplay="auto"
-							// valueLabelFormat={book => otBooks[book]}
-							width="400px"
-						/>
-					)}
+					<h5>Range of number</h5>
+					<TasSlider
+						value={range}
+						max={numberOfClues - 1}
+						onChange={(value) => setRange(value)}
+						markSelected
+					/>
 				</>
 			)}
 		/>
@@ -171,7 +168,7 @@ const MajorSystem = props => {
 
 export default MajorSystem;
 
-const toDigits = num => {
+const toDigits = (num) => {
 	let str = num.toString();
 	if (str.length === 1) {
 		str = "0" + str;
@@ -179,15 +176,15 @@ const toDigits = num => {
 	return str;
 };
 
-const intsToPegString = ints =>
+const intsToPegString = (ints) =>
 	ints.map((int, intIndex) => peg2[int][intIndex % 3]).join(" ");
 
-const digitsToPegQuestion = size => {
+const digitsToPegQuestion = (size) => {
 	const ints = Array(size)
 		.fill()
 		.map((_, index) => Math.floor(Math.random() * numberOfClues));
 	return {
-		clue: ints.map(int => toDigits(int)).join(" "),
+		clue: ints.map((int) => toDigits(int)).join(" "),
 		answer: intsToPegString(ints),
 	};
 };
@@ -227,25 +224,25 @@ const createQuestions = ({ mode }) => {
 			const uses = [
 				{
 					label: "Door code",
-					format: numbers => numbers.join(""),
+					format: (numbers) => numbers.join(""),
 					size: 4,
 				},
 				{
 					label: "Time",
-					format: numbers => numbers.join(":"),
+					format: (numbers) => numbers.join(":"),
 					size: 4,
 					maxes: [23, 59],
 				},
 				{
 					label: "Date",
-					format: numbers => numbers.join("/"),
+					format: (numbers) => numbers.join("/"),
 					size: 4,
 					maxes: [31, 12],
 					mins: [1, 1],
 				},
 				{
 					label: "Phone",
-					format: numbers =>
+					format: (numbers) =>
 						numbers[0] +
 						numbers[1] +
 						" " +
@@ -259,7 +256,7 @@ const createQuestions = ({ mode }) => {
 			];
 
 			while (true) {
-				let memories = uses.map(use =>
+				let memories = uses.map((use) =>
 					Array(use.size / 2)
 						.fill()
 						.map((_, index) => {
@@ -279,7 +276,7 @@ const createQuestions = ({ mode }) => {
 				);
 
 				let formattedCodes = memories.map((memoryInts, useIndex) =>
-					uses[useIndex].format(memoryInts.map(int => toDigits(int)))
+					uses[useIndex].format(memoryInts.map((int) => toDigits(int)))
 				);
 				let learn = memories.map((memoryInts, useIndex) => ({
 					clue: uses[useIndex].label + " " + formattedCodes[useIndex],

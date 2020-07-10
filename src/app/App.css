@@ -7,6 +7,13 @@ body {
   width: 100%;
   /*background-color: #383c44; */
 }
+.container {
+  display: flex;
+}
+
+h5 {
+  margin: 10px 0px 0px 0px;
+}
 
 .App-header {
   background-color: #1e90ff;
@@ -29,8 +36,6 @@ body {
 .maxWidthFloat,
 #textarea {
   margin: auto;
-  /*padding-top: 0px;
-  padding-bottom: 0px;*/
   padding-left: 0px;
   padding-right: 0px;
   max-width: 800px;
@@ -54,7 +59,7 @@ body {
   /*overflow: hidden;*/
   white-space: nowrap;
   position: absolute;
-  top: calc(100vh - 130px);
+  bottom: 10px;
 }
 .typeArea {
   min-height: 30vh;

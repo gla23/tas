@@ -49,7 +49,7 @@ const Tas = (props) => {
 	);
 
 	useEffect(() => {
-		fetch("memory.txt")
+		fetch("/tas/memory.txt")
 			.then((response) => response.text())
 			.then((text) => parseTextLines(text, parsingVerses))
 			.then(({ clues, answers }) => {
@@ -79,7 +79,7 @@ const Tas = (props) => {
 				questionOptions={loops[loop]}
 				navigation={(mode) => (
 					<>
-						<div style={{ display: "flex" }}>
+						<div className="container">
 							<TasRadioGroup
 								options={loops.map((loopObj, index) => ({
 									...loopObj,
@@ -89,18 +89,16 @@ const Tas = (props) => {
 								onChange={(value) => setLoop(Number(value))}
 							/>
 						</div>
-						{(mode === "random" || true) && (
-							<div style={{ display: "flex" }}>
-								<TasSlider
-									value={loopRange}
-									onChange={(value) => setLoopRange(value)}
-									max={clues.length - 1}
-									valueLabelDisplay="auto"
-									valueLabelFormat={(book) => clues[book]}
-									width="600px"
-								/>
-							</div>
-						)}
+						<h5>Verse sections</h5>
+						<div className="container">
+							<TasSlider
+								value={loopRange}
+								max={clues.length - 1}
+								onChange={(value) => setLoopRange(value)}
+								valueLabelFormat={(book) => clues[book]}
+								width="600px"
+							/>
+						</div>
 					</>
 				)}
 			/>

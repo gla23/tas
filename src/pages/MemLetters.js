@@ -4,7 +4,7 @@ import MemoriseTab from "../components/MemoriseTab";
 import TasSlider from "../widgets/TasSlider";
 
 const initialRange = [1, 10];
-const MemOTBooks = props => {
+const MemOTBooks = (props) => {
 	const [range, setRange] = useLocalStorage("letters", initialRange);
 
 	function* questionsGeneratorFunction() {
@@ -25,18 +25,18 @@ const MemOTBooks = props => {
 					randomEnd: range[1] + 1,
 					consecutive: 1,
 				}}
-				navigation={mode =>
-					mode === "random" && (
+				navigation={(mode, inverted) => (
+					<>
+						<h5>Range of letters</h5>
 						<TasSlider
 							value={range}
-							onChange={value => setRange(value)}
 							max={38}
-							valueLabelDisplay="auto"
-							valueLabelFormat={index => letters[index]}
-							width="400px"
+							onChange={(value) => setRange(value)}
+							valueLabelFormat={(index) => letters[index]}
+							markSelected
 						/>
-					)
-				}
+					</>
+				)}
 			/>
 		</>
 	);

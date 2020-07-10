@@ -7,7 +7,7 @@ import TasCheckbox from "../widgets/TasCheckbox";
 
 const initialRange = [1, 10];
 
-const MemOTBooks = props => {
+const MemOTBooks = (props) => {
 	const [range, setRange] = useLocalStorage("otBooks", initialRange);
 
 	function* questionsGeneratorFunction() {
@@ -24,18 +24,18 @@ const MemOTBooks = props => {
 					randomStart: range[0],
 					randomEnd: range[1] + 1,
 				}}
-				navigation={mode =>
-					mode === "random" && (
+				navigation={(mode) => (
+					<>
+						<h5>Range of books</h5>
 						<TasSlider
 							value={range}
-							onChange={value => setRange(value)}
 							max={38}
-							valueLabelDisplay="auto"
-							valueLabelFormat={index => otBooks[index]}
-							width="400px"
+							onChange={(value) => setRange(value)}
+							valueLabelFormat={(index) => otBooks[index]}
+							markSelected
 						/>
-					)
-				}
+					</>
+				)}
 			/>
 		</>
 	);

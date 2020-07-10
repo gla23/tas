@@ -15,117 +15,108 @@ function* yieldConsecutive(from, size) {
 		yield from + i;
 	}
 }
-function* generateRandomConsecutiveIndexes(howMany, inARow = 1, offset = 0) {
+function* generateRandomConsecutive(between, inARow = 1) {
+	inARow = Math.min(between, inARow);
+	if (inARow === 0) return null;
+
 	let queue = [];
-	let nextId;
-	inARow = Math.min(howMany, inARow);
-	if (inARow === 0) {
-		return null;
-	}
+	const restartQueue = () => {
+		queue = shuffleArray(
+			Array(between + 1 - inARow)
+				.fill()
+				.map((_, index) => index)
+		);
+	};
+
 	while (true) {
-		if (!queue.length) {
-			queue = shuffleArray(
-				Array(howMany + 1 - inARow)
-					.fill()
-					.map((_, index) => index)
-			);
-		}
-		nextId = queue.pop();
-		yield* yieldConsecutive(nextId + offset, inARow);
+		if (!queue.length) restartQueue();
+		yield* yieldConsecutive(queue.pop(), inARow);
 	}
 }
 
-function expandQuestionsGenerator(generator, size = 1000) {
-	const clues = [];
-	const answers = [];
-	for (const { clue, answer } of generator) {
-		clues.push(clue);
-		answers.push(answer);
-		if (clues.length > size) break;
+function expandQuestionsGenerator(generator, inverting, size = 1000) {
+	const questions = [];
+	let id = -1;
+	for (const question of generator) {
+		if (++id >= size) break;
+		questions.push({
+			id,
+			clue: question[inverting ? "answer" : "clue"].toString(),
+			answer: question[inverting ? "clue" : "answer"].toString(),
+			uninvertible: question.uninvertible,
+		});
 	}
-	return [clues, answers];
+	return questions;
 }
 
-const clamp = (val, min, max) => Math.max(min, Math.min(val, max));
+export const clamp = (val, min, max) => Math.max(min, Math.min(val, max));
 
 const useQuestions = ({
-	questions,
+	questions: questionGenerator,
 	onQuestionAnswered,
 	mode = "random",
 	options = {},
 }) => {
-	const [clues, answers] = useMemo(
-		() => expandQuestionsGenerator(questions()),
-		[questions]
-	);
-
 	const {
 		randomStart = 0,
-		randomEnd = clues.length,
+		randomEnd = null,
 		invert = false,
 		consecutive = 2,
 	} = options;
 
-	if (randomStart === randomEnd) {
-		console.log(
-			"randomStart and randomEnd should not both be " +
-				randomStart +
-				", leaving a sequence of length 0"
-		);
-	}
-
-	const randomGenerator = useMemo(
-		() =>
-			generateRandomConsecutiveIndexes(
-				randomEnd - randomStart,
-				consecutive,
-				randomStart
-			),
-		[randomStart, randomEnd, consecutive]
+	const questions = useMemo(
+		() => expandQuestionsGenerator(questionGenerator(), invert),
+		[questionGenerator, invert]
 	);
+	const filteredQuestions = useMemo(
+		() =>
+			questions.filter(
+				(q) =>
+					q.id >= randomStart && q.id < randomEnd && !(invert && q.uninvertible)
+			),
+		[questions, randomStart, randomEnd, invert]
+	);
+	const lastId = questions[questions.length - 1].id;
+	const firstId = questions[0].id;
 
-	const [questionIndex, setQuestionExact] = useState(() => {
-		if (mode === "random") return randomGenerator.next().value;
-		if (mode === "next") return randomStart;
+	const randomIndexGenerator = useMemo(
+		() => generateRandomConsecutive(filteredQuestions.length, consecutive),
+		[filteredQuestions, consecutive]
+	);
+	const nextRandomId = () =>
+		filteredQuestions[randomIndexGenerator.next().value].id;
+
+	const [questionId, setQuestionExact] = useState(() => {
+		if (mode === "random") return nextRandomId();
+		if (mode === "next") return questions[randomStart - 1].id;
 	});
-
-	const setQuestion = index => {
-		setQuestionExact(clamp(index, 0, clues.length - 1));
-	};
-
-	const increaseQuestion = (inc = 1) => setQuestion(questionIndex + inc);
-	const setRandomQuestion = () => setQuestion(randomGenerator.next().value);
-
-	useEffect(() => {
-		if (questionIndex < randomStart || questionIndex >= randomEnd) {
-			setRandomQuestion();
-		}
-	}, [randomGenerator, randomStart, randomEnd]);
-
-	const [correctCount, setCorrectCount] = useState(1);
-
+	const setQuestion = (id) => setQuestionExact(clamp(id, 0, lastId));
+	const increaseQuestion = (inc = 1) => setQuestion(questionId + inc);
+	const setRandomQuestion = () => setQuestion(nextRandomId());
 	const changeQuestion = () => {
 		mode === "random" && setRandomQuestion();
 		mode === "next" && increaseQuestion();
 	};
+
+	useEffect(() => {
+		if (questionId < randomStart) setQuestion(firstId);
+		if (questionId >= randomEnd) setQuestion(lastId);
+		if (filteredQuestions.every((q) => q.id !== questionId)) changeQuestion();
+	}, [randomIndexGenerator, randomStart, randomEnd]);
+
+	const [correctCount, setCorrectCount] = useState(1);
+
 	const complete = () => {
 		changeQuestion();
-		setCorrectCount(count => count + 1);
+		setCorrectCount((count) => count + 1);
 		onQuestionAnswered && onQuestionAnswered(correctCount);
 	};
 
-	const clue = (invert ? answers : clues)[questionIndex].toString();
-	const answer = (invert ? clues : answers)[questionIndex].toString();
+	const question = questions.find((q) => q.id === questionId);
 
-	// console.log(questionIndex, clue, correctCount);
+	console.log(questionId, question, correctCount);
 
-	return [
-		{ clue, answer },
-		correctCount,
-		complete,
-		increaseQuestion,
-		changeQuestion,
-	];
+	return [question, correctCount, complete, increaseQuestion, changeQuestion];
 };
 
 export default useQuestions;

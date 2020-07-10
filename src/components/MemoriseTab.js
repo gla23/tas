@@ -61,10 +61,10 @@ const MemoriseTab = (props) => {
 	shortcutMap.set("]", () => setAgain((again) => !again));
 	shortcutMap.set("=", () => console.log("= pressed") || changeQuestion());
 
-	if (!question.answer || !question.clue) {
-		return <p>Loading</p>;
-	}
+	if (!question) return <p>No questions provided</p>;
+	if (!question.answer || !question.clue) return <p>Loading</p>;
 
+	const showOptions = props.modes.length !== 1;
 	return (
 		<TypeArea
 			{...question}
@@ -73,28 +73,30 @@ const MemoriseTab = (props) => {
 			onComplete={complete}
 			navigation={
 				<>
-					<div style={{ display: "flex" }}>
-						<TasRadioGroup
-							options={[
-								{ value: "random", label: "Random" },
-								{ value: "next", label: "Next" },
-								{ value: "same", label: "Same" },
-							].filter((mode) => props.modes.includes(mode.value))}
-							onChange={(value) => setMode(value)}
-							value={mode}
-						/>
-						<TasCheckbox
-							checked={again}
-							onChange={(checked) => setAgain(checked)}
-							label="Again"
-						/>
-						<TasCheckbox
-							label="Invert"
-							checked={invert}
-							onChange={(value) => setInvert(value)}
-						/>
-					</div>
-					{props.navigation && props.navigation(mode)}
+					{showOptions && (
+						<div className="container">
+							<TasRadioGroup
+								options={[
+									{ value: "random", label: "Random" },
+									{ value: "next", label: "Next" },
+									{ value: "same", label: "Same" },
+								].filter((mode) => props.modes.includes(mode.value))}
+								onChange={(value) => setMode(value)}
+								value={mode}
+							/>
+							<TasCheckbox
+								checked={again}
+								onChange={(checked) => setAgain(checked)}
+								label="Again"
+							/>
+							<TasCheckbox
+								label="Invert"
+								checked={invert}
+								onChange={(value) => setInvert(value)}
+							/>
+						</div>
+					)}
+					{props.navigation && props.navigation(mode, invert)}
 				</>
 			}
 			lengthCorrect={
