@@ -13,6 +13,7 @@ const Factors = (props) => {
 		yield* factors.slice(2).map((factors, index) => ({
 			clue: index + 2,
 			answer: factors.join(" "),
+			uninvertible: factors.length === 1,
 		}));
 	}
 
@@ -23,20 +24,21 @@ const Factors = (props) => {
 				modes={["random", "next"]}
 				caseSensitive={false}
 				questionOptions={{
-					randomStart: range[0],
-					randomEnd: range[1] + 1,
+					randomStart: range[0] - 2,
+					randomEnd: range[1] - 1,
 					consecutive: 1,
 				}}
 				navigation={(mode) =>
 					mode === "random" && (
-						<TasSlider
-							value={range}
-							onChange={(value) => setRange(value)}
-							max={100}
-							valueLabelDisplay="auto"
-							// valueLabelFormat={(index) => letters[index]}
-							width="400px"
-						/>
+						<>
+							<h5>Range of n</h5>
+							<TasSlider
+								value={range}
+								max={100}
+								onChange={(value) => setRange(value)}
+								markSelected
+							/>
+						</>
 					)
 				}
 			/>
