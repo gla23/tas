@@ -59,7 +59,7 @@ const useQuestions = ({
 }) => {
 	const {
 		randomStart = 0,
-		randomEnd = null,
+		randomEnd = Number.POSITIVE_INFINITY,
 		invert = false,
 		consecutive = 2,
 	} = options;
@@ -68,7 +68,7 @@ const useQuestions = ({
 		() => expandQuestionsGenerator(questionGenerator(), invert),
 		[questionGenerator, invert]
 	);
-	const filteredQuestions = useMemo(
+	const groupQuestions = useMemo(
 		() =>
 			questions.filter(
 				(q) =>
@@ -76,19 +76,20 @@ const useQuestions = ({
 			),
 		[questions, randomStart, randomEnd, invert]
 	);
-	const lastId = questions[questions.length - 1].id;
-	const firstId = questions[0].id;
 
 	const randomIndexGenerator = useMemo(
-		() => generateRandomConsecutive(filteredQuestions.length, consecutive),
-		[filteredQuestions, consecutive]
+		() => generateRandomConsecutive(groupQuestions.length, consecutive),
+		[groupQuestions, consecutive]
 	);
-	const nextRandomId = () =>
-		filteredQuestions[randomIndexGenerator.next().value].id;
+
+	const lastId = questions.length ? questions[questions.length - 1].id : null;
+	const idInGroupAt = (pos) =>
+		groupQuestions.length ? groupQuestions[pos].id : null;
+	const nextRandomId = () => idInGroupAt(randomIndexGenerator.next().value);
 
 	const [questionId, setQuestionExact] = useState(() => {
 		if (mode === "random") return nextRandomId();
-		if (mode === "next") return questions[randomStart - 1].id;
+		if (mode === "next") return questions[randomStart].id;
 	});
 	const setQuestion = (id) => setQuestionExact(clamp(id, 0, lastId));
 	const increaseQuestion = (inc = 1) => setQuestion(questionId + inc);
@@ -99,9 +100,10 @@ const useQuestions = ({
 	};
 
 	useEffect(() => {
-		if (questionId < randomStart) setQuestion(firstId);
-		if (questionId >= randomEnd) setQuestion(lastId);
-		if (filteredQuestions.every((q) => q.id !== questionId)) changeQuestion();
+		if (groupQuestions.every((q) => q.id !== questionId)) changeQuestion();
+		if (questionId < randomStart) setQuestion(idInGroupAt(0));
+		if (questionId >= randomEnd)
+			setQuestion(idInGroupAt(groupQuestions.length - 1));
 	}, [randomIndexGenerator, randomStart, randomEnd]);
 
 	const [correctCount, setCorrectCount] = useState(1);
