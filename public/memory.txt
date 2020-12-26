@@ -1,8 +1,8 @@
-Proverbs 3:5-6
+prce-f
 Trust in the Lord with all your heart; do not depend on your own understanding. Seek his will in all you do, and he will show you which path to take.
-Hebrews 12:7,10-11
+slg-k
 Endure hardship as discipline. God disciplines us for our good, so that we might share in his holiness. No discipline seems pleasant at the time, but painful. But afterwards there will be a peaceful harvest of righteousness for those trained by it.
-Psalm 139:23-24
+ps139w-x
 Search me, O God, and know my heart; test me and know my anxious thoughts. Point out anything in me that offends you, and lead me in the way everlasting.
 prpd
 The Lord has made everything for his own purposes, even the wicked for a day of disaster.
@@ -478,22 +478,6 @@ agş
 And when Jesus finished these sayings, the crowds were astonished at his teaching,
 agö
 for he was teaching them as one who had authority, and not as their scribes.
-ps130a
-Out of the depths I cry to you, O Lord!
-ps130b
-O Lord, hear my voice! Let your ears be attentive to the voice of my pleas for mercy!
-ps130c
-If you, O Lord, should mark iniquities, O Lord, who could stand?
-ps130d
-But with you there is forgiveness, that you may be feared.
-ps130e
-I wait for the Lord, my soul waits, and in his word I hope;
-ps130f
-my soul waits for the Lord more than watchmen for the morning, more than watchmen for the morning.
-ps130g
-O Israel, hope in the Lord! For with the Lord there is steadfast love, and with him is plentiful redemption.
-ps130h
-And he will redeem Israel from all his iniquities.
 tca
 Not many of you should become teachers, my brothers, for you know that we who teach will be judged with greater strictness.
 tcb
