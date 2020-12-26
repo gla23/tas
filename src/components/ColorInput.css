@@ -1,0 +1,26 @@
+.ColorInput {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  min-width: 25px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+textarea.ColorInput {
+  line-height: 1.5;
+  width: 100%;
+  height: 2000px;
+  border: none;
+  box-shadow: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  resize: none; /*remove the resize handle on the bottom right*/
+}
+.cursor {
+  box-shadow: -2px 0 #000;
+}
+
+html,
+body {
+  max-width: 100%;
+  position: fixed;
+}
