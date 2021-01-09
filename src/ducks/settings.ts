@@ -1,7 +1,7 @@
 import { RootState } from ".";
 import { useSelector } from "react-redux";
 
-export const initialState = { parseMnemonics: true };
+export const initialState = { parseMnemonics: true, dark: false };
 export type Setting = keyof typeof initialState;
 
 const CHANGE = "settings/CHANGE";

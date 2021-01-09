@@ -6,10 +6,18 @@ export interface Question {
   // Can add stats for each question
 }
 
-type Index = number;
 export interface QueueSection {
   id: string;
   bank: Question[];
-  start: Index;
-  end: Index;
+  startIndex: number;
+  endIndex: number;
 }
+
+interface BaseExercise {
+  id: string;
+}
+interface MatchTextExercise extends BaseExercise {
+  type: "matchText";
+}
+
+export type Exercise = MatchTextExercise;
