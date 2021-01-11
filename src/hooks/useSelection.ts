@@ -1,7 +1,8 @@
 import { useState } from "react";
 
+type Direction = "none" | "forward" | "backward";
 export function useSelection() {
-  const [selection, setSelection] = useState<[number, number, string]>([
+  const [selection, setSelection] = useState<[number, number, Direction]>([
     0,
     0,
     "none",
@@ -9,7 +10,7 @@ export function useSelection() {
   const mirrorSelection = (target: {
     selectionStart: number;
     selectionEnd: number;
-    selectionDirection: string;
+    selectionDirection: Direction;
   }) =>
     setSelection([
       target.selectionStart,

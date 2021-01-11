@@ -29,8 +29,12 @@ export const typeOf = (setting: Setting) => {
 
 export const selectSetting = (setting: Setting) => (state: RootState) =>
   state.settings[setting];
+
 export const useParseMnemonic = () =>
   useSelector(selectSetting("parseMnemonics"));
+export const useTheme = () =>
+  useSelector(selectSetting("dark")) ? "dark" : "light";
+
 export function setSetting<S extends Setting>(
   setting: S,
   value: SettingsState[S]
