@@ -27,14 +27,14 @@ export const App = () => {
   const [value2, setValue2] = useState("gg");
   return (
     <div className={theme}>
-      <Scrollable className="transition duration-500 text-black dark:text-white bg-white dark:bg-gray-800 ">
+      <Scrollable className="transition duration-500 text-black dark:text-white bg-white dark:bg-gray-800">
         <SettingsInput setting="parseMnemonics">Hide mnemonics</SettingsInput>
         <SettingsInput setting="dark">Dark mode</SettingsInput>
         <br />
         <ColorInput value={value} onChange={setValue} />
         <ColorInput width="50%" value={value2} onChange={setValue2} />
         {qs?.length}
-        <pre>{JSON.stringify(qs, null, 2)}</pre>
+        {/* <pre>{JSON.stringify(qs, null, 2)}</pre> */}
       </Scrollable>
     </div>
   );

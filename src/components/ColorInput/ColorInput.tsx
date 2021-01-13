@@ -1,8 +1,8 @@
 import { FunctionComponent, useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom";
 import { useResize } from "../../hooks/useResize";
-import { useSelection } from "../../hooks/useSelection";
-import { setCursor } from "./selectionSet";
+import { useSelectionInput } from "../../hooks/useSelectionInput";
+import { clickedIndex } from "./selectionSet";
 import "./ColorInput.css";
 
 interface ColorInputProps {
@@ -41,8 +41,8 @@ export function ColorInput(props: ColorInputProps) {
   const textareaRoot = document.querySelector("div.textareaRoot");
   const [focused, setFocused] = useState(false);
   const [cursorOn, setCursorOn] = useState(true);
-  const [selection, setSelection, withinSelection, hasCursor] = useSelection();
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const textarea = useSelectionInput();
+
   const paragraphRef = useRef<HTMLParagraphElement>(null);
   const { width: paragraphWidth } = useResize(paragraphRef);
 
@@ -50,7 +50,9 @@ export function ColorInput(props: ColorInputProps) {
     setCursorOn(true);
     let flashInterval = setInterval(() => setCursorOn((old) => !old), 600);
     return () => clearInterval(flashInterval);
-  }, [focused, selection]);
+  }, [focused, textarea.selection]);
+
+  const [dragStart, setDragStart] = useState<null | number>(null);
 
   if (!textareaRoot) return null;
 
@@ -68,22 +70,41 @@ export function ColorInput(props: ColorInputProps) {
         className="ColorInput"
         ref={paragraphRef}
         style={{ width, fontSize }}
-        onClick={() => focusTextarea(id)}
+        onMouseDown={(e) => {
+          const index = clickedIndex(e);
+          textarea.setSelection([index, index, "none"]);
+          setDragStart(index);
+        }}
+        onMouseMove={(e) => {
+          if (dragStart !== null) {
+            const dragEnd = clickedIndex(e);
+            textarea.setSelection(
+              dragEnd > dragStart
+                ? [dragStart, dragEnd, "forward"]
+                : [dragEnd, dragStart, "backward"]
+            );
+          }
+        }}
+        onMouseUp={(e) => {
+          textarea.focus();
+          setDragStart(null);
+        }}
       >
         {Array.from(props.value + " ").map((char, index) => (
           <span
             className={
-              (cursorOn && focused && hasCursor(index) ? "cursor " : "") +
+              (cursorOn && (focused || dragStart) && textarea.hasCursor(index)
+                ? "cursor "
+                : "") +
               (index >= props.value.length
                 ? ""
                 : charClass(
-                    focused && withinSelection(index),
+                    (focused || !!dragStart) && textarea.withinSelection(index),
                     char,
                     index,
                     props.value
                   ))
             }
-            onClick={(e) => setCursor(e, textareaRef, index)}
             key={(char.codePointAt(0) || 0) * 1000 + index}
           >
             {char}
@@ -93,7 +114,7 @@ export function ColorInput(props: ColorInputProps) {
       {ReactDOM.createPortal(
         <textarea
           id={id}
-          ref={textareaRef}
+          {...textarea.props}
           style={{
             position: debug ? "initial" : "absolute",
             left: "200vw",
@@ -105,10 +126,10 @@ export function ColorInput(props: ColorInputProps) {
           spellCheck={false}
           value={props.value}
           autoFocus={props.autoFocus}
-          onSelect={(e) => setSelection(e.target as any)}
-          onKeyPress={(e) => setSelection(e.target as any)}
-          onKeyUp={(e) => setSelection(e.target as any)}
-          onInput={(e) => setSelection(e.target as any)}
+          // onSelect={(e) => setSelection(e.target as any)}
+          // onKeyPress={(e) => setSelection(e.target as any)}
+          // onKeyUp={(e) => setSelection(e.target as any)}
+          // onInput={(e) => setSelection(e.target as any)}
           onFocus={() => {
             setFocused(true);
           }}
@@ -121,6 +142,3 @@ export function ColorInput(props: ColorInputProps) {
     </div>
   );
 }
-
-const focusTextarea = (id: string) =>
-  (document.querySelector("textarea#" + id) as HTMLTextAreaElement)?.focus();
