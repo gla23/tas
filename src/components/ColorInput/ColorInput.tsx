@@ -1,9 +1,10 @@
-import { FunctionComponent, useEffect, useRef, useState } from "react";
+import { FunctionComponent, useEffect, useMemo, useRef, useState } from "react";
 import ReactDOM from "react-dom";
 import { useResize } from "../../hooks/useResize";
 import { useSelectionInput } from "../../hooks/useSelectionInput";
 import { childIndex } from "./selectionSet";
 import "./ColorInput.css";
+import { useRAF } from "../../hooks/useRAF";
 
 interface ColorInputProps {
   id?: string;
@@ -44,27 +45,28 @@ export function ColorInput(props: ColorInputProps) {
   const [cursorOn, setCursorOn] = useState(true);
   const [dragStart, setDragStart] = useState<null | number>(null);
   const textarea = useSelectionInput();
-
+  const [request] = useRAF();
   const paragraphRef = useRef<HTMLParagraphElement>(null);
   const { width: paragraphWidth } = useResize(paragraphRef);
 
   useEffect(() => {
+    if (!focused) return;
     setCursorOn(true);
     let flashInterval = setInterval(() => setCursorOn((old) => !old), 600);
     return () => clearInterval(flashInterval);
   }, [focused, textarea.selection]);
 
   useEffect(() => {
-    let count = 0;
     const callback = (event: MouseEvent) => {
       if (dragStart === null) return;
-      if (count++ % 8 === 0) return;
-      const dragEnd = childIndex(event, paragraphRef);
-      textarea.setSelection(
-        dragEnd > dragStart
-          ? [dragStart, dragEnd, "forward"]
-          : [dragEnd, dragStart, "backward"]
-      );
+      request(() => {
+        const dragEnd = childIndex(event, paragraphRef);
+        textarea.setSelection(
+          dragEnd > dragStart
+            ? [dragStart, dragEnd, "forward"]
+            : [dragEnd, dragStart, "backward"]
+        );
+      });
     };
     document.body.addEventListener("mousemove", callback);
     return () => document.body.removeEventListener("mousemove", callback);
@@ -73,15 +75,14 @@ export function ColorInput(props: ColorInputProps) {
 
   useEffect(() => {
     const callback = (event: MouseEvent) => {
-      dragStart && textarea.focus();
+      if (dragStart === null) return;
+      textarea.focus();
       setDragStart(null);
     };
     document.body.addEventListener("mouseup", callback);
     return () => document.body.removeEventListener("mouseup", callback);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dragStart]);
-
-  if (!textareaRoot) return null;
 
   const {
     width = "100%",
@@ -91,10 +92,41 @@ export function ColorInput(props: ColorInputProps) {
     debug,
   } = props;
 
+  const spans = useMemo(() => {
+    // console.log(
+    //   "spans",
+    //   props.value,
+    //   textarea.selection[0],
+    //   textarea.selection[1]
+    // );
+    const spans: JSX.Element[] = [];
+    Array.prototype.forEach.call(props.value + " ", (char, index) => {
+      let className = "";
+      if (index === textarea.cursorIndex) className += "cursor ";
+      if (index < props.value.length)
+        className += charClass(
+          textarea.withinSelection(index),
+          char,
+          index,
+          props.value
+        );
+      spans.push(
+        <span className={className} key={index}>
+          {char}
+        </span>
+      );
+    });
+    return spans;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.value, textarea.selection[0], textarea.selection[1]]);
+
+  if (!textareaRoot) return null;
   return (
     <div className="ColorInput">
       <p
-        className="ColorInput"
+        className={
+          "ColorInput " + (cursorOn && (focused || dragStart) ? "cursorOn" : "")
+        }
         ref={paragraphRef}
         style={{ width, fontSize }}
         onMouseDown={(e) => {
@@ -103,26 +135,7 @@ export function ColorInput(props: ColorInputProps) {
           setDragStart(index);
         }}
       >
-        {Array.from(props.value + " ").map((char, index) => (
-          <span
-            className={
-              (cursorOn && (focused || dragStart) && textarea.hasCursor(index)
-                ? "cursor "
-                : "") +
-              (index >= props.value.length
-                ? ""
-                : charClass(
-                    (focused || !!dragStart) && textarea.withinSelection(index),
-                    char,
-                    index,
-                    props.value
-                  ))
-            }
-            key={(char.codePointAt(0) || 0) * 1000 + index}
-          >
-            {char}
-          </span>
-        ))}
+        {spans}
       </p>
       {ReactDOM.createPortal(
         <textarea

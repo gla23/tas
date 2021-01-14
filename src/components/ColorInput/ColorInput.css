@@ -16,10 +16,10 @@ textarea.ColorInput {
   -moz-box-shadow: none;
   resize: none; /*remove the resize handle on the bottom right*/
 }
-.dark .cursor {
+.dark .cursorOn .cursor {
   box-shadow: -2px 0 var(--accent);
 }
-.light .cursor {
+.light .cursorOn .cursor {
   box-shadow: -2px 0 #000;
 }
 

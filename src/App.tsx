@@ -7,6 +7,11 @@ import { ColorInput, Scrollable } from "./components/ColorInput/ColorInput";
 import "./App.css";
 
 export const App = () => {
+  // work out performance issues
+  // - Could use useReducer to add keys to strning
+  // - Maybe keys aren't needed, solve multiple renders with useReducer
+  // - Remove textarea onChange as selectChange can handle it all once?
+  // - Why does removing setSelection's mirrorSelection stop dragging/clicking from being shown?
   // Add select with mouse
   // double/triple clicking -> send to textarea? probs quicker to just implement
   // Create Questionsets UI

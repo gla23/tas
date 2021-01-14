@@ -32,10 +32,7 @@ export function useSelectionInput<
 
   const withinSelection = (index: number) =>
     index >= selection[0] && index < selection[1];
-  const hasCursor = (index: number) =>
-    (selection[0] === selection[1] && selection[1] === index) ||
-    (selection[1] === index && selection[2] === "forward") ||
-    (selection[0] === index && selection[2] === "backward");
+  const cursorIndex = selection[2] === "backward" ? selection[0] : selection[1];
   const focus = () => ref.current?.focus();
 
   return {
@@ -43,7 +40,7 @@ export function useSelectionInput<
     selection,
     setSelection,
     withinSelection,
-    hasCursor,
+    cursorIndex,
     focus,
     props: { ref, onSelect: selectionChangeCallback },
   } as const;
