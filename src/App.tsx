@@ -8,6 +8,7 @@ import "./App.css";
 
 export const App = () => {
   // Add select with mouse
+  // double/triple clicking -> send to textarea? probs quicker to just implement
   // Create Questionsets UI
   // Add shortcut key listening
   // Make correct check charClass function
@@ -23,7 +24,9 @@ export const App = () => {
   const qs = questions?.filter((q) => q.id.match(/^a/));
   // const matches = qs?.flatMap((q) => q.match());
   // const collected = collectByString(qs);
-  const [value, setValue] = useState("ggwp");
+  const [value, setValue] = useState(
+    "ggwp sldkfjdsljk kf sfldkj djsfk ggwp sldkfjdsljk kf sfldkj djsfk ggwp sldkfjdsljk kf sfldkj djsfk ggwp sldkfjdsljk kf sfldkj djsfk "
+  );
   const [value2, setValue2] = useState("gg");
   return (
     <div className={theme}>

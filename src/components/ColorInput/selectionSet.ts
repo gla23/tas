@@ -1,18 +1,18 @@
-function clickSide(e: React.MouseEvent): 0 | 1 {
-  const mouseX = e.clientX;
-  const elementRect = (e.target as HTMLElement).getBoundingClientRect();
-  const elementCenter = elementRect.x + elementRect.width / 2;
-  return mouseX < elementCenter ? 0 : 1;
-}
-function childIndex(e: React.MouseEvent): number {
-  const clicked = e.target;
-  const p = e.currentTarget as HTMLParagraphElement;
-  return clicked === p
-    ? p.childElementCount
-    : clicked instanceof HTMLSpanElement
-    ? Array.prototype.indexOf.call(p.children, clicked)
-    : 0;
-}
-export function clickedIndex(e: React.MouseEvent) {
-  return childIndex(e) + clickSide(e);
+const before = (event: MouseEvent | React.MouseEvent) => (rect: DOMRect) => {
+  const { clientX: x, clientY: y } = event;
+  return (
+    y < rect.y || (x < rect.x + rect.width / 2 && y < rect.y + rect.height)
+  );
+};
+export function childIndex(
+  event: MouseEvent | React.MouseEvent,
+  paragraphRef: React.RefObject<HTMLParagraphElement>
+): number {
+  const p = paragraphRef.current;
+  if (!p) return 0;
+  const rects = Array.from(p.childNodes)
+    .filter((elem) => elem instanceof HTMLSpanElement)
+    .map((span) => (span as HTMLSpanElement).getBoundingClientRect());
+  if (!before(event)(rects[rects.length - 1])) return rects.length;
+  return rects.findIndex(before(event));
 }

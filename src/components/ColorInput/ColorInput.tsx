@@ -2,7 +2,7 @@ import { FunctionComponent, useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom";
 import { useResize } from "../../hooks/useResize";
 import { useSelectionInput } from "../../hooks/useSelectionInput";
-import { clickedIndex } from "./selectionSet";
+import { childIndex } from "./selectionSet";
 import "./ColorInput.css";
 
 interface ColorInputProps {
@@ -33,6 +33,7 @@ export const Scrollable: FunctionComponent<{
     </div>
   );
 };
+
 export function ColorInput(props: ColorInputProps) {
   const { current: randomId } = useRef(
     "ColorInput" + String(Math.random()).slice(5, 13)
@@ -41,6 +42,7 @@ export function ColorInput(props: ColorInputProps) {
   const textareaRoot = document.querySelector("div.textareaRoot");
   const [focused, setFocused] = useState(false);
   const [cursorOn, setCursorOn] = useState(true);
+  const [dragStart, setDragStart] = useState<null | number>(null);
   const textarea = useSelectionInput();
 
   const paragraphRef = useRef<HTMLParagraphElement>(null);
@@ -52,7 +54,32 @@ export function ColorInput(props: ColorInputProps) {
     return () => clearInterval(flashInterval);
   }, [focused, textarea.selection]);
 
-  const [dragStart, setDragStart] = useState<null | number>(null);
+  useEffect(() => {
+    let count = 0;
+    const callback = (event: MouseEvent) => {
+      if (dragStart === null) return;
+      if (count++ % 8 === 0) return;
+      const dragEnd = childIndex(event, paragraphRef);
+      textarea.setSelection(
+        dragEnd > dragStart
+          ? [dragStart, dragEnd, "forward"]
+          : [dragEnd, dragStart, "backward"]
+      );
+    };
+    document.body.addEventListener("mousemove", callback);
+    return () => document.body.removeEventListener("mousemove", callback);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dragStart]);
+
+  useEffect(() => {
+    const callback = (event: MouseEvent) => {
+      dragStart && textarea.focus();
+      setDragStart(null);
+    };
+    document.body.addEventListener("mouseup", callback);
+    return () => document.body.removeEventListener("mouseup", callback);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dragStart]);
 
   if (!textareaRoot) return null;
 
@@ -71,23 +98,9 @@ export function ColorInput(props: ColorInputProps) {
         ref={paragraphRef}
         style={{ width, fontSize }}
         onMouseDown={(e) => {
-          const index = clickedIndex(e);
+          const index = childIndex(e, paragraphRef);
           textarea.setSelection([index, index, "none"]);
           setDragStart(index);
-        }}
-        onMouseMove={(e) => {
-          if (dragStart !== null) {
-            const dragEnd = clickedIndex(e);
-            textarea.setSelection(
-              dragEnd > dragStart
-                ? [dragStart, dragEnd, "forward"]
-                : [dragEnd, dragStart, "backward"]
-            );
-          }
-        }}
-        onMouseUp={(e) => {
-          textarea.focus();
-          setDragStart(null);
         }}
       >
         {Array.from(props.value + " ").map((char, index) => (
