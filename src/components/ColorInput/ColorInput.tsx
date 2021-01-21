@@ -178,10 +178,6 @@ export function ColorInput(props: ColorInputProps) {
           spellCheck={false}
           value={props.value}
           autoFocus={props.autoFocus}
-          // onSelect={(e) => setSelection(e.target as any)}
-          // onKeyPress={(e) => setSelection(e.target as any)}
-          // onKeyUp={(e) => setSelection(e.target as any)}
-          // onInput={(e) => setSelection(e.target as any)}
           onFocus={() => {
             setFocused(true);
           }}

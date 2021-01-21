@@ -42,6 +42,10 @@ export function useSelectionInput<
     withinSelection,
     cursorIndex,
     focus,
-    props: { ref, onSelect: selectionChangeCallback },
+    props: {
+      ref,
+      onSelect: selectionChangeCallback,
+      onInput: selectionChangeCallback,
+    },
   } as const;
 }
