@@ -15,6 +15,7 @@ interface ColorInputProps {
   onChange: (value: string) => void;
   debug?: boolean;
   charClass?: CharClass;
+  shortcutMap?: { [key: string]: (unPrevent: Function) => any };
 }
 export interface CharClass {
   (
@@ -87,6 +88,7 @@ export function ColorInput(props: ColorInputProps) {
     fontSize = "3rem",
     charClass = defaultCharClass,
     debug,
+    shortcutMap = {},
   } = props;
 
   const spans = useMemo(() => {
@@ -164,6 +166,14 @@ export function ColorInput(props: ColorInputProps) {
             fontSize,
           }}
           className="ColorInput"
+          onKeyDown={(e) => {
+            const shorcut = shortcutMap[e.key];
+            if (shorcut) {
+              let prevent = true;
+              shorcut(() => (prevent = false));
+              if (prevent) e.preventDefault();
+            }
+          }}
           onChange={(e) => props.onChange(e.target.value)}
           spellCheck={false}
           value={props.value}

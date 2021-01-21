@@ -31,9 +31,7 @@ const memoCharClass = memo(charClass);
 
 export const App = () => {
   // Create Questionsets UI
-  // Add shortcut key listening
   // Make correct check charClass function
-  // Do the animation stuff - perhaps copy over
   const bank = useAwait(memory);
   const parsing = useParseMnemonic();
   const theme = useTheme();
@@ -61,6 +59,10 @@ export const App = () => {
               value={value}
               onChange={setValue}
               charClass={memoCharClass(Math.floor(style.length))}
+              shortcutMap={{
+                PageDown: () => console.log("increaseQuestion"),
+                "=": () => console.log("changeQuestion"),
+              }}
             />
           )}
         </Motion>
