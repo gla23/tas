@@ -31,7 +31,8 @@ const mouseDirection = (
 };
 export function childIndex(
   event: MouseEvent | React.MouseEvent,
-  paragraphRef: React.RefObject<HTMLParagraphElement>
+  paragraphRef: React.RefObject<HTMLParagraphElement>,
+  closest = true
 ): number {
   const p = paragraphRef.current;
   if (!p) return 0;
@@ -45,7 +46,7 @@ export function childIndex(
     : spans.findIndex((span, i) => {
         return mouseDirection(event, span) <= 0;
       });
-  const side = clickSide(spans[index], event);
+  const side = closest ? clickSide(spans[index], event) : 0;
   return index + side;
 }
 

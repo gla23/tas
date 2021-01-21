@@ -34,6 +34,11 @@ export const Scrollable: FunctionComponent<{
     </div>
   );
 };
+// Performance issues to work out
+// - Could use useReducer to add keys for each char in the string
+// - Maybe keys aren't needed, solve multiple renders with useReducer
+// - Remove textarea onChange as selectChange can handle it all once?
+// - Why does removing setSelection's mirrorSelection stop dragging/clicking from being shown?
 
 export function ColorInput(props: ColorInputProps) {
   const { current: randomId } = useRef(
@@ -130,9 +135,28 @@ export function ColorInput(props: ColorInputProps) {
         ref={paragraphRef}
         style={{ width, fontSize }}
         onMouseDown={(e) => {
+          if (e.detail !== 1) return;
           const index = childIndex(e, paragraphRef);
           textarea.setSelection([index, index, "none"]);
           setDragStart(index);
+        }}
+        onClick={(e) => {
+          textarea.focus();
+          if (e.detail === 3)
+            return textarea.setSelection([0, props.value.length, "forward"]);
+          if (e.detail !== 2) return;
+          const index = childIndex(e, paragraphRef, false);
+          const word = /\w/.test(props.value[index]);
+          const start =
+            props.value.slice(0, index).match(word ? /\w+$/ : /\W+$/)?.[0] ??
+            "";
+          const end =
+            props.value.slice(index).match(word ? /^\w+/ : /^\W+/)?.[0] ?? "";
+          textarea.setSelection([
+            index - start.length,
+            index + end.length,
+            "forward",
+          ]);
         }}
       >
         {spans}
