@@ -16,7 +16,7 @@ interface ColorInputProps {
   debug?: boolean;
   charClass?: CharClass;
 }
-interface CharClass {
+export interface CharClass {
   (
     inSelection: boolean,
     character: string,
@@ -24,16 +24,9 @@ interface CharClass {
     string: string
   ): string;
 }
-export const Scrollable: FunctionComponent<{
-  className?: string;
-}> = function Scrollable(props) {
-  return (
-    <div className={"scrollableOuter "}>
-      <div className={"scrollable " + props.className}>{props.children}</div>
-      <div className="textareaRoot" />
-    </div>
-  );
-};
+const defaultCharClass: CharClass = (sel, char, i, s) =>
+  sel ? "bg-blue-300 bg-opacity-50" : "inherit";
+
 // Performance issues to work out
 // - Could use useReducer to add keys for each char in the string
 // - Maybe keys aren't needed, solve multiple renders with useReducer
@@ -92,8 +85,7 @@ export function ColorInput(props: ColorInputProps) {
   const {
     width = "100%",
     fontSize = "3rem",
-    charClass = (sel, char, i, s) =>
-      sel ? "bg-blue-300 bg-opacity-50" : "inherit",
+    charClass = defaultCharClass,
     debug,
   } = props;
 
@@ -123,7 +115,7 @@ export function ColorInput(props: ColorInputProps) {
     });
     return spans;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.value, textarea.selection[0], textarea.selection[1]]);
+  }, [charClass, props.value, textarea.selection[0], textarea.selection[1]]);
 
   if (!textareaRoot) return null;
   return (
@@ -192,3 +184,14 @@ export function ColorInput(props: ColorInputProps) {
     </div>
   );
 }
+
+export const Scrollable: FunctionComponent<{
+  className?: string;
+}> = function Scrollable(props) {
+  return (
+    <div className={"scrollableOuter "}>
+      <div className={"scrollable " + props.className}>{props.children}</div>
+      <div className="textareaRoot" />
+    </div>
+  );
+};
