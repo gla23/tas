@@ -10,28 +10,28 @@ import {
   Scrollable,
 } from "./components/ColorInput/ColorInput";
 import "./App.css";
+import { changeGuess, check, useGuess } from "./ducks/quiz";
+import { useDispatch } from "react-redux";
 
+const clamp = (value: number, min: number, max: number) =>
+  Math.max(min, Math.min(max, value));
 const selected = "bg-blue-300 bg-opacity-50";
-
-function memo<A, R>(fn: (arg: A) => R): (arg: A) => R {
-  let previous: A | undefined;
-  let previousValue: R | undefined;
-  return (arg: A) => {
-    if (previousValue && previous === arg) return previousValue;
-    previousValue = fn(arg);
-    previous = arg;
-    return previousValue;
+const right = (fraction: number) =>
+  "bg-green-500 bg-opacity-" + 50 * clamp(Math.ceil(fraction * 5) / 5, 0, 1);
+const wrong = (fraction: number) =>
+  "bg-red-500 bg-opacity-" + 50 * clamp(Math.ceil(fraction * 5) / 5, 0, 1);
+function charClass(highlight: number, correct: number): CharClass {
+  return (sel, char, i, s) => {
+    if (sel) return selected;
+    if (i >= highlight) return "inherit";
+    return i >= correct ? wrong(highlight - i) : right(highlight - i);
   };
 }
-function charClass(upTo: number): CharClass {
-  return (sel, char, i, s) =>
-    sel ? selected : i < upTo ? "bg-red-500 bg-opacity-50" : "inherit";
-}
-const memoCharClass = memo(charClass);
 
 export const App = () => {
   // Create Questionsets UI
   // Make correct check charClass function
+  // Replace springs with own hook
   const bank = useAwait(memory);
   const parsing = useParseMnemonic();
   const theme = useTheme();
@@ -42,28 +42,38 @@ export const App = () => {
   const qs = questions?.filter((q) => q.id.match(/^a/));
   // const matches = qs?.flatMap((q) => q.match());
   // const collected = collectByString(qs);
-  const [value, setValue] = useState(
-    "ggwp sldkfjdsljk kf sfldkj djsfk ggwp sldkfjdsljk kf sfldkj djsfk ggwp sldkfjdsljk kf sfldkj djsfk ggwp sldkfjdsljk kf sfldkj djsfk "
-  );
+  const dispatch = useDispatch();
+  const [guess, correct] = useGuess();
   const [value2, setValue2] = useState("gg");
 
+  const speedDiff = 30;
+  const niceOne = {
+    stiffness: 40 + speedDiff * 4,
+    damping: 8 + speedDiff / 7,
+    precision: 0.1,
+  };
   return (
     <div className={theme}>
       <Scrollable className="transition duration-500 text-black dark:text-white bg-white dark:bg-gray-800">
         <SettingsInput setting="parseMnemonics">Hide mnemonics</SettingsInput>
         <SettingsInput setting="dark">Dark mode</SettingsInput>
         <br />
-        <Motion style={{ length: spring(value2.length) }}>
-          {(style) => (
-            <ColorInput
-              value={value}
-              onChange={setValue}
-              charClass={memoCharClass(Math.floor(style.length))}
-              shortcutMap={{
-                PageDown: () => console.log("increaseQuestion"),
-                "=": () => console.log("changeQuestion"),
-              }}
-            />
+        <Motion style={{ s1: spring(correct, niceOne) }}>
+          {({ s1 }) => (
+            <Motion style={{ s2: spring(s1, niceOne) }}>
+              {({ s2 }) => (
+                <ColorInput
+                  value={guess}
+                  onChange={(value) => dispatch(changeGuess(value))}
+                  charClass={charClass(s2, correct)}
+                  shortcutMap={{
+                    Enter: () => dispatch(check()),
+                    PageDown: () => console.log("increaseQuestion"),
+                    "=": () => console.log("changeQuestion"),
+                  }}
+                />
+              )}
+            </Motion>
           )}
         </Motion>
         <ColorInput width="50%" value={value2} onChange={setValue2} />
