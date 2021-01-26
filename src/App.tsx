@@ -9,7 +9,7 @@ import {
   Scrollable,
 } from "./components/ColorInput/ColorInput";
 import "./App.css";
-import { changeGuess, check, useGuess } from "./ducks/quiz";
+import { changeGuess, check, useQuiz } from "./ducks/quiz";
 import { useDispatch } from "react-redux";
 import { useTween, overShoot } from "./hooks/useTween";
 
@@ -43,8 +43,8 @@ export const App = () => {
   // const matches = qs?.flatMap((q) => q.match());
   // const collected = collectByString(qs);
   const dispatch = useDispatch();
-  const [guess, correct] = useGuess();
-  const [value2, setValue2] = useState("gggggggggg");
+  const { guess, correct, clue } = useQuiz();
+  const [value2, setValue2] = useState("gg");
   const correctTweened = useTween(correct, overShoot);
 
   return (
@@ -52,20 +52,23 @@ export const App = () => {
       <Scrollable className="transition duration-500 text-black dark:text-white bg-white dark:bg-gray-800">
         <SettingsInput setting="parseMnemonics">Hide mnemonics</SettingsInput>
         <SettingsInput setting="dark">Dark mode</SettingsInput>
-        <br />
-        <ColorInput
-          value={guess}
-          onChange={(value) => dispatch(changeGuess(value))}
-          charClass={charClass(correctTweened, correct)}
-          shortcutMap={{
-            Enter: () => dispatch(check()),
-            PageDown: () => console.log("increaseQuestion"),
-            "=": () => console.log("changeQuestion"),
-          }}
-        />
-        <ColorInput width="50%" value={value2} onChange={setValue2} />
-        {qs?.length}
-        {/* <pre>{JSON.stringify(qs, null, 2)}</pre> */}
+        <div className="max-w-4xl m-auto">
+          <h2 className="text-6xl">{clue}</h2>
+          <br />
+          <ColorInput
+            value={guess}
+            onChange={(value) => dispatch(changeGuess(value))}
+            charClass={charClass(correctTweened, correct)}
+            shortcutMap={{
+              Enter: () => dispatch(check()),
+              PageDown: () => console.log("increaseQuestion"),
+              "=": () => console.log("changeQuestion"),
+            }}
+          />
+          <ColorInput width="50%" value={value2} onChange={setValue2} />
+          {qs?.length}
+          {/* <pre>{JSON.stringify(qs, null, 2)}</pre> */}
+        </div>
       </Scrollable>
     </div>
   );

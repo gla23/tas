@@ -2,8 +2,7 @@ import { RootState } from ".";
 import { useSelector } from "react-redux";
 
 export const initialState = {
-  guess:
-    "ggwp sldkfjdsljk kf sfldkj djsfk ggwp sldkfjdsljk kf sfldkj djsfk ggwp sldkfjdsljk kf sfldkj djsfk ggwp sldkfjdsljk kf sfldkj djsfk ",
+  guess: "The Lord detests the proud; they wilk surely be punished.",
   clue: "prpe",
   answer: "The Lord detests the proud; they will surely be punished.",
   correct: 0,
@@ -29,8 +28,4 @@ export default function quizReducer(
     };
   return state;
 }
-
-export const useGuess = () =>
-  useSelector(
-    (state: RootState) => [state.quiz.guess, state.quiz.correct] as const
-  );
+export const useQuiz = () => useSelector((state: RootState) => state.quiz);

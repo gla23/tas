@@ -12,7 +12,7 @@ export const SettingsInput = (props: SettingsInputProps) => {
   const dispatch = useDispatch();
 
   return (
-    <div className="px-1 checkbox">
+    <span className="px-1 checkbox">
       <input
         className={props.className}
         id={props.setting}
@@ -23,6 +23,6 @@ export const SettingsInput = (props: SettingsInputProps) => {
       <label className="px-1" htmlFor={props.setting}>
         {props.children}
       </label>
-    </div>
+    </span>
   );
 };
