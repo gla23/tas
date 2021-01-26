@@ -1,5 +1,4 @@
 import React, { useMemo, useState } from "react";
-import { Motion, spring } from "react-motion";
 import { useParseMnemonic, useTheme } from "./ducks/settings";
 import { useAwait } from "./hooks/useAwait";
 import { memory, toQuestions } from "./questions/memory";
@@ -12,6 +11,7 @@ import {
 import "./App.css";
 import { changeGuess, check, useGuess } from "./ducks/quiz";
 import { useDispatch } from "react-redux";
+import { useTween, overShoot } from "./hooks/useTween";
 
 const clamp = (value: number, min: number, max: number) =>
   Math.max(min, Math.min(max, value));
@@ -44,38 +44,25 @@ export const App = () => {
   // const collected = collectByString(qs);
   const dispatch = useDispatch();
   const [guess, correct] = useGuess();
-  const [value2, setValue2] = useState("gg");
+  const [value2, setValue2] = useState("gggggggggg");
+  const correctTweened = useTween(correct, overShoot);
 
-  const speedDiff = 30;
-  const niceOne = {
-    stiffness: 40 + speedDiff * 4,
-    damping: 8 + speedDiff / 7,
-    precision: 0.1,
-  };
   return (
     <div className={theme}>
       <Scrollable className="transition duration-500 text-black dark:text-white bg-white dark:bg-gray-800">
         <SettingsInput setting="parseMnemonics">Hide mnemonics</SettingsInput>
         <SettingsInput setting="dark">Dark mode</SettingsInput>
         <br />
-        <Motion style={{ s1: spring(correct, niceOne) }}>
-          {({ s1 }) => (
-            <Motion style={{ s2: spring(s1, niceOne) }}>
-              {({ s2 }) => (
-                <ColorInput
-                  value={guess}
-                  onChange={(value) => dispatch(changeGuess(value))}
-                  charClass={charClass(s2, correct)}
-                  shortcutMap={{
-                    Enter: () => dispatch(check()),
-                    PageDown: () => console.log("increaseQuestion"),
-                    "=": () => console.log("changeQuestion"),
-                  }}
-                />
-              )}
-            </Motion>
-          )}
-        </Motion>
+        <ColorInput
+          value={guess}
+          onChange={(value) => dispatch(changeGuess(value))}
+          charClass={charClass(correctTweened, correct)}
+          shortcutMap={{
+            Enter: () => dispatch(check()),
+            PageDown: () => console.log("increaseQuestion"),
+            "=": () => console.log("changeQuestion"),
+          }}
+        />
         <ColorInput width="50%" value={value2} onChange={setValue2} />
         {qs?.length}
         {/* <pre>{JSON.stringify(qs, null, 2)}</pre> */}
