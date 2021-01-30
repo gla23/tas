@@ -20,13 +20,14 @@ interface DoneCheck {
   (previousTween: number, value: number, ref: SandboxRef): boolean;
 }
 interface OnChange {
-  (newValue: number, ref: SandboxRef): void;
+  (newValue: number, ref: SandboxRef, setTween: (value: number) => void): void;
 }
 
 const atRest: DoneCheck = (tween, value, ref) =>
   Math.abs(tween - value) < 0.01 && Math.abs(ref.current.velocity) < 0.01;
-const reset: OnChange = (newValue, ref) => {
+const reset: OnChange = (newValue, ref, setTween) => {
   if (newValue < ref.current.tween) {
+    setTween(newValue);
     ref.current.tween = newValue;
     ref.current.velocity = 0;
   }
@@ -40,7 +41,8 @@ const springTweener: (stiffness: number, damping: number) => Tweener = (
 ) => (tween, value, dTime, ref) => {
   const v = ref.current.velocity || 0;
   const dV = (value - tween) * dTime * stiffness * 0.00001;
-  const velocity = (v + dV) * (1 - clamp(damping / 100, 0, 1));
+  const velocity =
+    (v + dV) * Math.pow(1 - clamp(damping / 100, 0, 1), dTime / 16);
   ref.current.velocity = velocity;
   return tween + velocity * dTime;
 };
@@ -67,11 +69,22 @@ export const forwardApproach: UseTweenSettings = {
 };
 export const wobbly: UseTweenSettings = spring(12, 12);
 export const overShoot: UseTweenSettings = {
-  tweener: (tween, value, dTime, ref) =>
-    tween < value
-      ? springTweener(3, 10)(tween, value, dTime, ref)
-      : springTweener(0, 5)(tween, value, dTime * 0.2, ref),
-  doneCheck: atRest,
+  tweener: (tween, value, dTime, ref) => {
+    const stiffness = tween < value ? 4 : 0;
+    const damping = tween < value ? 1 : 0.9;
+    const v = ref.current.velocity || 0;
+    const dV = (value - tween) * dTime * stiffness * 0.00001;
+    const velocity = (v + dV) * damping;
+    const newTween = tween + velocity * dTime;
+    if (tween < value && newTween >= value) {
+      ref.current.velocity = Math.min(velocity / 5, 0.05);
+      return value;
+    }
+    ref.current.velocity = velocity;
+    return newTween;
+  },
+  doneCheck: (tween, value, ref) =>
+    tween >= value && Math.abs(ref.current.velocity) < 0.01,
   onChange: reset,
 };
 
@@ -99,7 +112,7 @@ export function useTween(value: number, settings: UseTweenSettings) {
   });
 
   useEffect(() => {
-    onChange && onChange(value, ref);
+    onChange && onChange(value, ref, setTween);
     ref.current.value = value;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
@@ -122,8 +135,8 @@ export function useTween(value: number, settings: UseTweenSettings) {
         setTween(tweener(tween, value, dTime, ref));
         window.requestAnimationFrame(callback);
       } else {
-        setTween(value);
-        onEnd && onEnd(value, ref);
+        if (Math.abs(value - tween) < 0.05) setTween(value);
+        onEnd && onEnd(value, ref, setTween);
         ref.current.animating = false;
         ref.current.time = 0;
       }

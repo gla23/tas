@@ -1,29 +1,28 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 type Direction = "none" | "forward" | "backward";
-type Selection = [number, number, Direction];
+export type Selection = [number, number, Direction];
 type InputElement = HTMLInputElement | HTMLTextAreaElement;
 
-export function useSelectionInput<
-  E extends InputElement = HTMLTextAreaElement
->() {
+export function useSelectionInput<E extends InputElement = HTMLTextAreaElement>(
+  selection: Selection,
+  setSelection: (selection: Selection) => any
+) {
   const ref = useRef<E>(null);
 
-  function setSelection(selection: Selection) {
+  useEffect(() => {
     const elem = ref.current;
-    if (!elem) return false;
+    if (!elem) return undefined;
     const [start, end, direction] = selection;
     elem.selectionStart = start;
     elem.selectionEnd = end;
     elem.selectionDirection = direction;
-    mirrorSelection(selection);
-  }
-  const [selection, mirrorSelection] = useState<Selection>([0, 0, "none"]);
+  }, [selection]);
 
   const selectionChangeCallback = (e: React.SyntheticEvent) => {
     const elem = ref.current;
     if (!elem) return false;
-    mirrorSelection([
+    setSelection([
       elem.selectionStart || 0,
       elem.selectionEnd || 0,
       elem.selectionDirection || "none",
@@ -37,8 +36,6 @@ export function useSelectionInput<
 
   return {
     ref,
-    selection,
-    setSelection,
     withinSelection,
     cursorIndex,
     focus,

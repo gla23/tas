@@ -1,7 +1,7 @@
 import { FunctionComponent, useEffect, useMemo, useRef, useState } from "react";
 import ReactDOM from "react-dom";
 import { useResize } from "../../hooks/useResize";
-import { useSelectionInput } from "../../hooks/useSelectionInput";
+import { useSelectionInput, Selection } from "../../hooks/useSelectionInput";
 import { childIndex } from "./selectionSet";
 import "./ColorInput.css";
 import { useRAF } from "../../hooks/useRAF";
@@ -9,6 +9,8 @@ import { useRAF } from "../../hooks/useRAF";
 interface ColorInputProps {
   id?: string;
   value: string;
+  selection?: Selection;
+  setSelection?: (selection: Selection) => any;
   autoFocus?: boolean;
   width?: string;
   fontSize?: string;
@@ -39,11 +41,15 @@ export function ColorInput(props: ColorInputProps) {
     "ColorInput" + String(Math.random()).slice(5, 13)
   );
   const id = props.id || randomId;
+  const jeeves = useState<Selection>([0, 0, "none"]);
+  const { selection = jeeves[0], setSelection = jeeves[1] } = props;
+
   const textareaRoot = document.querySelector("div.textareaRoot");
   const [focused, setFocused] = useState(false);
   const [cursorOn, setCursorOn] = useState(true);
   const [dragStart, setDragStart] = useState<null | number>(null);
-  const textarea = useSelectionInput();
+
+  const textarea = useSelectionInput(selection, setSelection);
   const [request] = useRAF();
   const paragraphRef = useRef<HTMLParagraphElement>(null);
   const { width: paragraphWidth } = useResize(paragraphRef);
@@ -53,14 +59,14 @@ export function ColorInput(props: ColorInputProps) {
     setCursorOn(true);
     let flashInterval = setInterval(() => setCursorOn((old) => !old), 600);
     return () => clearInterval(flashInterval);
-  }, [focused, textarea.selection]);
+  }, [focused, selection]);
 
   useEffect(() => {
     const callback = (event: MouseEvent) => {
       if (dragStart === null) return;
       request(() => {
         const dragEnd = childIndex(event, paragraphRef);
-        textarea.setSelection(
+        setSelection(
           dragEnd > dragStart
             ? [dragStart, dragEnd, "forward"]
             : [dragEnd, dragStart, "backward"]
@@ -92,12 +98,6 @@ export function ColorInput(props: ColorInputProps) {
   } = props;
 
   const spans = useMemo(() => {
-    // console.log(
-    //   "spans",
-    //   props.value,
-    //   textarea.selection[0],
-    //   textarea.selection[1]
-    // );
     const spans: JSX.Element[] = [];
     Array.prototype.forEach.call(props.value + " ", (char, index) => {
       let className = "";
@@ -117,7 +117,7 @@ export function ColorInput(props: ColorInputProps) {
     });
     return spans;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [charClass, props.value, textarea.selection[0], textarea.selection[1]]);
+  }, [charClass, props.value, selection[0], selection[1]]);
 
   if (!textareaRoot) return null;
   return (
@@ -131,13 +131,13 @@ export function ColorInput(props: ColorInputProps) {
         onMouseDown={(e) => {
           if (e.detail !== 1) return;
           const index = childIndex(e, paragraphRef);
-          textarea.setSelection([index, index, "none"]);
+          setSelection([index, index, "none"]);
           setDragStart(index);
         }}
         onClick={(e) => {
           textarea.focus();
           if (e.detail === 3)
-            return textarea.setSelection([0, props.value.length, "forward"]);
+            return setSelection([0, props.value.length, "forward"]);
           if (e.detail !== 2) return;
           const index = childIndex(e, paragraphRef, false);
           const word = /\w/.test(props.value[index]);
@@ -146,11 +146,7 @@ export function ColorInput(props: ColorInputProps) {
             "";
           const end =
             props.value.slice(index).match(word ? /^\w+/ : /^\W+/)?.[0] ?? "";
-          textarea.setSelection([
-            index - start.length,
-            index + end.length,
-            "forward",
-          ]);
+          setSelection([index - start.length, index + end.length, "forward"]);
         }}
       >
         {spans}
