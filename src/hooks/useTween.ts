@@ -84,7 +84,7 @@ export const overShoot: UseTweenSettings = {
     return newTween;
   },
   doneCheck: (tween, value, ref) =>
-    tween >= value && Math.abs(ref.current.velocity) < 0.01,
+    tween >= value && Math.abs(ref.current.velocity || 0) < 0.01,
   onChange: reset,
 };
 

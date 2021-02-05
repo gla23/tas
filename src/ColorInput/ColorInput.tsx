@@ -1,16 +1,17 @@
 import { FunctionComponent, useEffect, useMemo, useRef, useState } from "react";
 import ReactDOM from "react-dom";
-import { useResize } from "../../hooks/useResize";
-import { useSelectionInput, Selection } from "../../hooks/useSelectionInput";
+import { useResize } from "../hooks/useResize";
+import { useSelectionInput, Selection } from "../hooks/useSelectionInput";
 import { childIndex } from "./selectionSet";
 import "./ColorInput.css";
-import { useRAF } from "../../hooks/useRAF";
+import { useRAF } from "../hooks/useRAF";
+import { shallowEquals } from "./shallowEquals";
 
 interface ColorInputProps {
   id?: string;
   value: string;
   selection?: Selection;
-  setSelection?: (selection: Selection) => any;
+  onSelectionChange?: (selection: Selection) => any;
   autoFocus?: boolean;
   width?: string;
   fontSize?: string;
@@ -42,7 +43,10 @@ export function ColorInput(props: ColorInputProps) {
   );
   const id = props.id || randomId;
   const jeeves = useState<Selection>([0, 0, "none"]);
-  const { selection = jeeves[0], setSelection = jeeves[1] } = props;
+  const selection = props.selection || jeeves[0];
+  const setSelection = (sel: Selection) =>
+    !shallowEquals(sel, selection) &&
+    (props.onSelectionChange || jeeves[1])(sel);
 
   const textareaRoot = document.querySelector("div.textareaRoot");
   const [focused, setFocused] = useState(false);
@@ -76,7 +80,7 @@ export function ColorInput(props: ColorInputProps) {
     document.body.addEventListener("mousemove", callback);
     return () => document.body.removeEventListener("mousemove", callback);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dragStart]);
+  }, [dragStart, selection]);
 
   useEffect(() => {
     const callback = (event: MouseEvent) => {
