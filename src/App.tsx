@@ -4,15 +4,8 @@ import { useTheme } from "./ducks/settings";
 import { memory } from "./questions/memory";
 import { SettingsInput } from "./ducks/SettingsInput";
 import { ColorInput, Scrollable } from "./ColorInput/ColorInput";
-import {
-  changeGuess,
-  check,
-  select,
-  useQuiz,
-  endTween,
-  loadBank,
-  increaseQuestion,
-} from "./ducks/quiz";
+import { useQuiz, endTween, loadBank, increaseQuestion } from "./ducks/quiz";
+import { changeGuess, check, select } from "./ducks/textarea";
 import { useDispatch } from "react-redux";
 import { useTween, overShoot } from "./hooks/useTween";
 import { charClass } from "./utils/colourProgress";
