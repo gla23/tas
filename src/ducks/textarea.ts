@@ -1,6 +1,6 @@
 import { commonLength } from "../utils/commonLength";
 import { Selection } from "../hooks/useSelectionInput";
-import { QuizState, QuizAction, answer } from "./quiz";
+import { QuizState, QuizAction, answer, FINISH_QUESTION } from "./quiz";
 
 const GUESS = "quiz/GUESS";
 const SELECT = "quiz/SELECT";
@@ -9,8 +9,14 @@ export const changeGuess = (guess: string) => ({ type: GUESS, guess } as const);
 export const check = () => ({ type: CHECK } as const);
 export const select = (selection: Selection) =>
   ({ type: SELECT, selection } as const);
-export function textareaCases(state: QuizState, action: QuizAction): QuizState {
+
+export function textareaReducer(
+  state: QuizState,
+  action: QuizAction
+): QuizState {
   switch (action.type) {
+    case FINISH_QUESTION:
+      return { ...state, guess: "" };
     case GUESS: {
       const edited = Math.min(state.selection[0], state.previousSelection[0]);
       const reset = edited < state.highlight && {
