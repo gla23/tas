@@ -20,11 +20,11 @@ export const App = () => {
   const dispatch = useDispatch();
   const { guess, highlight, clue, selection, answer, completed } = useQuiz();
   const theme = useTheme();
-  const tween = useTween(highlight, {
+  const [tween, setTween] = useTween(highlight, {
     ...overShoot,
     onEnd: () => dispatch(endTween()),
   });
-
+  useEffect(() => void (tween > guess.length && setTween(guess.length)));
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => void memory.then((bank) => dispatch(loadBank(bank))), []);
 
@@ -50,7 +50,7 @@ export const App = () => {
                 Enter: () => dispatch(check()),
                 PageDown: () => dispatch(increaseQuestion(1)),
                 PageUp: () => dispatch(increaseQuestion(-1)),
-                "=": () => dispatch(skipQuestion()),
+                "@": () => dispatch(skipQuestion()),
                 "[": () => setShowing((v) => !v),
               }}
             />

@@ -160,9 +160,10 @@ export function ColorInput(props: ColorInputProps) {
           id={id}
           {...textarea.props}
           style={{
-            position: debug ? "initial" : "absolute",
-            left: "200vw",
-            width: paragraphWidth + "px",
+            position: "absolute",
+            left: debug ? "20vw" : "200vw",
+            top: "50vh",
+            width: paragraphWidth + 2 + "px",
             fontSize,
           }}
           className="ColorInput"

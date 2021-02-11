@@ -151,5 +151,5 @@ export function useTween(value: number, settings: UseTweenSettings) {
     },
     []
   );
-  return tween;
+  return [tween, setTween] as const;
 }
