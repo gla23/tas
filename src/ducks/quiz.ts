@@ -30,6 +30,7 @@ export const loadBank: ThunkCreator = (bank: MemoryBank) => (dispatch) => {
   dispatch({ type: LOAD_BANK, bank } as const);
 };
 export const skipQuestion = () => ({ type: SKIP_QUESTION } as const);
+export const finishQuestion = () => ({ type: FINISH_QUESTION } as const);
 export const endTween: ThunkCreator = () => (dispatch, getState) => {
   if (!complete(getState().quiz)) return;
   dispatch({ type: FINISH_QUESTION } as const);
@@ -60,12 +61,14 @@ export interface QuizState {
   filter: string;
   textArea: TextAreaState;
   completed: number;
+  completedGoal: number;
   game: GameState;
 }
 const initialState: QuizState = {
   bank: {},
   filter: "^t",
   completed: 0,
+  completedGoal: 20,
   textArea: initialTextAreaState,
   game: initialGameState,
 };
