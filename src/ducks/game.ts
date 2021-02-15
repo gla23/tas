@@ -1,12 +1,12 @@
 import {
-  QuizAction,
-  QuizState,
+  Action,
+  RootState,
   LOAD_BANK,
   questionSet,
   FINISH_QUESTION,
   SKIP_QUESTION,
   INCREASE_QUESTION,
-} from "./quiz";
+} from "./root";
 import {
   RecallGame,
   refreshRecallGame,
@@ -20,8 +20,8 @@ export type GameState = RecallGame | FindGame;
 
 export function gameReducer(
   game: GameState,
-  action: QuizAction,
-  state: QuizState
+  action: Action,
+  state: RootState
 ): GameState {
   switch (action.type) {
     case LOAD_BANK:

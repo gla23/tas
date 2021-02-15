@@ -4,10 +4,9 @@ import { App } from "./App";
 import { createStore, applyMiddleware } from "redux";
 import { Provider, useDispatch } from "react-redux";
 import reduxThunk from "redux-thunk";
-import { rootReducer } from "./ducks";
 import { composeWithDevTools } from "redux-devtools-extension";
 import { Scrollable } from "./components/ColorInput/ColorInput";
-import { loadBank } from "./ducks/quiz";
+import rootReducer, { loadBank } from "./ducks/root";
 import { useTheme } from "./ducks/settings";
 import { memory } from "./utils/memory";
 

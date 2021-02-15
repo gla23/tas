@@ -1,6 +1,6 @@
 import "./App.css";
 import React, { useState } from "react";
-import { SettingsInput } from "./ducks/SettingsInput";
+import { SettingsInput } from "./components/SettingsInput";
 import { CloseButton } from "./components/CloseButton";
 import { CurrentProgress, TypePage } from "./components/TypePage";
 import { DarkModeButton } from "./components/DarkModeButton";

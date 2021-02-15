@@ -1,22 +1,25 @@
-import { RootState } from ".";
+import { Action, RootState } from "./root";
 import { useSelector } from "react-redux";
 
-export const initialState = { parseMnemonics: true, dark: true };
-export type Setting = keyof typeof initialState;
+export const initialSettings = { parseMnemonics: true, dark: true };
+export type Setting = keyof typeof initialSettings;
 
 const CHANGE = "settings/CHANGE";
 const TOGGLE_DARK = "settings/TOGGLE_DARK";
 
-type SettingsState = typeof initialState;
+export type SettingsState = typeof initialSettings;
 interface ChangeAction<S extends Setting> {
   type: typeof CHANGE;
   setting: S;
   value: SettingsState[S];
 }
-type SettingsAction = ChangeAction<Setting> | { type: typeof TOGGLE_DARK };
+export type SettingsAction =
+  | ChangeAction<Setting>
+  | { type: typeof TOGGLE_DARK };
+
 export default function settingsReducer(
-  state: SettingsState = initialState,
-  action: SettingsAction
+  state: SettingsState = initialSettings,
+  action: Action
 ) {
   if (action.type === CHANGE)
     return { ...state, [action.setting]: action.value };
@@ -25,7 +28,7 @@ export default function settingsReducer(
 }
 
 export const typeOf = (setting: Setting) => {
-  if (typeof initialState[setting] === "boolean") return "checkbox";
+  if (typeof initialSettings[setting] === "boolean") return "checkbox";
   throw new Error("No widget for this data type");
 };
 

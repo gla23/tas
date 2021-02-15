@@ -1,4 +1,4 @@
-import { QuizState, questionSet } from "../ducks/quiz";
+import { RootState, questionSet } from "../ducks/root";
 
 export interface RecallGame {
   type: "recall";
@@ -29,7 +29,7 @@ export function refreshRecallGame(game: RecallGame, set: string[]): RecallGame {
     questionIndex: randomElem,
   };
 }
-export function nextRecallGame(game: RecallGame, state: QuizState): RecallGame {
+export function nextRecallGame(game: RecallGame, state: RootState): RecallGame {
   if (game.order === "same") return game;
   const set = questionSet(state);
   const bounded = (index: number) =>

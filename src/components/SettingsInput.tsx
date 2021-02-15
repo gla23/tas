@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { selectSetting, setSetting, Setting, typeOf } from "./settings";
+import { selectSetting, setSetting, Setting, typeOf } from "../ducks/settings";
 
 export interface SettingsInputProps {
   children: string;

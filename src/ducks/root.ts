@@ -1,4 +1,3 @@
-import { RootState } from ".";
 import { useSelector } from "react-redux";
 import { MemoryBank } from "../utils/memory";
 import { Passage } from "bible-tools";
@@ -8,17 +7,31 @@ import {
   textAreaReducer,
   TextAreaState,
 } from "./textarea";
-import { ThunkCreator } from ".";
 import { gameReducer, GameState, initialGameState } from "./game";
+import settingsReducer, {
+  initialSettings,
+  SettingsAction,
+  SettingsState,
+} from "./settings";
+import { ThunkAction } from "redux-thunk";
+
+type Thunk<ReturnType = void> = ThunkAction<
+  ReturnType,
+  RootState,
+  unknown,
+  Action
+>;
+export type ThunkCreator<R = void> = (...args: any[]) => Thunk<R>;
 
 // Actions
-export const LOAD_BANK = "quiz/LOAD_BANK";
-export const SKIP_QUESTION = "quiz/SKIP_QUESTION";
-export const FINISH_QUESTION = "quiz/FINISH_QUESTION";
-export const INCREASE_QUESTION = "quiz/INCREASE_QUESTION";
+export const LOAD_BANK = "tas/LOAD_BANK";
+export const SKIP_QUESTION = "tas/SKIP_QUESTION";
+export const FINISH_QUESTION = "tas/FINISH_QUESTION";
+export const INCREASE_QUESTION = "tas/INCREASE_QUESTION";
 
-export type QuizAction =
+export type Action =
   | TextAreaAction
+  | SettingsAction
   | { type: typeof LOAD_BANK; bank: MemoryBank }
   | { type: typeof SKIP_QUESTION }
   | { type: typeof FINISH_QUESTION }
@@ -32,17 +45,17 @@ export const loadBank: ThunkCreator = (bank: MemoryBank) => (dispatch) => {
 export const skipQuestion = () => ({ type: SKIP_QUESTION } as const);
 export const finishQuestion = () => ({ type: FINISH_QUESTION } as const);
 export const endTween: ThunkCreator = () => (dispatch, getState) => {
-  if (!complete(getState().quiz)) return;
+  if (!complete(getState())) return;
   dispatch({ type: FINISH_QUESTION } as const);
 };
 export const increaseQuestion = (amount: number) =>
   ({ type: INCREASE_QUESTION, amount } as const);
 
 // Reducer
-export default function quizReducer(
-  state: QuizState = initialState,
-  action: QuizAction
-): QuizState {
+export default function rootReducer(
+  state: RootState = initialState,
+  action: Action
+): RootState {
   const loadBank = action.type === LOAD_BANK && { bank: action.bank };
   const incrementCompleted = action.type === FINISH_QUESTION && {
     completed: state.completed + 1,
@@ -51,59 +64,57 @@ export default function quizReducer(
     ...state,
     ...loadBank,
     ...incrementCompleted,
+    settings: settingsReducer(state.settings, action),
     textArea: textAreaReducer(state.textArea, action, state),
     game: gameReducer(state.game, action, state),
   };
 }
 
-export interface QuizState {
+export interface RootState {
   bank: MemoryBank;
   filter: string;
-  textArea: TextAreaState;
   completed: number;
   completedGoal: number;
+  settings: SettingsState;
+  textArea: TextAreaState;
   game: GameState;
 }
-const initialState: QuizState = {
+const initialState: RootState = {
   bank: {},
   filter: "^t",
   completed: 0,
   completedGoal: 20,
+  settings: initialSettings,
   textArea: initialTextAreaState,
   game: initialGameState,
 };
 
-export const questionSet = (state: QuizState) => {
+export const questionSet = (state: RootState) => {
   const regex = new RegExp(state.filter);
   return Object.keys(state.bank).filter(regex.test.bind(regex));
 };
 const clue = (state: RootState) => {
-  const id = currentId(state.quiz);
+  const id = currentId(state);
   if (!id) return "";
   return state.settings.parseMnemonics ? new Passage(id).reference : id;
 };
-export const answer = (state: QuizState) => state.bank[currentId(state)] || "";
-export const complete = (state: QuizState) =>
+export const answer = (state: RootState) => state.bank[currentId(state)] || "";
+export const complete = (state: RootState) =>
   state.textArea.guess.startsWith(answer(state));
 
-const currentId: (state: QuizState) => string = (state) => {
+const currentId: (state: RootState) => string = (state) => {
   const set = questionSet(state);
   if (state.game.type === "recall") return set[state.game.questionIndex];
   return "aee";
 };
 export const useQuiz = () =>
   useSelector((state: RootState) => ({
-    ...state.quiz,
-    ...state.quiz.textArea,
-    highlight: Math.min(
-      state.quiz.textArea.guess.length,
-      state.quiz.textArea.highlight
-    ),
-    answer: answer(state.quiz),
+    ...state,
+    answer: answer(state),
     clue: clue(state),
     bank: Object.fromEntries(
-      Object.entries(state.quiz.bank).filter(([ref]) =>
-        new RegExp(state.quiz.filter).test(ref)
+      Object.entries(state.bank).filter(([ref]) =>
+        new RegExp(state.filter).test(ref)
       )
     ),
   }));

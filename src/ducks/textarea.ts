@@ -1,12 +1,13 @@
 import { commonLength } from "../utils/commonLength";
 import { Selection } from "../hooks/useSelectionInput";
 import {
-  QuizAction,
+  Action,
   answer,
   FINISH_QUESTION,
-  QuizState,
+  RootState,
   INCREASE_QUESTION,
-} from "./quiz";
+} from "./root";
+import { useSelector } from "react-redux";
 
 // Actions
 const GUESS = "quiz/GUESS";
@@ -27,8 +28,8 @@ export const select = (selection: Selection) =>
 // Reducer
 export function textAreaReducer(
   state: TextAreaState,
-  action: QuizAction,
-  fullState: QuizState
+  action: Action,
+  fullState: RootState
 ): TextAreaState {
   switch (action.type) {
     case FINISH_QUESTION:
@@ -76,3 +77,9 @@ export const initialTextAreaState: TextAreaState = {
   previousSelection: [0, 0, "forward"],
   highlight: 0,
 };
+
+export const useTextAreaState = () =>
+  useSelector((state: RootState) => ({
+    ...state.textArea,
+    highlight: Math.min(state.textArea.guess.length, state.textArea.highlight),
+  }));

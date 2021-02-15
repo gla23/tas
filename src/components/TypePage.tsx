@@ -6,13 +6,17 @@ import {
   increaseQuestion,
   skipQuestion,
   finishQuestion,
-} from "../ducks/quiz";
-import { changeGuess, check, select } from "../ducks/textarea";
+} from "../ducks/root";
+import {
+  changeGuess,
+  check,
+  select,
+  useTextAreaState,
+} from "../ducks/textarea";
 import { useDispatch } from "react-redux";
 import { useTween, overShoot } from "../hooks/useTween";
 import { charClass } from "../utils/colourProgress";
 import { ProgressBar } from "./ProgressBar";
-import { occurencesByRoot } from "../utils/occurences";
 
 export const CurrentProgress: React.FunctionComponent = () => {
   const { completed, completedGoal } = useQuiz();
@@ -29,20 +33,19 @@ export const CurrentProgress: React.FunctionComponent = () => {
 
 export function TypePage() {
   const dispatch = useDispatch();
-  const { guess, highlight, clue, selection, answer, bank } = useQuiz();
+  const { clue, answer } = useQuiz();
+  const { guess, highlight, selection } = useTextAreaState();
   const [showing, setShowing] = useState(false);
-
-  Object.entries(occurencesByRoot(bank))
-    .filter(
-      ([root, occurences]) => occurences.length > 1 && occurences.length < 5
-    )
-    .forEach(([root, occurences]) => console.log(root, occurences));
-
   const [tween, setTween] = useTween(highlight, {
     ...overShoot,
     onEnd: () => dispatch(endTween()),
   });
-  useEffect(() => void (tween > guess.length && setTween(guess.length)));
+
+  useEffect(() => {
+    if (tween > guess.length && highlight >= guess.length)
+      setTween(guess.length);
+  });
+
   return (
     <>
       <div className="flex m-auto max-w-3xl mt-36">
