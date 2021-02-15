@@ -9,22 +9,14 @@ import {
 } from "./quiz";
 import {
   RecallGame,
-  initRecallGame,
+  refreshRecallGame,
   nextRecallGame,
+  initialRecallGame,
 } from "../games/RecallGame";
+import { FindGame } from "./FindGame";
 
-export const initialGameState: GameState = {
-  questionIndex: 0,
-  type: "recall",
-  order: "random",
-  setIndexesLeft: [],
-  inOrderCount: 2,
-  inOrderDone: 0,
-};
-export interface NewGame {
-  type: "new";
-}
-export type GameState = RecallGame | NewGame;
+export const initialGameState: GameState = initialRecallGame;
+export type GameState = RecallGame | FindGame;
 
 export function gameReducer(
   game: GameState,
@@ -34,7 +26,7 @@ export function gameReducer(
   switch (action.type) {
     case LOAD_BANK:
       const set = questionSet(state);
-      if (game.type === "recall") return initRecallGame(game, set);
+      if (game.type === "recall") return refreshRecallGame(game, set);
       return game;
     case FINISH_QUESTION:
     case SKIP_QUESTION:

@@ -8,7 +8,15 @@ export interface RecallGame {
   inOrderCount: number;
   inOrderDone: number;
 }
-export function initRecallGame(game: RecallGame, set: string[]): RecallGame {
+export const initialRecallGame: RecallGame = {
+  questionIndex: 0,
+  type: "recall",
+  order: "random",
+  setIndexesLeft: [],
+  inOrderCount: 2,
+  inOrderDone: 0,
+};
+export function refreshRecallGame(game: RecallGame, set: string[]): RecallGame {
   const indexesLeft = set.slice(1).map((id, i) => i);
   const randomIndex = Math.floor(Math.random() * indexesLeft.length);
   const randomElem = indexesLeft.splice(randomIndex, 1)[0];
