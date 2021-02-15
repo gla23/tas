@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { toggleDark, useDark } from "./ducks/settings";
+import { toggleDark, useDark } from "../ducks/settings";
 
 export function DarkModeButton(props: { size: number }) {
   const dispatch = useDispatch();
@@ -7,7 +7,7 @@ export function DarkModeButton(props: { size: number }) {
   return (
     <button
       className="float-right text-3xl"
-      style={{ width: props.size, height: props.size }}
+      style={{ width: props.size, height: props.size, outline: "none" }}
       onClick={(e) => dispatch(toggleDark())}
     >
       {dark ? "🌙" : "☀️"}

@@ -1,11 +1,9 @@
 import "./App.css";
 import React, { useState } from "react";
 import { SettingsInput } from "./ducks/SettingsInput";
-import { CloseButton } from "./CloseButton";
-import { TypePage } from "./TypePage";
-import { ProgressBar } from "./ProgressBar";
-import { useQuiz } from "./ducks/quiz";
-import { DarkModeButton } from "./DarkModeButton";
+import { CloseButton } from "./components/CloseButton";
+import { CurrentProgress, TypePage } from "./components/TypePage";
+import { DarkModeButton } from "./components/DarkModeButton";
 
 export const App = () => {
   const [menu, setMenu] = useState(false);
@@ -25,18 +23,5 @@ export const App = () => {
       <SettingsInput setting="parseMnemonics">Translate</SettingsInput>
       <SettingsInput setting="dark">Dark mode</SettingsInput>
     </>
-  );
-};
-
-const CurrentProgress: React.FunctionComponent = () => {
-  const { completed, completedGoal } = useQuiz();
-  return (
-    <div className="m-auto px-32 flex-grow">
-      <ProgressBar complete={completed / completedGoal} className="w-full">
-        <span className="font-sans text-xs">
-          {completed}/{completedGoal}
-        </span>
-      </ProgressBar>
-    </div>
   );
 };

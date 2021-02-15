@@ -18,6 +18,7 @@ export function CloseButton(props: CloseButtonProps) {
         height: props.size || 32,
         width: props.size || 32,
         position: "relative",
+        outline: "none",
       }}
     >
       <div

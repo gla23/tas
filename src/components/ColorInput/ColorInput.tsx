@@ -1,10 +1,10 @@
 import { FunctionComponent, useEffect, useMemo, useRef, useState } from "react";
 import ReactDOM from "react-dom";
-import { useResize } from "../hooks/useResize";
-import { useSelectionInput, Selection } from "../hooks/useSelectionInput";
+import { useResize } from "../../hooks/useResize";
+import { useSelectionInput, Selection } from "../../hooks/useSelectionInput";
 import { childIndex } from "./selectionSet";
 import "./ColorInput.css";
-import { useRAF } from "../hooks/useRAF";
+import { useRAF } from "../../hooks/useRAF";
 import { shallowEquals } from "./shallowEquals";
 
 interface ColorInputProps {

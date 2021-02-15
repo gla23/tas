@@ -101,4 +101,9 @@ export const useQuiz = () =>
     ),
     answer: answer(state.quiz),
     clue: clue(state),
+    bank: Object.fromEntries(
+      Object.entries(state.quiz.bank).filter(([ref]) =>
+        new RegExp(state.quiz.filter).test(ref)
+      )
+    ),
   }));

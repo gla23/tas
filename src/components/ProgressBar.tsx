@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { useResize } from "./hooks/useResize";
+import { useResize } from "../hooks/useResize";
 
 export function ProgressBar(
   props: React.PropsWithChildren<{
