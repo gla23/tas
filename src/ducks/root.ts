@@ -14,6 +14,7 @@ import settingsReducer, {
   SettingsState,
 } from "./settings";
 import { ThunkAction } from "redux-thunk";
+import { commonLength } from "../utils/commonLength";
 
 type Thunk<ReturnType = void> = ThunkAction<
   ReturnType,
@@ -94,23 +95,46 @@ export const questionSet = (state: RootState) => {
   return Object.keys(state.bank).filter(regex.test.bind(regex));
 };
 const clue = (state: RootState) => {
-  const id = currentId(state);
-  if (!id) return "";
-  return state.settings.parseMnemonics ? new Passage(id).reference : id;
+  if (state.game.type === "recall") {
+    const id = questionSet(state)[state.game.questionIndex];
+    return id && state.settings.parseMnemonics ? new Passage(id).reference : id;
+  }
+  return "Clue";
 };
-export const answer = (state: RootState) => state.bank[currentId(state)] || "";
-export const complete = (state: RootState) =>
-  state.textArea.guess.startsWith(answer(state));
-
-const currentId: (state: RootState) => string = (state) => {
+const answers = (state: RootState): string[] => {
+  if (state.game.type === "recall") return [recallAnswer(state)];
+  return [];
+};
+const mainAnswer = (state: RootState): string => {
+  if (state.game.type === "recall") return recallAnswer(state);
+  return "ggwp";
+};
+const recallAnswer = (state: RootState): string => {
   const set = questionSet(state);
-  if (state.game.type === "recall") return set[state.game.questionIndex];
-  return "aee";
+  if (state.game.type !== "recall")
+    throw new Error("recallAnswer only works for recall games");
+  const id = set[state.game.questionIndex];
+  return state.bank[id] || "";
 };
+
+export const correctLength = (guess: string, state: RootState): number => {
+  if (state.game.type === "recall")
+    return commonLength(guess, recallAnswer(state));
+  return 0;
+};
+export const guessIsCorrect = (guess: string, state: RootState): boolean => {
+  if (state.game.type === "recall")
+    return guess.startsWith(recallAnswer(state));
+  return false;
+};
+
+const complete = (state: RootState): boolean =>
+  guessIsCorrect(state.textArea.guess, state);
 export const useQuiz = () =>
   useSelector((state: RootState) => ({
     ...state,
-    answer: answer(state),
+    answers: answers(state),
+    mainAnswer: mainAnswer(state),
     clue: clue(state),
     bank: Object.fromEntries(
       Object.entries(state.bank).filter(([ref]) =>

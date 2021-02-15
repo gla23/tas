@@ -33,7 +33,7 @@ export const CurrentProgress: React.FunctionComponent = () => {
 
 export function TypePage() {
   const dispatch = useDispatch();
-  const { clue, answer } = useQuiz();
+  const { clue, answers, mainAnswer } = useQuiz();
   const { guess, highlight, selection } = useTextAreaState();
   const [showing, setShowing] = useState(false);
   const [tween, setTween] = useTween(highlight, {
@@ -56,7 +56,7 @@ export function TypePage() {
             value={guess}
             autoFocus
             onChange={(value) => dispatch(changeGuess(value))}
-            charClass={charClass(tween, answer)}
+            charClass={charClass(tween, mainAnswer)}
             selection={selection}
             onSelectionChange={(sel) => dispatch(select(sel))}
             shortcutMap={{
@@ -68,7 +68,7 @@ export function TypePage() {
               "[": () => setShowing((v) => !v),
             }}
           />
-          {showing && answer}
+          {showing && answers.map((answer) => <p key={answer}>{answer}</p>)}
         </div>
       </div>
     </>

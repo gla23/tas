@@ -1,11 +1,11 @@
-import { commonLength } from "../utils/commonLength";
 import { Selection } from "../hooks/useSelectionInput";
 import {
   Action,
-  answer,
   FINISH_QUESTION,
   RootState,
   INCREASE_QUESTION,
+  correctLength,
+  guessIsCorrect,
 } from "./root";
 import { useSelector } from "react-redux";
 
@@ -39,8 +39,8 @@ export function textAreaReducer(
       const reset = edited < state.highlight && {
         highlight: edited,
       };
-      const completed = action.guess.startsWith(answer(fullState)) && {
-        highlight: answer(fullState).length,
+      const completed = guessIsCorrect(action.guess, fullState) && {
+        highlight: correctLength(action.guess, fullState),
       };
       return { ...state, ...reset, ...completed, guess: action.guess };
     }
@@ -58,7 +58,7 @@ export function textAreaReducer(
     // What does redux saga add to the conversation?
     case INCREASE_QUESTION:
     case CHECK:
-      const highlight = commonLength(state.guess, answer(fullState)) + 1;
+      const highlight = correctLength(state.guess, fullState) + 1;
       return { ...state, highlight };
     default:
       return state;

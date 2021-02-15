@@ -13,7 +13,7 @@ import {
   nextRecallGame,
   initialRecallGame,
 } from "../games/RecallGame";
-import { FindGame } from "./FindGame";
+import { FindGame } from "../games/FindGame";
 
 export const initialGameState: GameState = initialRecallGame;
 export type GameState = RecallGame | FindGame;
