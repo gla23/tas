@@ -1,6 +1,6 @@
 import { rootWord } from "./rootWord";
 
-interface Occurence {
+export interface Occurrence {
   ref: string;
   word: string;
   root: string;
@@ -10,9 +10,9 @@ interface Occurence {
 export function occurencesByRoot(bank: {
   [ref: string]: string;
 }): {
-  [root: string]: Occurence[];
+  [root: string]: Occurrence[];
 } {
-  const matches: { [root: string]: Occurence[] } = {};
+  const matches: { [root: string]: Occurrence[] } = {};
   for (let ref in bank) {
     const verse = bank[ref];
     for (let match of verse.matchAll(/\w+/g)) {
@@ -23,4 +23,14 @@ export function occurencesByRoot(bank: {
     }
   }
   return matches;
+}
+
+export function allVerseWords(verses: string[]): string[] {
+  const words: string[] = [];
+  verses.forEach((verse) => {
+    for (let match of verse.matchAll(/\w+/g)) {
+      words.push(match[0]);
+    }
+  });
+  return words;
 }

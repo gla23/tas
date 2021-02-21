@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { ColorInput } from "./ColorInput/ColorInput";
+import { useDispatch, useSelector } from "react-redux";
+import { selectMainAnswer } from "../ducks/gameSelectors";
 import {
-  useQuiz,
   endTween,
+  finishQuestion,
   increaseQuestion,
   skipQuestion,
-  finishQuestion,
+  useQuiz,
 } from "../ducks/root";
 import {
   changeGuess,
@@ -13,27 +14,17 @@ import {
   select,
   useTextAreaState,
 } from "../ducks/textarea";
-import { useDispatch } from "react-redux";
-import { useTween, overShoot } from "../hooks/useTween";
+import { overShoot, useTween } from "../hooks/useTween";
 import { charClass } from "../utils/colourProgress";
+import { ColorInput } from "./ColorInput/ColorInput";
+import { Hints } from "./Hints";
 import { ProgressBar } from "./ProgressBar";
-
-export const CurrentProgress: React.FunctionComponent = () => {
-  const { completed, completedGoal } = useQuiz();
-  return (
-    <div className="m-auto px-32 flex-grow">
-      <ProgressBar complete={completed / completedGoal} className="w-full">
-        <span className="font-sans text-xs">
-          {completed}/{completedGoal}
-        </span>
-      </ProgressBar>
-    </div>
-  );
-};
+import { WordFindProgress } from "./WordFindProgress";
 
 export function TypePage() {
   const dispatch = useDispatch();
-  const { clue, answers, mainAnswer } = useQuiz();
+  const { clue } = useQuiz();
+  const mainAnswer = useSelector(selectMainAnswer);
   const { guess, highlight, selection } = useTextAreaState();
   const [showing, setShowing] = useState(false);
   const [tween, setTween] = useTween(highlight, {
@@ -50,7 +41,12 @@ export function TypePage() {
     <>
       <div className="flex m-auto max-w-3xl mt-36">
         <div className="my-auto w-full">
-          <h2 className="text-6xl font-mono mt-5">{clue}</h2>
+          <h2 className="text-6xl font-mono mt-5">
+            {clue}{" "}
+            <span className="text-xl align-middle font-sans">
+              <WordFindProgress />
+            </span>
+          </h2>
           <br />
           <ColorInput
             value={guess}
@@ -68,9 +64,22 @@ export function TypePage() {
               "[": () => setShowing((v) => !v),
             }}
           />
-          {showing && answers.map((answer) => <p key={answer}>{answer}</p>)}
+          {showing && <Hints />}
         </div>
       </div>
     </>
   );
 }
+
+export const CurrentProgress: React.FunctionComponent = () => {
+  const { completed, completedGoal } = useQuiz();
+  return (
+    <div className="m-auto px-32 flex-grow">
+      <ProgressBar complete={completed / completedGoal} className="w-full">
+        <span className="font-sans text-xs">
+          {completed}/{completedGoal}
+        </span>
+      </ProgressBar>
+    </div>
+  );
+};

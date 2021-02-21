@@ -1,4 +1,8 @@
-import { RootState, questionSet } from "../ducks/root";
+import { Passage } from "bible-tools";
+import { createSelector } from "reselect";
+import { selectBank, selectQuestionIds } from "../ducks/bank";
+import { RootState } from "../ducks/root";
+import { selectSetting } from "../ducks/settings";
 
 export interface RecallGame {
   type: "recall";
@@ -8,7 +12,15 @@ export interface RecallGame {
   inOrderCount: number;
   inOrderDone: number;
 }
-export const initialRecallGame: RecallGame = {
+const learnNew: RecallGame = {
+  questionIndex: 0,
+  type: "recall",
+  order: "next",
+  setIndexesLeft: [],
+  inOrderCount: 1,
+  inOrderDone: 0,
+};
+const randomDone: RecallGame = {
   questionIndex: 0,
   type: "recall",
   order: "random",
@@ -16,6 +28,8 @@ export const initialRecallGame: RecallGame = {
   inOrderCount: 2,
   inOrderDone: 0,
 };
+export const initialRecallGame = randomDone || learnNew;
+
 export function refreshRecallGame(game: RecallGame, set: string[]): RecallGame {
   const indexesLeft = set.slice(1).map((id, i) => i);
   const randomIndex = Math.floor(Math.random() * indexesLeft.length);
@@ -26,12 +40,12 @@ export function refreshRecallGame(game: RecallGame, set: string[]): RecallGame {
     inOrderCount: game.inOrderCount,
     setIndexesLeft: indexesLeft,
     inOrderDone: 0,
-    questionIndex: randomElem,
+    questionIndex: game.order === "random" ? randomElem : 0,
   };
 }
 export function nextRecallGame(game: RecallGame, state: RootState): RecallGame {
   if (game.order === "same") return game;
-  const set = questionSet(state);
+  const set = selectQuestionIds(state);
   const bounded = (index: number) =>
     Math.max(0, Math.min(set.length - 1, index));
   const { inOrderCount, inOrderDone, questionIndex: previous } = game;
@@ -59,3 +73,22 @@ export function nextRecallGame(game: RecallGame, state: RootState): RecallGame {
     questionIndex: randomId,
   };
 }
+
+export const selectRecallClue = createSelector(
+  [
+    selectBank,
+    (state: RootState) => state.game.questionIndex,
+    selectSetting("parseMnemonics"),
+  ],
+  (bank, questionIndex, parse) => {
+    const id = Object.keys(bank)[questionIndex];
+    return id && parse ? new Passage(id).reference : id;
+  }
+);
+export const recallAnswer = (state: RootState): string => {
+  const set = selectQuestionIds(state);
+  if (state.game.type !== "recall")
+    throw new Error("recallAnswer only works for recall games");
+  const id = set[state.game.questionIndex];
+  return state.bank[id] || "";
+};

@@ -19,6 +19,9 @@ export interface Game {
   name?: string;
   refRange: string;
 }
+
+// Be able to do a context switch and continue from the old state? e.g. click on word to find all of that word in the bits youve learnt
+
 // const games = [
 //   {
 //     questionIndex: 0,

@@ -1,20 +1,11 @@
 import { useSelector } from "react-redux";
-import { MemoryBank } from "../utils/memory";
-import { Passage } from "bible-tools";
-import {
-  initialTextAreaState,
-  TextAreaAction,
-  textAreaReducer,
-  TextAreaState,
-} from "./textarea";
-import { gameReducer, GameState, initialGameState } from "./game";
-import settingsReducer, {
-  initialSettings,
-  SettingsAction,
-  SettingsState,
-} from "./settings";
 import { ThunkAction } from "redux-thunk";
-import { commonLength } from "../utils/commonLength";
+import { MemoryBank } from "../utils/memory";
+import { selectBank } from "./bank";
+import { gameReducer, GameState } from "./game";
+import { selectClue, selectComplete } from "./gameSelectors";
+import settingsReducer, { SettingsAction, SettingsState } from "./settings";
+import { TextAreaAction, textAreaReducer, TextAreaState } from "./textarea";
 
 type Thunk<ReturnType = void> = ThunkAction<
   ReturnType,
@@ -46,7 +37,7 @@ export const loadBank: ThunkCreator = (bank: MemoryBank) => (dispatch) => {
 export const skipQuestion = () => ({ type: SKIP_QUESTION } as const);
 export const finishQuestion = () => ({ type: FINISH_QUESTION } as const);
 export const endTween: ThunkCreator = () => (dispatch, getState) => {
-  if (!complete(getState())) return;
+  if (!selectComplete(getState())) return;
   dispatch({ type: FINISH_QUESTION } as const);
 };
 export const increaseQuestion = (amount: number) =>
@@ -54,7 +45,7 @@ export const increaseQuestion = (amount: number) =>
 
 // Reducer
 export default function rootReducer(
-  state: RootState = initialState,
+  state = initialState as RootState,
   action: Action
 ): RootState {
   const loadBank = action.type === LOAD_BANK && { bank: action.bank };
@@ -80,65 +71,17 @@ export interface RootState {
   textArea: TextAreaState;
   game: GameState;
 }
-const initialState: RootState = {
+
+const initialState: Partial<RootState> = {
   bank: {},
-  filter: "^t",
+  filter: "^a",
   completed: 0,
   completedGoal: 20,
-  settings: initialSettings,
-  textArea: initialTextAreaState,
-  game: initialGameState,
 };
 
-export const questionSet = (state: RootState) => {
-  const regex = new RegExp(state.filter);
-  return Object.keys(state.bank).filter(regex.test.bind(regex));
-};
-const clue = (state: RootState) => {
-  if (state.game.type === "recall") {
-    const id = questionSet(state)[state.game.questionIndex];
-    return id && state.settings.parseMnemonics ? new Passage(id).reference : id;
-  }
-  return "Clue";
-};
-const answers = (state: RootState): string[] => {
-  if (state.game.type === "recall") return [recallAnswer(state)];
-  return [];
-};
-const mainAnswer = (state: RootState): string => {
-  if (state.game.type === "recall") return recallAnswer(state);
-  return "ggwp";
-};
-const recallAnswer = (state: RootState): string => {
-  const set = questionSet(state);
-  if (state.game.type !== "recall")
-    throw new Error("recallAnswer only works for recall games");
-  const id = set[state.game.questionIndex];
-  return state.bank[id] || "";
-};
-
-export const correctLength = (guess: string, state: RootState): number => {
-  if (state.game.type === "recall")
-    return commonLength(guess, recallAnswer(state));
-  return 0;
-};
-export const guessIsCorrect = (guess: string, state: RootState): boolean => {
-  if (state.game.type === "recall")
-    return guess.startsWith(recallAnswer(state));
-  return false;
-};
-
-const complete = (state: RootState): boolean =>
-  guessIsCorrect(state.textArea.guess, state);
 export const useQuiz = () =>
   useSelector((state: RootState) => ({
     ...state,
-    answers: answers(state),
-    mainAnswer: mainAnswer(state),
-    clue: clue(state),
-    bank: Object.fromEntries(
-      Object.entries(state.bank).filter(([ref]) =>
-        new RegExp(state.filter).test(ref)
-      )
-    ),
+    clue: selectClue(state),
+    bank: selectBank(state),
   }));

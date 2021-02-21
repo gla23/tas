@@ -4,12 +4,16 @@ import {
   adjective as rootAdjective,
 } from "wink-lemmatizer";
 
-// const lemmas = qs?.map((question) =>
-//   question.answer.replaceAll(/\w+/g, rootWord)
-// );
+const fixes: { [word: string]: string } = {
+  pass: "pass",
+};
+
+// Adverbs?
+// sternly -> stern?
 
 export function rootWord(string: string) {
   const word = string.toLocaleLowerCase();
+  if (fixes[word]) return fixes[word];
   const verb = rootVerb(word);
   if (verb !== word) return verb;
   const noun = rootNoun(word);

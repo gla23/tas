@@ -5,3 +5,7 @@
 :root {
   --accent: #7bbe72;
 }
+
+input {
+  background-color: inherit;
+}

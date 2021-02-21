@@ -1,13 +1,7 @@
-import { Selection } from "../hooks/useSelectionInput";
-import {
-  Action,
-  FINISH_QUESTION,
-  RootState,
-  INCREASE_QUESTION,
-  correctLength,
-  guessIsCorrect,
-} from "./root";
 import { useSelector } from "react-redux";
+import { Selection } from "../hooks/useSelectionInput";
+import { correctLength, guessIsCorrect } from "./gameSelectors";
+import { Action, FINISH_QUESTION, INCREASE_QUESTION, RootState } from "./root";
 
 // Actions
 const GUESS = "quiz/GUESS";
@@ -26,8 +20,20 @@ export const select = (selection: Selection) =>
   ({ type: SELECT, selection } as const);
 
 // Reducer
+export interface TextAreaState {
+  guess: string;
+  selection: Selection;
+  previousSelection: Selection;
+  highlight: number;
+}
+const initialState: TextAreaState = {
+  guess: "",
+  selection: [0, 0, "forward"],
+  previousSelection: [0, 0, "forward"],
+  highlight: 0,
+};
 export function textAreaReducer(
-  state: TextAreaState,
+  state: TextAreaState = initialState,
   action: Action,
   fullState: RootState
 ): TextAreaState {
@@ -65,19 +71,7 @@ export function textAreaReducer(
   }
 }
 
-export interface TextAreaState {
-  guess: string;
-  selection: Selection;
-  previousSelection: Selection;
-  highlight: number;
-}
-export const initialTextAreaState: TextAreaState = {
-  guess: "",
-  selection: [0, 0, "forward"],
-  previousSelection: [0, 0, "forward"],
-  highlight: 0,
-};
-
+export const selectGuess = (state: RootState) => state.textArea.guess;
 export const useTextAreaState = () =>
   useSelector((state: RootState) => ({
     ...state.textArea,
