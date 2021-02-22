@@ -1,4 +1,3 @@
-import { Root } from "postcss";
 import { FindGame, nextFindGame, refreshFindGame } from "../games/FindGame";
 import {
   nextRecallGame,
@@ -22,7 +21,7 @@ export const initialFindGame: FindGame = {
   answerType: "ref",
   hintType: "text",
   questionIndex: 0,
-  queue: ["hand"],
+  queue: [],
   found: [],
 };
 // initialRecallGame
