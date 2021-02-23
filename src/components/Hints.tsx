@@ -11,6 +11,8 @@ import { recallAnswer } from "../games/RecallGame";
 import { Occurrence } from "../utils/occurences";
 import { useSpring, animated } from "react-spring";
 import { useResize } from "../hooks/useResize";
+import { Passage } from "bible-tools";
+import { selectSetting } from "../ducks/settings";
 
 export const Hints: FC = () => {
   const type = useSelector(selectGameType);
@@ -41,6 +43,8 @@ interface OccurrencesHintProps {
 }
 const OccurrencesHint = (props: OccurrencesHintProps) => {
   const { reff: ref, occurrences } = props;
+  const parse = useSelector(selectSetting("parseMnemonics"));
+  const displayRef = parse ? new Passage(ref).reference : ref;
   const [hovered, setHovered] = useState(false);
   const textRef = useRef<HTMLSpanElement>(null);
   const size = useResize(textRef);
@@ -72,7 +76,7 @@ const OccurrencesHint = (props: OccurrencesHintProps) => {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      <animated.span style={refStyle}>{ref}</animated.span>
+      <animated.span style={refStyle}>{displayRef}</animated.span>
       <animated.span ref={textRef} style={textStyle}>
         <HighlightedHint verse={bank[ref]} occurrences={occurrences} />
       </animated.span>

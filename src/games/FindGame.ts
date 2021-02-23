@@ -1,3 +1,4 @@
+import { Passage } from "bible-tools";
 import { compose } from "redux";
 import { createSelector } from "reselect";
 import {
@@ -5,7 +6,9 @@ import {
   selectOccurencesByRoot,
   selectVerseWords,
 } from "../ducks/bank";
+import { selectGameType } from "../ducks/gameSelectors";
 import { RootState } from "../ducks/root";
+import { selectSetting } from "../ducks/settings";
 import { selectGuess } from "../ducks/textarea";
 import { commonLength } from "../utils/commonLength";
 import { Occurrence } from "../utils/occurences";
@@ -56,15 +59,27 @@ export const selectRefOccurencesToFind = createSelector(
 export const selectFoundRefs = (state: RootState) =>
   state.game.type === "find" ? state.game.found : [];
 
+export const selectAnswerOfRef = (state: RootState) => {
+  const gameType = selectGameType(state);
+  if (gameType === "recall") {
+    const bank = selectBank(state);
+    return (ref: string) => bank[ref];
+  }
+  const answerType = selectAnswerType(state);
+  if (answerType === "text") return (ref: string) => selectBank(state)[ref];
+  const parse = selectSetting("parseMnemonics")(state);
+  return (ref: string) => (parse ? new Passage(ref).reference : ref);
+};
+
 const selectPossibleRefsTyping = createSelector(
-  [selectRefOccurencesToFind, selectGuess, selectFoundRefs, selectBank],
-  (refOccurences, guess, found, bank) => {
+  [selectRefOccurencesToFind, selectGuess, selectAnswerOfRef, selectFoundRefs],
+  (refOccurences, guess, answerOf, found) => {
     if (!refOccurences.length) return [];
     let winningRefs: string[] = [];
     let hiScore: number = 0;
     for (let [ref] of refOccurences) {
       if (found.includes(ref)) continue;
-      const score = commonLength(bank[ref], guess);
+      const score = commonLength(answerOf(ref), guess);
       if (score < hiScore) continue;
       if (score === hiScore) winningRefs.push(ref);
       if (score > hiScore) {
@@ -72,12 +87,15 @@ const selectPossibleRefsTyping = createSelector(
         winningRefs = [ref];
       }
     }
-    console.log(winningRefs);
     return winningRefs;
   }
 );
-export const selectPossibleAnswer = (state: RootState) =>
-  selectBank(state)[selectPossibleRefsTyping(state)[0]];
+
+export const selectPossibleAnswer = (state: RootState): string => {
+  const ref = selectPossibleRefsTyping(state)[0];
+  if (!ref) return "";
+  return selectAnswerOfRef(state)(ref);
+};
 
 export const unique = <T>(thing: T[]): T[] => Array.from(new Set(thing));
 export const selectFindAnswers = createSelector(
@@ -96,7 +114,6 @@ export function nextFindGame(game: FindGame, state: RootState): FindGame {
   const completed = selectPossibleRefsTyping(state);
   completed.forEach((ref) => found.push(ref));
   const toFind = selectRefOccurencesToFind(state);
-  console.log(found, toFind);
   if (found.length < toFind.length) return { ...game, found };
   const nextGame = refreshFindGame(game, state);
   return { ...nextGame, found: [] };
@@ -121,7 +138,6 @@ function nextFindSet(game: FindGame, state: RootState): FindGame {
       const index = Math.floor(Math.random() * queue.length);
       const newWord = queue.splice(index, 1)[0];
       const questionIndex = words.indexOf(newWord);
-      console.log(game, newWord, questionIndex, queue, words);
       return { ...game, questionIndex, queue };
     } else {
       while (true) {
@@ -143,12 +159,3 @@ export const refreshFindGame = nextFindSet;
 // From the page you should be able to add your own words
 // also click on words to add them to the queue would be cool
 // Seeing the word queue and "x" to remove them would be cool
-
-// Do we want next question to move to the next word in the verse?
-// Yes - it wouldn't make sense to go back or forward in the queue
-
-// Object.entries(occurencesByRoot(bank))
-//   .filter(
-//     ([root, occurences]) => occurences.length > 1 && occurences.length < 5
-//   )
-//   .forEach(([root, occurences]) => console.log(root, occurences));

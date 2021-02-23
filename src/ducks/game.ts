@@ -18,8 +18,8 @@ export type GameState = RecallGame | FindGame;
 export const initialFindGame: FindGame = {
   type: "find",
   order: "random",
-  answerType: "ref",
-  hintType: "text",
+  answerType: "text",
+  hintType: "ref",
   questionIndex: 0,
   queue: [],
   found: [],

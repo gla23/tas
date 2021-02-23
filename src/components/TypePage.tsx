@@ -43,7 +43,10 @@ export function TypePage() {
         <div className="my-auto w-full">
           <h2 className="text-6xl font-mono mt-5">
             {clue}{" "}
-            <span className="text-xl align-middle font-sans">
+            <span
+              className="text-xl align-middle font-sans"
+              onClick={() => setShowing((v) => !v)}
+            >
               <WordFindProgress />
             </span>
           </h2>
