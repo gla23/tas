@@ -20,28 +20,59 @@ export const LOAD_BANK = "tas/LOAD_BANK";
 export const SKIP_QUESTION = "tas/SKIP_QUESTION";
 export const FINISH_QUESTION = "tas/FINISH_QUESTION";
 export const INCREASE_QUESTION = "tas/INCREASE_QUESTION";
+export const CHOOSE_GAME = "tas/CHOOSE_GAME";
 
-export type Action =
-  | TextAreaAction
-  | SettingsAction
-  | { type: typeof LOAD_BANK; bank: MemoryBank }
-  | { type: typeof SKIP_QUESTION }
-  | { type: typeof FINISH_QUESTION }
-  | { type: typeof INCREASE_QUESTION; amount: number };
+type LoadBankAction = { type: typeof LOAD_BANK; bank: MemoryBank };
+type ChooseGameAction = {
+  type: typeof CHOOSE_GAME;
+  game: GameState;
+  filter?: string;
+};
+type SkipQuestionAction = { type: typeof SKIP_QUESTION };
+type FinishQuestionAction = { type: typeof FINISH_QUESTION };
+type IncreaseQuestionAction = {
+  type: typeof INCREASE_QUESTION;
+  amount: number;
+};
+
+type TasAction =
+  | LoadBankAction
+  | ChooseGameAction
+  | SkipQuestionAction
+  | FinishQuestionAction
+  | IncreaseQuestionAction;
+
+export type Action = TextAreaAction | SettingsAction | TasAction;
 
 // Action creators
-export const loadBank: ThunkCreator = (bank: MemoryBank) => (dispatch) => {
-  dispatch({ type: LOAD_BANK, bank } as const);
-  dispatch({ type: LOAD_BANK, bank } as const);
+export const loadBank: ThunkCreator = (bank: MemoryBank) => (
+  dispatch,
+  getState
+) => {
+  const state = getState();
+  dispatch({ type: LOAD_BANK, bank });
+  dispatch(chooseGame(state.game));
 };
-export const skipQuestion = () => ({ type: SKIP_QUESTION } as const);
-export const finishQuestion = () => ({ type: FINISH_QUESTION } as const);
+export const chooseGame = (
+  game: GameState,
+  filter?: string
+): ChooseGameAction => ({
+  type: CHOOSE_GAME,
+  game,
+  filter,
+});
+export const skipQuestion = (): SkipQuestionAction => ({ type: SKIP_QUESTION });
+export const finishQuestion = (): FinishQuestionAction => ({
+  type: FINISH_QUESTION,
+});
 export const endTween: ThunkCreator = () => (dispatch, getState) => {
   if (!selectComplete(getState())) return;
-  dispatch({ type: FINISH_QUESTION } as const);
+  dispatch({ type: FINISH_QUESTION });
 };
-export const increaseQuestion = (amount: number) =>
-  ({ type: INCREASE_QUESTION, amount } as const);
+export const increaseQuestion = (amount: number): IncreaseQuestionAction => ({
+  type: INCREASE_QUESTION,
+  amount,
+});
 
 // Reducer
 export default function rootReducer(
@@ -52,13 +83,16 @@ export default function rootReducer(
   const incrementCompleted = action.type === FINISH_QUESTION && {
     completed: state.completed + 1,
   };
+  const filter = action.type === CHOOSE_GAME &&
+    action.filter && { filter: action.filter };
   return {
     ...state,
     ...loadBank,
     ...incrementCompleted,
+    ...filter,
     settings: settingsReducer(state.settings, action),
     textArea: textAreaReducer(state.textArea, action, state),
-    game: gameReducer(state.game, action, state),
+    game: gameReducer(state.game, action, { ...state, ...filter }),
   };
 }
 
@@ -71,6 +105,11 @@ export interface RootState {
   textArea: TextAreaState;
   game: GameState;
 }
+
+// Move completed and completedGoal into game
+// Fix findGame incrementing on every occurence
+// Work out how to get all ESV verses
+// Build game collecting UI
 
 const initialState: Partial<RootState> = {
   bank: {},

@@ -7,7 +7,10 @@ export interface Occurrence {
   index: number;
 }
 
-export function occurencesByRoot(bank: {
+const wordRegex = /\w+/g;
+const filterRegex = /^s$/;
+
+export function occurrencesByRoot(bank: {
   [ref: string]: string;
 }): {
   [root: string]: Occurrence[];
@@ -15,8 +18,9 @@ export function occurencesByRoot(bank: {
   const matches: { [root: string]: Occurrence[] } = {};
   for (let ref in bank) {
     const verse = bank[ref];
-    for (let match of verse.matchAll(/\w+/g)) {
+    for (let match of verse.matchAll(wordRegex)) {
       const { 0: word, index = 1337 } = match;
+      if (filterRegex.test(word)) continue;
       const root = rootWord(word);
       if (!matches[root]) matches[root] = [];
       matches[root].push({ ref, word, root, index });
@@ -24,13 +28,15 @@ export function occurencesByRoot(bank: {
   }
   return matches;
 }
-
+export function verseWords(verse: string = "", addTo: string[] = []): string[] {
+  for (let match of verse.matchAll(wordRegex)) {
+    if (filterRegex.test(match[0])) continue;
+    addTo.push(match[0]);
+  }
+  return addTo;
+}
 export function allVerseWords(verses: string[]): string[] {
   const words: string[] = [];
-  verses.forEach((verse) => {
-    for (let match of verse.matchAll(/\w+/g)) {
-      words.push(match[0]);
-    }
-  });
+  verses.forEach((verse) => verseWords(verse, words));
   return words;
 }

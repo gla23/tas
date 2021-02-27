@@ -1,13 +1,15 @@
 import { useSelector } from "react-redux";
 import { Action, RootState } from "./root";
 
-const initialSettings = { parseMnemonics: true, dark: true };
-export type Setting = keyof typeof initialSettings;
-
+const initialSettings = { parseMnemonics: true, dark: true, hue: 113 };
+export type SettingsState = typeof initialSettings;
+export type Setting = keyof SettingsState;
+export type BooleanSetting = keyof {
+  [S in Setting as SettingsState[S] extends boolean ? S : never]: any;
+};
 const CHANGE = "settings/CHANGE";
 const TOGGLE_DARK = "settings/TOGGLE_DARK";
 
-export type SettingsState = typeof initialSettings;
 interface ChangeAction<S extends Setting> {
   type: typeof CHANGE;
   setting: S;
@@ -32,8 +34,9 @@ export const typeOf = (setting: Setting) => {
   throw new Error("No widget for this data type");
 };
 
-export const selectSetting = (setting: Setting) => (state: RootState) =>
-  state.settings[setting];
+export const selectSetting = <T extends Setting>(setting: T) => (
+  state: RootState
+): SettingsState[T] => state.settings[setting];
 
 export const useParseMnemonic = () =>
   useSelector(selectSetting("parseMnemonics"));

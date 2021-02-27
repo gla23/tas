@@ -6,6 +6,7 @@ import {
 
 const fixes: { [word: string]: string } = {
   pass: "pass",
+  james: "james",
 };
 
 // Adverbs?

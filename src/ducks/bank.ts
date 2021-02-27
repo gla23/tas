@@ -1,7 +1,7 @@
 import { MemoryBank } from "../utils/memory";
 import { createSelector } from "reselect";
 import { RootState } from "./root";
-import { occurencesByRoot, allVerseWords } from "../utils/occurences";
+import { occurrencesByRoot, allVerseWords } from "../utils/occurrences";
 
 export const selectBank = createSelector(
   [(state: RootState) => state.bank, (state: RootState) => state.filter],
@@ -21,5 +21,5 @@ export const selectVerseWords = createSelector([selectBank], (bank) =>
 );
 export const selectOccurencesByRoot = createSelector(
   selectBank,
-  occurencesByRoot
+  occurrencesByRoot
 );

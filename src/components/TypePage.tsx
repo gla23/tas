@@ -67,6 +67,7 @@ export function TypePage() {
               "[": () => setShowing((v) => !v),
             }}
           />
+          <br />
           {showing && <Hints />}
         </div>
       </div>

@@ -7,25 +7,23 @@ import {
 import { selectQuestionIds, selectVerseWords } from "./bank";
 import {
   Action,
+  CHOOSE_GAME,
   FINISH_QUESTION,
   INCREASE_QUESTION,
-  LOAD_BANK,
   RootState,
   SKIP_QUESTION,
 } from "./root";
 
 export type GameState = RecallGame | FindGame;
-export const initialFindGame: FindGame = {
+export const initialState: FindGame = {
   type: "find",
   order: "random",
   answerType: "text",
-  hintType: "ref",
+  hintType: "text",
   questionIndex: 0,
   queue: [],
   found: [],
 };
-// initialRecallGame
-const initialState: GameState = initialFindGame;
 
 export function gameReducer(
   game: GameState = initialState,
@@ -33,10 +31,11 @@ export function gameReducer(
   state: RootState
 ): GameState {
   switch (action.type) {
-    case LOAD_BANK:
-      if (game.type === "recall")
-        return refreshRecallGame(game, selectQuestionIds(state));
-      if (game.type === "find") return refreshFindGame(game, state);
+    case CHOOSE_GAME:
+      if (action.game.type === "recall")
+        return refreshRecallGame(action.game, selectQuestionIds(state));
+      if (action.game.type === "find")
+        return refreshFindGame(action.game, state);
       return game;
     case FINISH_QUESTION:
     case SKIP_QUESTION:

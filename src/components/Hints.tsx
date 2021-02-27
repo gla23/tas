@@ -8,7 +8,7 @@ import {
   selectFoundRefs,
 } from "../games/FindGame";
 import { recallAnswer } from "../games/RecallGame";
-import { Occurrence } from "../utils/occurences";
+import { Occurrence } from "../utils/occurrences";
 import { useSpring, animated } from "react-spring";
 import { useResize } from "../hooks/useResize";
 import { Passage } from "bible-tools";

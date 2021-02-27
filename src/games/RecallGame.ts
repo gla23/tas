@@ -12,23 +12,6 @@ export interface RecallGame {
   inOrderCount: number;
   inOrderDone: number;
 }
-const learnNew: RecallGame = {
-  questionIndex: 0,
-  type: "recall",
-  order: "next",
-  setIndexesLeft: [],
-  inOrderCount: 1,
-  inOrderDone: 0,
-};
-const randomDone: RecallGame = {
-  questionIndex: 0,
-  type: "recall",
-  order: "random",
-  setIndexesLeft: [],
-  inOrderCount: 2,
-  inOrderDone: 0,
-};
-export const initialRecallGame = randomDone || learnNew;
 
 export function refreshRecallGame(game: RecallGame, set: string[]): RecallGame {
   const indexesLeft = set.slice(1).map((id, i) => i);
@@ -40,7 +23,7 @@ export function refreshRecallGame(game: RecallGame, set: string[]): RecallGame {
     inOrderCount: game.inOrderCount,
     setIndexesLeft: indexesLeft,
     inOrderDone: 0,
-    questionIndex: game.order === "random" ? randomElem : 0,
+    questionIndex: game.order === "random" ? randomElem : game.questionIndex,
   };
 }
 export function nextRecallGame(game: RecallGame, state: RootState): RecallGame {
