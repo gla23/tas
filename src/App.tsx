@@ -14,7 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { chooseGame, RootState } from "./ducks/root";
 import { GameState } from "./ducks/game";
 import { verseWords } from "./utils/occurrences";
-import { HueSlider } from "./HueSlider";
+import { HueSlider } from "./components/HueSlider";
 import { Passage } from "bible-tools";
 
 export const App = () => {
@@ -210,6 +210,7 @@ export const App = () => {
 const verseSections = {
   "All verses": "^",
   Matthew: "^a",
+  SotM: "^a[e-g]",
   James: "^t",
   Psalms: "^ps",
 };

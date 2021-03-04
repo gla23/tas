@@ -1,4 +1,4 @@
-import React, { FC, FunctionComponent, useRef, useState } from "react";
+import React, { FC, FunctionComponent } from "react";
 import { useSelector } from "react-redux";
 import { selectBank } from "../ducks/bank";
 import { selectGameType } from "../ducks/gameSelectors";
@@ -9,10 +9,9 @@ import {
 } from "../games/FindGame";
 import { recallAnswer } from "../games/RecallGame";
 import { Occurrence } from "../utils/occurrences";
-import { useSpring, animated } from "react-spring";
-import { useResize } from "../hooks/useResize";
 import { Passage } from "bible-tools";
-import { selectSetting } from "../ducks/settings";
+import { selectSetting, useDark } from "../ducks/settings";
+import { HoverReveal } from "./HoverReveal";
 
 export const Hints: FC = () => {
   const type = useSelector(selectGameType);
@@ -45,41 +44,20 @@ const OccurrencesHint = (props: OccurrencesHintProps) => {
   const { reff: ref, occurrences } = props;
   const parse = useSelector(selectSetting("parseMnemonics"));
   const displayRef = parse ? new Passage(ref).reference : ref;
-  const [hovered, setHovered] = useState(false);
-  const textRef = useRef<HTMLSpanElement>(null);
-  const size = useResize(textRef);
-  const height = Math.max(20, size.height) + "px";
-  const textHint = useSelector(selectHintType) === "text";
   const bank = useSelector(selectBank);
   const found = useSelector(selectFoundRefs);
-  const showRef = textHint ? hovered : !hovered;
-  const textStyle = useSpring({
-    opacity: showRef ? 0 : 1,
-    transform: showRef
-      ? "translate(0%, -" + height + ") rotateX(-90deg)"
-      : "translate(0%, 0%) rotateX(0deg)",
-    display: "inline-block",
-  });
-  const refStyle = useSpring({
-    position: "absolute",
-    top: "calc(50% - 10px)",
-    opacity: showRef ? 1 : 0,
-    transform: showRef
-      ? "translate(0%, 0%) rotateX(0deg)"
-      : "translate(0%, " + height + ") rotateX(-90deg)",
-  });
+  const refHint = useSelector(selectHintType) === "ref";
   return (
     <p
-      className="leading-tight mt-3 w-100 relative"
-      key={ref}
       style={{ opacity: found.includes(ref) ? 1 : 0.5 }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
+      className="leading-tight mt-3 w-100 relative"
     >
-      <animated.span style={refStyle}>{displayRef}</animated.span>
-      <animated.span ref={textRef} style={textStyle}>
+      <HoverReveal
+        back={<span className="flex items-center h-full">{displayRef}</span>}
+        reverse={refHint}
+      >
         <HighlightedHint verse={bank[ref]} occurrences={occurrences} />
-      </animated.span>
+      </HoverReveal>
     </p>
   );
 };

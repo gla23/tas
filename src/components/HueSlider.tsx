@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { selectSetting, setSetting } from "./ducks/settings";
+import { selectSetting, setSetting } from "../ducks/settings";
 
 export const HueSlider = () => {
   const hue = useSelector(selectSetting("hue"));
