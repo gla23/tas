@@ -36,6 +36,32 @@ const FindHint: FunctionComponent = () => {
   );
 };
 
+export const MiniHint: FunctionComponent = () => {
+  const refOccurences = useSelector(selectRefOccurencesToFind);
+  const found = useSelector(selectFoundRefs);
+  const dark = useDark();
+  return (
+    <svg
+      className="relative -top-2 -left-4"
+      height="40"
+      width={(refOccurences.length + 1) * 20}
+    >
+      {refOccurences.map(([ref, occurrences], i) => (
+        <circle
+          r="5"
+          cy="20"
+          cx={20 * (i + 1)}
+          key={ref}
+          fill={dark ? "white" : "black"}
+          style={{ opacity: found.includes(ref) ? 1 : 0.5 }}
+        >
+          hi
+        </circle>
+      ))}
+    </svg>
+  );
+};
+
 interface OccurrencesHintProps {
   reff: string;
   occurrences: Occurrence[];
