@@ -17,8 +17,7 @@ import {
 import { overShoot, useTween } from "../hooks/useTween";
 import { charClass } from "../utils/colourProgress";
 import { ColorInput } from "./ColorInput/ColorInput";
-import { Hints, MiniHint } from "./Hints";
-import { HoverReveal } from "./HoverReveal";
+import { Hints } from "./Hints";
 import { ProgressBar } from "./ProgressBar";
 import { WordFindProgress } from "./WordFindProgress";
 
@@ -48,9 +47,7 @@ export function TypePage() {
               className="text-xl align-middle font-sans"
               onClick={() => setShowing((v) => !v)}
             >
-              <HoverReveal back={<MiniHint />}>
-                <WordFindProgress />
-              </HoverReveal>
+              <WordFindProgress />
             </span>
           </h2>
           <br />
