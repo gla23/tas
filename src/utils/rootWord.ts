@@ -7,10 +7,14 @@ import {
 const fixes: { [word: string]: string } = {
   pass: "pass",
   james: "james",
+  prayer: "pray",
 };
 
 // Adverbs?
 // sternly -> stern?
+
+// Nouns?
+// prayer -> pray?
 
 export function rootWord(string: string) {
   const word = string.toLocaleLowerCase();

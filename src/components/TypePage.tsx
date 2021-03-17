@@ -39,7 +39,7 @@ export function TypePage() {
 
   return (
     <>
-      <div className="flex m-auto max-w-3xl mt-36">
+      <div className="flex m-auto max-w-3xl sm:mt-20 md:mt-36">
         <div className="my-auto w-full">
           <h2 className="text-6xl font-mono mt-5">
             {clue}{" "}

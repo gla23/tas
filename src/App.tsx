@@ -183,6 +183,14 @@ export const App = () => {
         <li className="opacity-70">
           - Find way of filtering "meaningful" words? Use wink for nouns?
         </li>
+        <li className="opacity-70">
+          - Make intro page for the practice section
+        </li>
+        <li className="opacity-70">
+          You are doing random (2 in a row) over these verses
+        </li>
+        <li className="opacity-70">difficulty: hard</li>
+        <li className="opacity-70">This helps train the following things...</li>
       </ul>
       <div className="mt-12" />
       {rootWord(word)}
@@ -212,7 +220,15 @@ const verseSections = {
   Matthew: "^a",
   SotM: "^a[e-g]",
   James: "^t",
+  "1 ": "^ta",
+  "2 ": "^tb",
+  "3 ": "^tc",
+  "4 ": "^td",
+  "5 ": "^te",
   Psalms: "^ps",
+  "16 ": "^psp",
+  "25 ": "^psy",
+  "67 ": "^ps67",
 };
 const VerseSections = () => (
   <>

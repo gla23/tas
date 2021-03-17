@@ -113,7 +113,7 @@ export interface RootState {
 
 const initialState: Partial<RootState> = {
   bank: {},
-  filter: "^a",
+  filter: "^t[de]",
   completed: 0,
   completedGoal: 20,
 };
