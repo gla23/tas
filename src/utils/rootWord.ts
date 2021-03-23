@@ -15,6 +15,7 @@ const fixes: { [word: string]: string } = {
 
 // Nouns?
 // prayer -> pray?
+// harvester -> harvest?
 
 export function rootWord(string: string) {
   const word = string.toLocaleLowerCase();

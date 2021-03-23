@@ -191,6 +191,10 @@ export const App = () => {
         </li>
         <li className="opacity-70">difficulty: hard</li>
         <li className="opacity-70">This helps train the following things...</li>
+        <li className="opacity-70">Recall</li>
+        <li className="opacity-70">Random Recall</li>
+        <li className="opacity-70">Word find</li>
+        <li className="opacity-70">Word find with recap</li>
       </ul>
       <div className="mt-12" />
       {rootWord(word)}
