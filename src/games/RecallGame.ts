@@ -1,10 +1,11 @@
 import { Passage } from "bible-tools";
 import { createSelector } from "reselect";
 import { selectBank, selectQuestionIds } from "../ducks/bank";
+import { GameCommon } from "../ducks/game";
 import { RootState } from "../ducks/root";
 import { selectSetting } from "../ducks/settings";
 
-export interface RecallGame {
+export interface RecallGame extends GameCommon {
   type: "recall";
   order: "next" | "random" | "same";
   questionIndex: number;
@@ -19,6 +20,8 @@ export function refreshRecallGame(game: RecallGame, set: string[]): RecallGame {
   const randomElem = indexesLeft.splice(randomIndex, 1)[0];
   return {
     type: "recall",
+    completed: 0,
+    completedGoal: game.completedGoal,
     order: game.order,
     inOrderCount: game.inOrderCount,
     setIndexesLeft: indexesLeft,
@@ -26,8 +29,13 @@ export function refreshRecallGame(game: RecallGame, set: string[]): RecallGame {
     questionIndex: game.order === "random" ? randomElem : game.questionIndex,
   };
 }
-export function nextRecallGame(game: RecallGame, state: RootState): RecallGame {
-  if (game.order === "same") return game;
+export function nextRecallGame(
+  game: RecallGame,
+  state: RootState,
+  skip: boolean
+): RecallGame {
+  const completed = game.completed + (skip ? 0 : 1);
+  if (game.order === "same") return { ...game, completed };
   const set = selectQuestionIds(state);
   const bounded = (index: number) =>
     Math.max(0, Math.min(set.length - 1, index));
@@ -36,12 +44,18 @@ export function nextRecallGame(game: RecallGame, state: RootState): RecallGame {
     const newIndex = game.order === "random" ? previous + 1 : previous;
     return {
       ...game,
+      completed,
       inOrderDone: inOrderDone + 1,
       questionIndex: bounded(newIndex),
     };
   }
   if (game.order === "next")
-    return { ...game, inOrderDone: 0, questionIndex: bounded(previous + 1) };
+    return {
+      ...game,
+      completed,
+      inOrderDone: 0,
+      questionIndex: bounded(previous + 1),
+    };
   const setIndexesLeft =
     game.setIndexesLeft && game.setIndexesLeft.length
       ? game.setIndexesLeft
@@ -51,6 +65,7 @@ export function nextRecallGame(game: RecallGame, state: RootState): RecallGame {
   const randomId = newSetIndexesLeft.splice(random, 1)[0];
   return {
     ...game,
+    completed,
     setIndexesLeft: newSetIndexesLeft,
     inOrderDone: 0,
     questionIndex: randomId,

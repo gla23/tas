@@ -76,7 +76,7 @@ export function TypePage() {
 }
 
 export const CurrentProgress: React.FunctionComponent = () => {
-  const { completed, completedGoal } = useQuiz();
+  const { completed, completedGoal } = useQuiz().game;
   return (
     <div className="m-auto px-32 flex-grow">
       <ProgressBar complete={completed / completedGoal} className="w-full">

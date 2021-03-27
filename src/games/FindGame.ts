@@ -6,6 +6,7 @@ import {
   selectOccurencesByRoot,
   selectVerseWords,
 } from "../ducks/bank";
+import { GameCommon } from "../ducks/game";
 import { selectGameType } from "../ducks/gameSelectors";
 import { RootState } from "../ducks/root";
 import { selectSetting } from "../ducks/settings";
@@ -16,7 +17,7 @@ import { rootWord } from "../utils/rootWord";
 
 type ID = string;
 type AnswerType = "ref" | "text";
-export interface FindGame {
+export interface FindGame extends GameCommon {
   type: "find";
   order: "random" | "next";
   answerType: AnswerType;
@@ -95,16 +96,21 @@ export const selectPossibleAnswer = (state: RootState): string => {
   return selectAnswerOfRef(state)(ref);
 };
 
-export function nextFindGame(game: FindGame, state: RootState): FindGame {
+export function nextFindGame(
+  game: FindGame,
+  state: RootState,
+  skip: boolean
+): FindGame {
   const found = game.found.slice();
-  const completed = selectPossibleRefsTyping(state);
-  completed.forEach((ref) => found.push(ref));
+  const completedRefs = selectPossibleRefsTyping(state);
+  completedRefs.forEach((ref) => found.push(ref));
   const toFind = selectRefOccurencesToFind(state);
 
   if (found.length < toFind.length) return { ...game, found };
 
   const nextGame = nextFindSet(game, state);
-  return { ...nextGame, found: [] };
+  const completed = game.completed + (skip ? 0 : 1);
+  return { ...nextGame, completed, found: [] };
 }
 
 function nextFindSet(game: FindGame, state: RootState): FindGame {
@@ -136,6 +142,6 @@ function nextFindSet(game: FindGame, state: RootState): FindGame {
 }
 export const refreshFindGame = (game: FindGame, state: RootState): FindGame => {
   if (game.order === "next" && game.queue.length === 0)
-    return { ...game, questionIndex: 0 };
-  return nextFindSet(game, state);
+    return { ...game, questionIndex: 0, completed: 0 };
+  return { ...nextFindSet(game, state), completed: 0 };
 };

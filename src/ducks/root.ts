@@ -80,15 +80,11 @@ export default function rootReducer(
   action: Action
 ): RootState {
   const loadBank = action.type === LOAD_BANK && { bank: action.bank };
-  const incrementCompleted = action.type === FINISH_QUESTION && {
-    completed: state.completed + 1,
-  };
   const filter = action.type === CHOOSE_GAME &&
     action.filter && { filter: action.filter };
   return {
     ...state,
     ...loadBank,
-    ...incrementCompleted,
     ...filter,
     settings: settingsReducer(state.settings, action),
     textArea: textAreaReducer(state.textArea, action, state),
@@ -99,23 +95,14 @@ export default function rootReducer(
 export interface RootState {
   bank: MemoryBank;
   filter: string;
-  completed: number;
-  completedGoal: number;
   settings: SettingsState;
   textArea: TextAreaState;
   game: GameState;
 }
 
-// Move completed and completedGoal into game
-// Fix findGame incrementing on every occurence
-// Work out how to get all ESV verses
-// Build game collecting UI
-
 const initialState: Partial<RootState> = {
   bank: {},
   filter: "^t[de]",
-  completed: 0,
-  completedGoal: 20,
 };
 
 export const useQuiz = () =>

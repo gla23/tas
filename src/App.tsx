@@ -17,6 +17,10 @@ import { verseWords } from "./utils/occurrences";
 import { HueSlider } from "./components/HueSlider";
 import { Passage } from "bible-tools";
 
+// Move back to start on animation end of progress bar
+// Work out how to get all ESV verses
+// Build game collecting UI
+
 export const App = () => {
   const dispatch = useDispatch();
   const bank = useSelector((state: RootState) => state.bank);
@@ -52,6 +56,8 @@ export const App = () => {
           goGame(
             {
               type: "recall",
+              completed: 0,
+              completedGoal: 20,
               order: "random",
               questionIndex: 0,
               inOrderCount: 2,
@@ -73,6 +79,8 @@ export const App = () => {
           goGame(
             {
               type: "find",
+              completed: 0,
+              completedGoal: 3,
               order: "random",
               answerType: "text",
               hintType: "text",
@@ -113,6 +121,8 @@ export const App = () => {
               goGame(
                 {
                   type: "recall",
+                  completed: 0,
+                  completedGoal: Infinity,
                   order: "next",
                   setIndexesLeft: [],
                   inOrderDone: 1,
@@ -132,6 +142,8 @@ export const App = () => {
               goGame(
                 {
                   type: "find",
+                  completed: 0,
+                  completedGoal: 10,
                   order: "next",
                   answerType: "text",
                   hintType: "text",
