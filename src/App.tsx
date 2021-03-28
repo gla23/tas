@@ -11,11 +11,12 @@ import {
   adjective as rootAdjective,
 } from "wink-lemmatizer";
 import { useDispatch, useSelector } from "react-redux";
-import { chooseGame, RootState } from "./ducks/root";
+import { chooseGame, closeGame, RootState } from "./ducks/root";
 import { GameState } from "./ducks/game";
 import { verseWords } from "./utils/occurrences";
 import { HueSlider } from "./components/HueSlider";
 import { Passage } from "bible-tools";
+import { usePage } from "./ducks/navigation";
 
 // Move back to start on animation end of progress bar
 // Work out how to get all ESV verses
@@ -24,7 +25,7 @@ import { Passage } from "bible-tools";
 export const App = () => {
   const dispatch = useDispatch();
   const bank = useSelector((state: RootState) => state.bank);
-  const [menu, setMenu] = useState(false);
+  const page = usePage();
   const [word, setWord] = useState("passed");
   const [verse, setVerse] = useState("teg");
   const passage = new Passage(verse || "t");
@@ -32,14 +33,13 @@ export const App = () => {
   const [findWords, setFindWords] = useState("");
 
   const goGame = (game: GameState, filter: string) => {
-    setMenu(false);
     dispatch(chooseGame(game, filter));
   };
-  if (!menu)
+  if (page === "game")
     return (
       <>
         <div className="flex">
-          <CloseButton size={48} onClick={(e) => setMenu(true)} />
+          <CloseButton size={48} onClick={(e) => dispatch(closeGame())} />
           <CurrentProgress />
           <DarkModeButton size={48} />
         </div>

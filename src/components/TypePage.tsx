@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectMainAnswer } from "../ducks/gameSelectors";
 import {
-  endTween,
+  endCheckTween,
   finishQuestion,
   increaseQuestion,
   skipQuestion,
@@ -29,7 +29,7 @@ export function TypePage() {
   const [showing, setShowing] = useState(false);
   const [tween, setTween] = useTween(highlight, {
     ...overShoot,
-    onEnd: () => dispatch(endTween()),
+    onEnd: () => dispatch(endCheckTween()),
   });
 
   useEffect(() => {

@@ -4,6 +4,7 @@ import { MemoryBank } from "../utils/memory";
 import { selectBank } from "./bank";
 import { gameReducer, GameState } from "./game";
 import { selectClue, selectComplete } from "./gameSelectors";
+import navigationReducer, { NavigationState } from "./navigation";
 import settingsReducer, { SettingsAction, SettingsState } from "./settings";
 import { TextAreaAction, textAreaReducer, TextAreaState } from "./textarea";
 
@@ -21,6 +22,7 @@ export const SKIP_QUESTION = "tas/SKIP_QUESTION";
 export const FINISH_QUESTION = "tas/FINISH_QUESTION";
 export const INCREASE_QUESTION = "tas/INCREASE_QUESTION";
 export const CHOOSE_GAME = "tas/CHOOSE_GAME";
+export const CLOSE_GAME = "tas/CLOSE_GAME";
 
 type LoadBankAction = { type: typeof LOAD_BANK; bank: MemoryBank };
 type ChooseGameAction = {
@@ -34,13 +36,15 @@ type IncreaseQuestionAction = {
   type: typeof INCREASE_QUESTION;
   amount: number;
 };
+type CloseGameAction = { type: typeof CLOSE_GAME };
 
 type TasAction =
   | LoadBankAction
   | ChooseGameAction
   | SkipQuestionAction
   | FinishQuestionAction
-  | IncreaseQuestionAction;
+  | IncreaseQuestionAction
+  | CloseGameAction;
 
 export type Action = TextAreaAction | SettingsAction | TasAction;
 
@@ -65,7 +69,7 @@ export const skipQuestion = (): SkipQuestionAction => ({ type: SKIP_QUESTION });
 export const finishQuestion = (): FinishQuestionAction => ({
   type: FINISH_QUESTION,
 });
-export const endTween: ThunkCreator = () => (dispatch, getState) => {
+export const endCheckTween: ThunkCreator = () => (dispatch, getState) => {
   if (!selectComplete(getState())) return;
   dispatch({ type: FINISH_QUESTION });
 };
@@ -73,6 +77,7 @@ export const increaseQuestion = (amount: number): IncreaseQuestionAction => ({
   type: INCREASE_QUESTION,
   amount,
 });
+export const closeGame = (): CloseGameAction => ({ type: CLOSE_GAME });
 
 // Reducer
 export default function rootReducer(
@@ -86,6 +91,7 @@ export default function rootReducer(
     ...state,
     ...loadBank,
     ...filter,
+    navigation: navigationReducer(state.navigation, action),
     settings: settingsReducer(state.settings, action),
     textArea: textAreaReducer(state.textArea, action, state),
     game: gameReducer(state.game, action, { ...state, ...filter }),
@@ -95,6 +101,7 @@ export default function rootReducer(
 export interface RootState {
   bank: MemoryBank;
   filter: string;
+  navigation: NavigationState;
   settings: SettingsState;
   textArea: TextAreaState;
   game: GameState;
