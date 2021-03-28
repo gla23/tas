@@ -5,14 +5,8 @@ import {
   refreshRecallGame,
 } from "../games/RecallGame";
 import { selectQuestionIds, selectVerseWords } from "./bank";
-import {
-  Action,
-  CHOOSE_GAME,
-  FINISH_QUESTION,
-  INCREASE_QUESTION,
-  RootState,
-  SKIP_QUESTION,
-} from "./root";
+import { selectComplete } from "./gameSelectors";
+import { Action, RootState, ThunkCreator } from "./root";
 
 export interface GameCommon {
   completed: number;
@@ -62,3 +56,51 @@ export function gameReducer(
   }
   return game;
 }
+
+// Actions
+export const SKIP_QUESTION = "tas/SKIP_QUESTION";
+export const FINISH_QUESTION = "tas/FINISH_QUESTION";
+export const INCREASE_QUESTION = "tas/INCREASE_QUESTION";
+export const CHOOSE_GAME = "tas/CHOOSE_GAME";
+export const CLOSE_GAME = "tas/CLOSE_GAME";
+type SkipQuestionAction = { type: typeof SKIP_QUESTION };
+type FinishQuestionAction = { type: typeof FINISH_QUESTION };
+type IncreaseQuestionAction = {
+  type: typeof INCREASE_QUESTION;
+  amount: number;
+};
+type ChooseGameAction = {
+  type: typeof CHOOSE_GAME;
+  game: GameState;
+  filter?: string;
+};
+type CloseGameAction = { type: typeof CLOSE_GAME };
+export type GameAction =
+  | ChooseGameAction
+  | SkipQuestionAction
+  | FinishQuestionAction
+  | IncreaseQuestionAction
+  | CloseGameAction;
+
+// Action creators
+export const skipQuestion = (): SkipQuestionAction => ({ type: SKIP_QUESTION });
+export const finishQuestion = (): FinishQuestionAction => ({
+  type: FINISH_QUESTION,
+});
+export const endCheckTween: ThunkCreator = () => (dispatch, getState) => {
+  if (!selectComplete(getState())) return;
+  dispatch({ type: FINISH_QUESTION });
+};
+export const increaseQuestion = (amount: number): IncreaseQuestionAction => ({
+  type: INCREASE_QUESTION,
+  amount,
+});
+export const chooseGame = (
+  game: GameState,
+  filter?: string
+): ChooseGameAction => ({
+  type: CHOOSE_GAME,
+  game,
+  filter,
+});
+export const closeGame = (): CloseGameAction => ({ type: CLOSE_GAME });

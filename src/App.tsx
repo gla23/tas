@@ -11,14 +11,14 @@ import {
   adjective as rootAdjective,
 } from "wink-lemmatizer";
 import { useDispatch, useSelector } from "react-redux";
-import { chooseGame, closeGame, RootState } from "./ducks/root";
-import { GameState } from "./ducks/game";
+import { RootState } from "./ducks/root";
+import { GameState, chooseGame, closeGame } from "./ducks/game";
 import { verseWords } from "./utils/occurrences";
 import { HueSlider } from "./components/HueSlider";
 import { Passage } from "bible-tools";
 import { usePage } from "./ducks/navigation";
 
-// Move back to start on animation end of progress bar
+// Listen end of animation of progress bar - move back to menu
 // Work out how to get all ESV verses
 // Build game collecting UI
 

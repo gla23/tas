@@ -2,8 +2,14 @@ import { useSelector } from "react-redux";
 import { ThunkAction } from "redux-thunk";
 import { MemoryBank } from "../utils/memory";
 import { selectBank } from "./bank";
-import { gameReducer, GameState } from "./game";
-import { selectClue, selectComplete } from "./gameSelectors";
+import {
+  gameReducer,
+  GameState,
+  GameAction,
+  chooseGame,
+  CHOOSE_GAME,
+} from "./game";
+import { selectClue } from "./gameSelectors";
 import navigationReducer, { NavigationState } from "./navigation";
 import settingsReducer, { SettingsAction, SettingsState } from "./settings";
 import { TextAreaAction, textAreaReducer, TextAreaState } from "./textarea";
@@ -18,35 +24,13 @@ export type ThunkCreator<R = void> = (...args: any[]) => Thunk<R>;
 
 // Actions
 export const LOAD_BANK = "tas/LOAD_BANK";
-export const SKIP_QUESTION = "tas/SKIP_QUESTION";
-export const FINISH_QUESTION = "tas/FINISH_QUESTION";
-export const INCREASE_QUESTION = "tas/INCREASE_QUESTION";
-export const CHOOSE_GAME = "tas/CHOOSE_GAME";
-export const CLOSE_GAME = "tas/CLOSE_GAME";
-
 type LoadBankAction = { type: typeof LOAD_BANK; bank: MemoryBank };
-type ChooseGameAction = {
-  type: typeof CHOOSE_GAME;
-  game: GameState;
-  filter?: string;
-};
-type SkipQuestionAction = { type: typeof SKIP_QUESTION };
-type FinishQuestionAction = { type: typeof FINISH_QUESTION };
-type IncreaseQuestionAction = {
-  type: typeof INCREASE_QUESTION;
-  amount: number;
-};
-type CloseGameAction = { type: typeof CLOSE_GAME };
 
-type TasAction =
+export type Action =
+  | TextAreaAction
+  | SettingsAction
   | LoadBankAction
-  | ChooseGameAction
-  | SkipQuestionAction
-  | FinishQuestionAction
-  | IncreaseQuestionAction
-  | CloseGameAction;
-
-export type Action = TextAreaAction | SettingsAction | TasAction;
+  | GameAction;
 
 // Action creators
 export const loadBank: ThunkCreator = (bank: MemoryBank) => (
@@ -57,27 +41,6 @@ export const loadBank: ThunkCreator = (bank: MemoryBank) => (
   dispatch({ type: LOAD_BANK, bank });
   dispatch(chooseGame(state.game));
 };
-export const chooseGame = (
-  game: GameState,
-  filter?: string
-): ChooseGameAction => ({
-  type: CHOOSE_GAME,
-  game,
-  filter,
-});
-export const skipQuestion = (): SkipQuestionAction => ({ type: SKIP_QUESTION });
-export const finishQuestion = (): FinishQuestionAction => ({
-  type: FINISH_QUESTION,
-});
-export const endCheckTween: ThunkCreator = () => (dispatch, getState) => {
-  if (!selectComplete(getState())) return;
-  dispatch({ type: FINISH_QUESTION });
-};
-export const increaseQuestion = (amount: number): IncreaseQuestionAction => ({
-  type: INCREASE_QUESTION,
-  amount,
-});
-export const closeGame = (): CloseGameAction => ({ type: CLOSE_GAME });
 
 // Reducer
 export default function rootReducer(

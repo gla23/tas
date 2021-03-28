@@ -1,7 +1,8 @@
 import { useSelector } from "react-redux";
 import { Selection } from "../hooks/useSelectionInput";
 import { correctLength, guessIsCorrect } from "./gameSelectors";
-import { Action, FINISH_QUESTION, INCREASE_QUESTION, RootState } from "./root";
+import { Action, RootState } from "./root";
+import { FINISH_QUESTION, INCREASE_QUESTION } from "./game";
 
 // Actions
 const GUESS = "quiz/GUESS";

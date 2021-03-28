@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux";
 import { Action } from "redux";
-import { CHOOSE_GAME, CLOSE_GAME, RootState } from "./root";
+import { RootState } from "./root";
+import { CHOOSE_GAME, CLOSE_GAME } from "./game";
 
 export interface NavigationState {
   page: "game" | "menu";

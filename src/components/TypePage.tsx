@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectMainAnswer } from "../ducks/gameSelectors";
+import { useQuiz } from "../ducks/root";
 import {
   endCheckTween,
   finishQuestion,
   increaseQuestion,
   skipQuestion,
-  useQuiz,
-} from "../ducks/root";
+} from "../ducks/game";
 import {
   changeGuess,
   check,
