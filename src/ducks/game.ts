@@ -62,7 +62,6 @@ export const SKIP_QUESTION = "tas/SKIP_QUESTION";
 export const FINISH_QUESTION = "tas/FINISH_QUESTION";
 export const INCREASE_QUESTION = "tas/INCREASE_QUESTION";
 export const CHOOSE_GAME = "tas/CHOOSE_GAME";
-export const CLOSE_GAME = "tas/CLOSE_GAME";
 type SkipQuestionAction = { type: typeof SKIP_QUESTION };
 type FinishQuestionAction = { type: typeof FINISH_QUESTION };
 type IncreaseQuestionAction = {
@@ -74,13 +73,11 @@ type ChooseGameAction = {
   game: GameState;
   filter?: string;
 };
-type CloseGameAction = { type: typeof CLOSE_GAME };
 export type GameAction =
   | ChooseGameAction
   | SkipQuestionAction
   | FinishQuestionAction
-  | IncreaseQuestionAction
-  | CloseGameAction;
+  | IncreaseQuestionAction;
 
 // Action creators
 export const skipQuestion = (): SkipQuestionAction => ({ type: SKIP_QUESTION });
@@ -103,4 +100,3 @@ export const chooseGame = (
   game,
   filter,
 });
-export const closeGame = (): CloseGameAction => ({ type: CLOSE_GAME });

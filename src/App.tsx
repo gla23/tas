@@ -12,13 +12,15 @@ import {
 } from "wink-lemmatizer";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "./ducks/root";
-import { GameState, chooseGame, closeGame } from "./ducks/game";
+import { GameState, chooseGame } from "./ducks/game";
 import { verseWords } from "./utils/occurrences";
 import { HueSlider } from "./components/HueSlider";
 import { Passage } from "bible-tools";
-import { usePage } from "./ducks/navigation";
+import { closeGame, usePage } from "./ducks/navigation";
 
-// Listen end of animation of progress bar - move back to menu
+// Listen to min width from text size
+// How to delay finishing the previous one... need to hold it there until the progress bar is done
+// Display text description of current game
 // Work out how to get all ESV verses
 // Build game collecting UI
 

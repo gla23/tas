@@ -1,4 +1,6 @@
 import React, { useRef } from "react";
+import { useDispatch } from "react-redux";
+import { finishGame } from "../ducks/navigation";
 import { useResize } from "../hooks/useResize";
 
 export function ProgressBar(
@@ -8,6 +10,7 @@ export function ProgressBar(
     complete: number;
   }>
 ) {
+  const dispatch = useDispatch();
   const barRef = useRef<HTMLDivElement>(null);
   const size = useResize(barRef);
 
@@ -36,6 +39,9 @@ export function ProgressBar(
           borderRadius: "9999px",
           transition: "ease 1s",
           width,
+        }}
+        onTransitionEnd={() => {
+          if (complete >= 1) dispatch(finishGame());
         }}
       >
         {props.children}

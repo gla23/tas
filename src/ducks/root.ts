@@ -10,7 +10,10 @@ import {
   CHOOSE_GAME,
 } from "./game";
 import { selectClue } from "./gameSelectors";
-import navigationReducer, { NavigationState } from "./navigation";
+import navigationReducer, {
+  NavigationAction,
+  NavigationState,
+} from "./navigation";
 import settingsReducer, { SettingsAction, SettingsState } from "./settings";
 import { TextAreaAction, textAreaReducer, TextAreaState } from "./textarea";
 
@@ -30,7 +33,8 @@ export type Action =
   | TextAreaAction
   | SettingsAction
   | LoadBankAction
-  | GameAction;
+  | GameAction
+  | NavigationAction;
 
 // Action creators
 export const loadBank: ThunkCreator = (bank: MemoryBank) => (
