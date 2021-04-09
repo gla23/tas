@@ -1,5 +1,13 @@
-import { selectFindClue, selectPossibleAnswer } from "../games/FindGame";
-import { recallAnswer, selectRecallClue } from "../games/RecallGame";
+import {
+  findGameDescription,
+  selectFindClue,
+  selectPossibleAnswer,
+} from "../games/FindGame";
+import {
+  recallAnswer,
+  recallGameDescription,
+  selectRecallClue,
+} from "../games/RecallGame";
 import { commonLength } from "../utils/commonLength";
 import { RootState } from "./root";
 
@@ -23,4 +31,11 @@ export const selectMainAnswer = (state: RootState): string => {
   if (state.game.type === "recall") return recallAnswer(state);
   if (state.game.type === "find") return selectPossibleAnswer(state);
   return "ggwp";
+};
+
+export const selectGameDescription = (state: RootState): string => {
+  if (state.game.type === "recall")
+    return recallGameDescription(state.game, state);
+  if (state.game.type === "find") return findGameDescription(state.game, state);
+  return "description not written yet";
 };

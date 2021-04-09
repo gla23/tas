@@ -17,12 +17,13 @@ import { verseWords } from "./utils/occurrences";
 import { HueSlider } from "./components/HueSlider";
 import { Passage } from "bible-tools";
 import { closeGame, usePage } from "./ducks/navigation";
+import { selectGameDescription } from "./ducks/gameSelectors";
 
 // Listen to min width from text size
+// Make modal for "?" with keyboard shortcuts (and later fancy info cards)
 // How to delay finishing the previous one... need to hold it there until the progress bar is done
-// Display text description of current game
 // Work out how to get all ESV verses
-// Build game collecting UI
+// Build game collecting UI - proper test for game description.
 
 export const App = () => {
   const dispatch = useDispatch();
@@ -33,7 +34,7 @@ export const App = () => {
   const passage = new Passage(verse || "t");
   const newVerseIndex = Object.keys(bank).indexOf(verse);
   const [findWords, setFindWords] = useState("");
-
+  const gameDescription = useSelector(selectGameDescription);
   const goGame = (game: GameState, filter: string) => {
     dispatch(chooseGame(game, filter));
   };
@@ -42,7 +43,10 @@ export const App = () => {
       <>
         <div className="flex">
           <CloseButton size={48} onClick={(e) => dispatch(closeGame())} />
-          <CurrentProgress />
+          <div className="m-auto px-32 flex-grow">
+            <div className="pb-2">{gameDescription}</div>
+            <CurrentProgress />
+          </div>
           <DarkModeButton size={48} />
         </div>
         <TypePage />

@@ -90,3 +90,19 @@ export const recallAnswer = (state: RootState): string => {
   const id = set[state.game.questionIndex];
   return state.bank[id] || "";
 };
+
+const amountOf = (count: number) => {
+  if (count === 1) return "";
+  if (count === 2) return " verse pairs";
+  if (count === 3) return " verse triplets";
+  return " verse sets (size " + count + ")";
+};
+export const recallGameDescription = (
+  game: RecallGame,
+  state: RootState
+): string => {
+  const filter = " within " + state.filter;
+  if (game.order === "random")
+    return "Recall random" + amountOf(game.inOrderCount) + filter;
+  return "Recall verses" + filter;
+};

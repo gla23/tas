@@ -145,3 +145,16 @@ export const refreshFindGame = (game: FindGame, state: RootState): FindGame => {
     return { ...game, questionIndex: 0, completed: 0 };
   return { ...nextFindSet(game, state), completed: 0 };
 };
+
+export const findGameDescription = (
+  game: FindGame,
+  state: RootState
+): string => {
+  const type = game.answerType === "text" ? " verses" : " verse references";
+  return (
+    "Type the" +
+    type +
+    " that have an occurence of the root word within " +
+    state.filter
+  );
+};
