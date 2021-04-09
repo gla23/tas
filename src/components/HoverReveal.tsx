@@ -23,7 +23,7 @@ export const HoverReveal = (
     display: "inline-block",
   });
   const backStyle = useSpring({
-    position: "absolute",
+    position: "absolute" as const,
     height: outerSize.height,
     opacity: showBack ? 1 : 0,
     transform: showBack
