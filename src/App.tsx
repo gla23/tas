@@ -30,7 +30,7 @@ export const App = () => {
   const bank = useSelector((state: RootState) => state.bank);
   const page = usePage();
   const [word, setWord] = useState("passed");
-  const [verse, setVerse] = useState("teg");
+  const [verse, setVerse] = useState("prcg");
   const passage = new Passage(verse || "t");
   const newVerseIndex = Object.keys(bank).indexOf(verse);
   const [findWords, setFindWords] = useState("");
@@ -239,18 +239,23 @@ export const App = () => {
 
 const verseSections = {
   "All verses": "^",
+  Assorted:
+    "^prce-f|^sl|^ps139|^prp|^fo|^la[i-l]|^jerq|^ubk|^cr|^fhş|^ba[n-o]|^gaq|^gmd-g",
   Matthew: "^a",
-  SotM: "^a[e-g]",
+  "5-7": "^a[e-g]",
+  "8-9 ": "^a[h-i]",
+  "10 ": "^aj",
   James: "^t",
-  "1 ": "^ta",
-  "2 ": "^tb",
-  "3 ": "^tc",
-  "4 ": "^td",
-  "5 ": "^te",
+  "1-3": "^t[a-c]",
+  "4-5": "^t[d-e]",
   Psalms: "^ps",
   "16 ": "^psp",
   "25 ": "^psy",
   "67 ": "^ps67",
+  Warfare: "^jf",
+  "New Assorted": "^pr(s|cg)|^ibt|^sc|^cj|^isM",
+  Genesis: "^gen",
+  Revelation: "^rev",
 };
 const VerseSections = () => (
   <>
