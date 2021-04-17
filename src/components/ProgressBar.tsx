@@ -12,11 +12,16 @@ export function ProgressBar(
 ) {
   const dispatch = useDispatch();
   const barRef = useRef<HTMLDivElement>(null);
-  const size = useResize(barRef);
+  const childrenSpanRef = useRef<HTMLDivElement>(null);
+
+  const barSize = useResize(barRef);
+  const childrenSize = useResize(childrenSpanRef);
+  const fullWidth = barSize.width;
+  const childWidth = childrenSize.width ? childrenSize.width : 0;
+  const minWidth = Math.max(70, childWidth + 30);
 
   const complete = Math.max(0, Math.min(1, props.complete));
-  const fullWidth = size.width;
-  const minWidth = 45;
+
   const width = minWidth + complete * (fullWidth - minWidth);
   return (
     <div
@@ -39,12 +44,16 @@ export function ProgressBar(
           borderRadius: "9999px",
           transition: "ease 1s",
           width,
+          maxHeight: "inherit",
+          verticalAlign: "middle",
         }}
         onTransitionEnd={() => {
           if (complete >= 1) dispatch(finishGame());
         }}
       >
-        {props.children}
+        <span ref={childrenSpanRef} className="flex">
+          {props.children}
+        </span>
       </div>
     </div>
   );
