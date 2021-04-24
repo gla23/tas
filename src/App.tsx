@@ -19,7 +19,7 @@ import { Passage } from "bible-tools";
 import { closeGame, usePage } from "./ducks/navigation";
 import { selectGameDescription } from "./ducks/gameSelectors";
 
-// Listen to min width from text size
+// Make find+recap refs and investigate similar ideas
 // Make modal for "?" with keyboard shortcuts (and later fancy info cards)
 // How to delay finishing the previous one... need to hold it there until the progress bar is done
 // Work out how to get all ESV verses
@@ -30,7 +30,7 @@ export const App = () => {
   const bank = useSelector((state: RootState) => state.bank);
   const page = usePage();
   const [word, setWord] = useState("passed");
-  const [verse, setVerse] = useState("prcg");
+  const [verse, setVerse] = useState("gfr");
   const passage = new Passage(verse || "t");
   const newVerseIndex = Object.keys(bank).indexOf(verse);
   const [findWords, setFindWords] = useState("");
@@ -157,11 +157,12 @@ export const App = () => {
                   queue: verseWords(bank[verse]),
                   found: [],
                 },
-                passage.book.shortcut
+                "^" + passage.book.shortcut
               )
             }
           >
             Find each word in {passage.reference} throughout {passage.book.name}{" "}
+            {"^" + passage.book.shortcut}
           </span>
         </>
       )}
@@ -171,9 +172,9 @@ export const App = () => {
       Old:
       <ul>
         <li className="opacity-70">- Recall random pairs</li>
-        <li className="opacity-70">- Find occurrences of random words</li>
         <li className="opacity-70">
-          - Find occurrences of each word in one verse
+          - Find occurrences of random words (get shown list of 10 that you pick
+          3 of?)
         </li>
       </ul>
       Recent:
@@ -192,6 +193,7 @@ export const App = () => {
       <h2 className="text-xl mt-2">Ideas</h2>
       all:
       <ul>
+        <li className="opacity-70">- Type just the first letter</li>
         <li className="opacity-70">- Occurrences of word pairs</li>
         <li className="opacity-70">- Type rest of verse for occurrence find</li>
         <li className="opacity-70">- Type/recall speed goal/limit</li>
@@ -203,9 +205,6 @@ export const App = () => {
         </li>
         <li className="opacity-70">
           - Make intro page for the practice section
-        </li>
-        <li className="opacity-70">
-          You are doing random (2 in a row) over these verses
         </li>
         <li className="opacity-70">difficulty: hard</li>
         <li className="opacity-70">This helps train the following things...</li>
@@ -241,7 +240,7 @@ const verseSections = {
   "All verses": "^",
   Assorted:
     "^prce-f|^sl|^ps139|^prp|^fo|^la[i-l]|^jerq|^ubk|^cr|^fhş|^ba[n-o]|^gaq|^gmd-g",
-  Matthew: "^a",
+  Matthew: "^a[e-i]",
   "5-7": "^a[e-g]",
   "8-9 ": "^a[h-i]",
   "10 ": "^aj",
@@ -253,7 +252,7 @@ const verseSections = {
   "25 ": "^psy",
   "67 ": "^ps67",
   Warfare: "^jf",
-  "New Assorted": "^pr(s|cg)|^ibt|^sc|^cj|^isM",
+  "New Assorted": "^gf|^pr(s|cg)|^ibt|^dmD|^sc|^cj|^isM",
   Genesis: "^gen",
   Revelation: "^rev",
 };
