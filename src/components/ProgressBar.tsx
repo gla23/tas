@@ -18,9 +18,10 @@ export function ProgressBar(
   const childrenSize = useResize(childrenSpanRef);
   const fullWidth = barSize.width;
   const childWidth = childrenSize.width ? childrenSize.width : 0;
-  const minWidth = Math.max(70, childWidth + 30);
 
   const complete = Math.max(0, Math.min(1, props.complete));
+  const hideFraction = Math.max(1 - 2 * complete, 0);
+  const minWidth = Math.max(70, childWidth + 30) * hideFraction;
 
   const width = minWidth + complete * (fullWidth - minWidth);
   return (
