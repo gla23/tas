@@ -63,7 +63,7 @@ export const App = () => {
             {
               type: "recall",
               completed: 0,
-              completedGoal: 20,
+              completedGoal: 12,
               order: "random",
               questionIndex: 0,
               inOrderCount: 2,

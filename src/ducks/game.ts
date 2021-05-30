@@ -14,17 +14,28 @@ export interface GameCommon {
 }
 export type GameState = RecallGame | FindGame;
 
-export const initialState: FindGame = {
-  type: "find",
-  completed: 0,
-  completedGoal: 3,
+const initialState: RecallGame = {
+  type: "recall",
   order: "random",
-  answerType: "text",
-  hintType: "text",
   questionIndex: 0,
-  queue: [],
-  found: [],
+  inOrderCount: 2,
+  inOrderDone: 0,
+  setIndexesLeft: [],
+  completed: 0,
+  completedGoal: 10,
 };
+
+// export const initialState: FindGame = {
+//   type: "find",
+//   completed: 0,
+//   completedGoal: 3,
+//   order: "random",
+//   answerType: "text",
+//   hintType: "text",
+//   questionIndex: 0,
+//   queue: [],
+//   found: [],
+// };
 
 export function gameReducer(
   game: GameState = initialState,
