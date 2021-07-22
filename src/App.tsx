@@ -20,6 +20,9 @@ import { closeGame, usePage } from "./ducks/navigation";
 import { selectGameDescription } from "./ducks/gameSelectors";
 
 // Make find+recap refs and investigate similar ideas
+//   Choose the words you want to investigate
+// See the verse and enter the ref - merge with chapter-map later on
+// Save redux state on reload? Button to reset to start in case of inconsistency
 // Make modal for "?" with keyboard shortcuts (and later fancy info cards)
 // How to delay finishing the previous one... need to hold it there until the progress bar is done
 // Work out how to get all ESV verses
@@ -30,7 +33,8 @@ export const App = () => {
   const bank = useSelector((state: RootState) => state.bank);
   const page = usePage();
   const [word, setWord] = useState("passed");
-  const [verse, setVerse] = useState("gfr");
+  const [verse, setVerse] = useState("cjH");
+  const [doRecap, setDoRecap] = useState(true);
   const passage = new Passage(verse || "t");
   const newVerseIndex = Object.keys(bank).indexOf(verse);
   const [findWords, setFindWords] = useState("");
@@ -93,6 +97,7 @@ export const App = () => {
               questionIndex: 0,
               queue: findWords ? findWords.split(" ") : [],
               found: [],
+              doRecap,
             },
             filterOf(e)
           )
@@ -103,9 +108,16 @@ export const App = () => {
       <br />
       starting with:{" "}
       <input
-        type="text mt-8"
+        type="text"
         value={findWords}
         onChange={(e) => setFindWords(e.target.value)}
+      />
+      <br />
+      recap after:{" "}
+      <input
+        type="checkbox"
+        checked={doRecap}
+        onChange={(e) => setDoRecap(e.target.checked)}
       />
       <br />
       <div className="mt-6"></div>
@@ -156,6 +168,7 @@ export const App = () => {
                   questionIndex: 0,
                   queue: verseWords(bank[verse]),
                   found: [],
+                  doRecap,
                 },
                 "^" + passage.book.shortcut
               )
@@ -169,7 +182,7 @@ export const App = () => {
       <br />
       <div className="mt-3"></div>
       <h2 className="text-xl">Practice strats</h2>
-      Old:
+      Ready (for meditation?):
       <ul>
         <li className="opacity-70">- Recall random pairs</li>
         <li className="opacity-70">
@@ -177,12 +190,12 @@ export const App = () => {
           3 of?)
         </li>
       </ul>
-      Recent:
+      Recent (consolidation? piecing together?):
       <ul>
         <li className="opacity-70">- Same as above for smaller group?</li>
         <li className="opacity-70">- Draw chapter map on paper</li>
       </ul>
-      New:
+      New (observation? picking up?):
       <ul>
         <li className="opacity-70">- Observe, define/image, recall</li>
         <li className="opacity-70">- Recall with time limit</li>

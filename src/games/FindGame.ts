@@ -1,5 +1,4 @@
 import { Passage } from "bible-tools";
-import { compose } from "redux";
 import { createSelector } from "reselect";
 import {
   selectBank,
@@ -25,10 +24,14 @@ export interface FindGame extends GameCommon {
   questionIndex: number;
   queue: string[];
   found: ID[];
+  doRecap: boolean;
+  doingRecap?: boolean;
 }
 
 export const selectAnswerType = (state: RootState): AnswerType => {
-  return state.game.type === "find" ? state.game.answerType : "text";
+  if (state.game.type !== "find") return "text";
+  if (state.game.doingRecap) return "ref";
+  return state.game.answerType;
 };
 export const selectHintType = (state: RootState): AnswerType => {
   return state.game.type === "find" ? state.game.hintType : "text";
@@ -37,7 +40,13 @@ const selectCurrentWord = createSelector(
   [(state: RootState) => state.game.questionIndex, selectVerseWords],
   (questionIndex, verseWords) => verseWords[questionIndex] || ""
 );
-export const selectFindClue = compose(rootWord, selectCurrentWord);
+export const selectFindClue = (state: RootState) => {
+  const currentWord = selectCurrentWord(state);
+  const root = rootWord(currentWord);
+  const prefix =
+    state.game.type === "find" && state.game.doingRecap ? "recap " : "";
+  return prefix + root;
+};
 
 export const selectOccurencesToFind = (state: RootState): Occurrence[] => {
   const allOccurences = selectOccurencesByRoot(state);
@@ -108,7 +117,10 @@ export function nextFindGame(
 
   if (found.length < toFind.length) return { ...game, found };
 
-  const nextGame = nextFindSet(game, state);
+  if (game.doRecap && !game.doingRecap)
+    return { ...game, found: [], doingRecap: true };
+
+  const nextGame = nextFindSet({ ...game, doingRecap: false }, state);
   const completed = game.completed + (skip ? 0 : 1);
   return { ...nextGame, completed, found: [] };
 }
@@ -151,10 +163,12 @@ export const findGameDescription = (
   state: RootState
 ): string => {
   const type = game.answerType === "text" ? " verses" : " verse references";
+  const recap = game.doRecap ? " and then recap the references" : "";
   return (
     "Type the" +
     type +
     " that have an occurence of the root word within " +
-    state.filter
+    state.filter +
+    recap
   );
 };
