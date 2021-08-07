@@ -1,9 +1,7 @@
 import "./App.css";
 import React, { useState } from "react";
 import { SettingsInput } from "./components/SettingsInput";
-import { CloseButton } from "./components/CloseButton";
-import { CurrentProgress, TypePage } from "./components/TypePage";
-import { DarkModeButton } from "./components/DarkModeButton";
+import { GamePage } from "./pages/GamePage";
 import { rootWord } from "./utils/rootWord";
 import {
   verb as rootVerb,
@@ -16,11 +14,8 @@ import { GameState, chooseGame } from "./ducks/game";
 import { verseWords } from "./utils/occurrences";
 import { HueSlider } from "./components/HueSlider";
 import { Passage } from "bible-tools";
-import { closeGame, usePage } from "./ducks/navigation";
-import { selectGameDescription } from "./ducks/gameSelectors";
+import { usePage } from "./ducks/navigation";
 
-// Make find+recap refs and investigate similar ideas
-//   Choose the words you want to investigate
 // See the verse and enter the ref - merge with chapter-map later on
 // Save redux state on reload? Button to reset to start in case of inconsistency
 // Make modal for "?" with keyboard shortcuts (and later fancy info cards)
@@ -38,24 +33,11 @@ export const App = () => {
   const passage = new Passage(verse || "t");
   const newVerseIndex = Object.keys(bank).indexOf(verse);
   const [findWords, setFindWords] = useState("");
-  const gameDescription = useSelector(selectGameDescription);
+
   const goGame = (game: GameState, filter: string) => {
     dispatch(chooseGame(game, filter));
   };
-  if (page === "game")
-    return (
-      <>
-        <div className="flex">
-          <CloseButton size={48} onClick={(e) => dispatch(closeGame())} />
-          <div className="m-auto px-32 flex-grow">
-            <div className="pb-2">{gameDescription}</div>
-            <CurrentProgress />
-          </div>
-          <DarkModeButton size={48} />
-        </div>
-        <TypePage />
-      </>
-    );
+  if (page === "game") return <GamePage />;
   return (
     <>
       Random recall from:
@@ -91,10 +73,10 @@ export const App = () => {
               type: "find",
               completed: 0,
               completedGoal: 3,
-              order: "random",
+              order: "choose",
               answerType: "text",
               hintType: "text",
-              questionIndex: 0,
+              questionIndex: -1,
               queue: findWords ? findWords.split(" ") : [],
               found: [],
               doRecap,

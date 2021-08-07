@@ -32,7 +32,8 @@ export function refreshRecallGame(game: RecallGame, set: string[]): RecallGame {
 export function nextRecallGame(
   game: RecallGame,
   state: RootState,
-  skip: boolean
+  skip: boolean,
+  data: unknown
 ): RecallGame {
   const completed = game.completed + (skip ? 0 : 1);
   if (game.order === "same") return { ...game, completed };

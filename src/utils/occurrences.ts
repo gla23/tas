@@ -10,9 +10,7 @@ export interface Occurrence {
 const wordRegex = /\w+/g;
 const filterRegex = /^s$/;
 
-export function occurrencesByRoot(bank: {
-  [ref: string]: string;
-}): {
+export function occurrencesByRoot(bank: { [ref: string]: string }): {
   [root: string]: Occurrence[];
 } {
   const matches: { [root: string]: Occurrence[] } = {};

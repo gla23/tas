@@ -1,7 +1,11 @@
 import { useSelector } from "react-redux";
 import { Action, RootState } from "./root";
 
-const initialSettings = { parseMnemonics: true, dark: true, hue: 113 };
+const initialSettings = {
+  parseMnemonics: !window.location.origin.includes("memorise"),
+  dark: true,
+  hue: 113,
+};
 export type SettingsState = typeof initialSettings;
 export type Setting = keyof SettingsState;
 export type BooleanSetting = keyof {
@@ -34,9 +38,10 @@ export const typeOf = (setting: Setting) => {
   throw new Error("No widget for this data type");
 };
 
-export const selectSetting = <T extends Setting>(setting: T) => (
-  state: RootState
-): SettingsState[T] => state.settings[setting];
+export const selectSetting =
+  <T extends Setting>(setting: T) =>
+  (state: RootState): SettingsState[T] =>
+    state.settings[setting];
 
 export const useParseMnemonic = () =>
   useSelector(selectSetting("parseMnemonics"));

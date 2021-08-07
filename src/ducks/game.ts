@@ -52,8 +52,10 @@ export function gameReducer(
     case FINISH_QUESTION:
     case SKIP_QUESTION:
       const skip = action.type === SKIP_QUESTION;
-      if (game.type === "recall") return nextRecallGame(game, state, skip);
-      if (game.type === "find") return nextFindGame(game, state, skip);
+      if (game.type === "recall")
+        return nextRecallGame(game, state, skip, action.data);
+      if (game.type === "find")
+        return nextFindGame(game, state, skip, action.data);
       return game;
     case INCREASE_QUESTION: {
       const newIndex = game.questionIndex + action.amount;
@@ -73,8 +75,8 @@ export const SKIP_QUESTION = "tas/SKIP_QUESTION";
 export const FINISH_QUESTION = "tas/FINISH_QUESTION";
 export const INCREASE_QUESTION = "tas/INCREASE_QUESTION";
 export const CHOOSE_GAME = "tas/CHOOSE_GAME";
-type SkipQuestionAction = { type: typeof SKIP_QUESTION };
-type FinishQuestionAction = { type: typeof FINISH_QUESTION };
+type SkipQuestionAction = { type: typeof SKIP_QUESTION; data?: unknown };
+type FinishQuestionAction = { type: typeof FINISH_QUESTION; data?: unknown };
 type IncreaseQuestionAction = {
   type: typeof INCREASE_QUESTION;
   amount: number;
@@ -91,14 +93,19 @@ export type GameAction =
   | IncreaseQuestionAction;
 
 // Action creators
-export const skipQuestion = (): SkipQuestionAction => ({ type: SKIP_QUESTION });
-export const finishQuestion = (): FinishQuestionAction => ({
-  type: FINISH_QUESTION,
+export const skipQuestion = (data?: unknown): SkipQuestionAction => ({
+  type: SKIP_QUESTION,
+  data,
 });
-export const endCheckTween: ThunkCreator = () => (dispatch, getState) => {
-  if (!selectComplete(getState())) return;
-  dispatch({ type: FINISH_QUESTION });
-};
+export const finishQuestion = (data?: unknown): FinishQuestionAction => ({
+  type: FINISH_QUESTION,
+  data,
+});
+export const endCheckTween: ThunkCreator =
+  (data?: unknown) => (dispatch, getState) => {
+    if (!selectComplete(getState())) return;
+    dispatch({ type: FINISH_QUESTION, data });
+  };
 export const increaseQuestion = (amount: number): IncreaseQuestionAction => ({
   type: INCREASE_QUESTION,
   amount,
@@ -111,3 +118,16 @@ export const chooseGame = (
   game,
   filter,
 });
+
+interface GameWidget {
+  type: "type" | "checkboxes";
+}
+export const selectGameWidget = (state: RootState): GameWidget => {
+  if (
+    state.game.type === "find" &&
+    state.game.order === "choose" &&
+    state.game.questionIndex === -1
+  )
+    return { type: "checkboxes" };
+  return { type: "type" };
+};

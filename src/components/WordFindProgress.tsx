@@ -1,4 +1,3 @@
-import React from "react";
 import { useSelector } from "react-redux";
 import { selectGameType } from "../ducks/gameSelectors";
 import { selectFoundRefs, selectRefOccurencesToFind } from "../games/FindGame";

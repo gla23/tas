@@ -18,7 +18,7 @@ type ID = string;
 type AnswerType = "ref" | "text";
 export interface FindGame extends GameCommon {
   type: "find";
-  order: "random" | "next";
+  order: "random" | "next" | "choose";
   answerType: AnswerType;
   hintType: AnswerType;
   questionIndex: number;
@@ -40,11 +40,14 @@ const selectCurrentWord = createSelector(
   [(state: RootState) => state.game.questionIndex, selectVerseWords],
   (questionIndex, verseWords) => verseWords[questionIndex] || ""
 );
-export const selectFindClue = (state: RootState) => {
+export const selectFindClue = (state: RootState): string => {
+  const game = state.game;
+  if (game.type !== "find") return "";
+  if (game.order === "choose" && game.questionIndex === -1)
+    return "words to find";
   const currentWord = selectCurrentWord(state);
   const root = rootWord(currentWord);
-  const prefix =
-    state.game.type === "find" && state.game.doingRecap ? "recap " : "";
+  const prefix = game.doingRecap ? "recap " : "";
   return prefix + root;
 };
 
@@ -108,8 +111,14 @@ export const selectPossibleAnswer = (state: RootState): string => {
 export function nextFindGame(
   game: FindGame,
   state: RootState,
-  skip: boolean
+  skip: boolean,
+  data: unknown
 ): FindGame {
+  if (game.order === "choose" && game.questionIndex === -1) {
+    if (!Array.isArray(data)) throw new Error("hmm");
+    const newGame = { ...game, queue: data as string[] };
+    return nextFindSet(newGame, state);
+  }
   const found = game.found.slice();
   const completedRefs = selectPossibleRefsTyping(state);
   completedRefs.forEach((ref) => found.push(ref));
@@ -127,29 +136,25 @@ export function nextFindGame(
 
 function nextFindSet(game: FindGame, state: RootState): FindGame {
   const words = selectVerseWords(state);
+  const allOccurences = selectOccurencesByRoot(state);
   if (words.length === 0) return game;
   if (game.queue.length > 0) {
     const queue = game.queue.slice();
     const index =
       game.order === "random" ? Math.floor(Math.random() * queue.length) : 0;
     const newWord = queue.splice(index, 1)[0];
-    const questionIndex = words.indexOf(newWord);
+    const occurences = allOccurences[rootWord(newWord)];
+    const questionIndex = words.indexOf(occurences[0].word);
+    if (questionIndex === undefined)
+      console.error("Didn't find index for ", newWord, occurences, state);
     return { ...game, questionIndex, queue };
   }
-  if (game.order === "random") {
-    let i = 0;
-    while (++i) {
-      const questionIndex = Math.floor(Math.random() * words.length);
-      const root = rootWord(words[questionIndex]);
-      const count = words.reduce(
-        (acc, word) => (rootWord(word) === root ? acc + 1 : acc),
-        0
-      );
-      if (count < 10 || i > 40) return { ...game, questionIndex };
-      console.log("Skipping '" + root + "' with count:", count);
-    }
-  }
-  const questionIndex = game.questionIndex + 1;
+  const questionIndex =
+    game.order === "random"
+      ? chooseDecentWord(allOccurences, []).index
+      : game.order === "choose"
+      ? -1
+      : game.questionIndex + 1;
   return { ...game, questionIndex };
 }
 export const refreshFindGame = (game: FindGame, state: RootState): FindGame => {
@@ -158,17 +163,40 @@ export const refreshFindGame = (game: FindGame, state: RootState): FindGame => {
   return { ...nextFindSet(game, state), completed: 0 };
 };
 
+export interface WordOccurence {
+  index: number;
+  root: string;
+  count: number;
+}
+export const chooseDecentWord = (
+  occurences: { [root: string]: Occurrence[] },
+  excluding: string[]
+): WordOccurence => {
+  const roots = Object.keys(occurences);
+  let i = 0;
+  while (true) {
+    i = i + 1;
+    const rootIndex = Math.floor(Math.random() * roots.length);
+    const root = roots[rootIndex];
+    if (root === undefined) console.error("hmm", occurences, rootIndex);
+    const count = occurences[root].length;
+    const index = occurences[root][0].index;
+    if (i > 10) return { index, root, count };
+    if (excluding.includes(root)) continue;
+    if (count > 14) {
+      console.log("Skipping '" + root + "' with count:", count);
+      excluding.push(root);
+      continue;
+    }
+    return { index, root, count };
+  }
+};
+
 export const findGameDescription = (
   game: FindGame,
   state: RootState
 ): string => {
-  const type = game.answerType === "text" ? " verses" : " verse references";
+  const type = game.answerType === "text" ? "verses" : "verse references";
   const recap = game.doRecap ? " and then recap the references" : "";
-  return (
-    "Type the" +
-    type +
-    " that have an occurence of the root word within " +
-    state.filter +
-    recap
-  );
+  return `Type the ${type} within ${state.filter} that the root word occurs in ${recap}`;
 };
