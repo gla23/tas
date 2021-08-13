@@ -37,14 +37,12 @@ export type Action =
   | NavigationAction;
 
 // Action creators
-export const loadBank: ThunkCreator = (bank: MemoryBank) => (
-  dispatch,
-  getState
-) => {
-  const state = getState();
-  dispatch({ type: LOAD_BANK, bank });
-  dispatch(chooseGame(state.game));
-};
+export const loadBank: ThunkCreator =
+  (bank: MemoryBank) => (dispatch, getState) => {
+    const state = getState();
+    dispatch({ type: LOAD_BANK, bank });
+    if (state.navigation.page === "game") dispatch(chooseGame(state.game));
+  };
 
 // Reducer
 export default function rootReducer(

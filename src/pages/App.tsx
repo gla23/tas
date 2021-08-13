@@ -1,27 +1,28 @@
-import "./App.css";
+import "../App.css";
 import React, { useState } from "react";
-import { SettingsInput } from "./components/SettingsInput";
-import { GamePage } from "./pages/GamePage";
-import { rootWord } from "./utils/rootWord";
+import { SettingsInput } from "../components/SettingsInput";
+import { GamePage } from "./GamePage";
+import { rootWord } from "../utils/rootWord";
 import {
   verb as rootVerb,
   noun as rootNoun,
   adjective as rootAdjective,
 } from "wink-lemmatizer";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "./ducks/root";
-import { GameState, chooseGame } from "./ducks/game";
-import { verseWords } from "./utils/occurrences";
-import { HueSlider } from "./components/HueSlider";
+import { RootState } from "../ducks/root";
+import { GameState, chooseGame } from "../ducks/game";
+import { verseWords } from "../utils/occurrences";
+import { HueSlider } from "../components/HueSlider";
 import { Passage } from "bible-tools";
-import { usePage } from "./ducks/navigation";
+import { usePage } from "../ducks/navigation";
 
+// Add modal with description/advertising for each game type
 // See the verse and enter the ref - merge with chapter-map later on
-// Save redux state on reload? Button to reset to start in case of inconsistency
 // Make modal for "?" with keyboard shortcuts (and later fancy info cards)
 // How to delay finishing the previous one... need to hold it there until the progress bar is done
 // Work out how to get all ESV verses
 // Build game collecting UI - proper test for game description.
+// game: Do the occurences thing and then guess the book haha
 
 export const App = () => {
   const dispatch = useDispatch();

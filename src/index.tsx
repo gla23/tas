@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import ReactDOM from "react-dom";
-import { App } from "./App";
+import { App } from "./pages/App";
 import { createStore, applyMiddleware } from "redux";
 import { Provider, useDispatch } from "react-redux";
 import reduxThunk from "redux-thunk";
@@ -9,13 +9,19 @@ import { Scrollable } from "./components/ColorInput/ColorInput";
 import rootReducer, { loadBank } from "./ducks/root";
 import { useTheme } from "./ducks/settings";
 import { memory } from "./utils/memory";
+import { loadState, saveState } from "./utils/session";
+
 
 const middleware = [reduxThunk];
 
 const store = createStore(
   rootReducer,
+  loadState(),
   composeWithDevTools(applyMiddleware(...middleware))
 );
+store.subscribe(() => {
+  saveState(store.getState());
+});
 
 ReactDOM.render(
   <Provider store={store}>
