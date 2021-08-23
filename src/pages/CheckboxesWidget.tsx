@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectOccurencesByRoot } from "../ducks/bank";
 import { finishQuestion } from "../ducks/game";
@@ -23,10 +23,13 @@ export const CheckboxesWidget = () => {
   const occurences = useSelector(selectOccurencesByRoot);
   const [chosen, setChosen] = useState<string[]>([]);
   const [options, setOptions] = useState(() => generateOptions(occurences));
-
+  const sortedOptions = useMemo(
+    () => options.sort((a, b) => a.root.localeCompare(b.root)),
+    [options]
+  );
   return (
     <div className="text-lg">
-      {options.map((option, index) => {
+      {sortedOptions.map((option, index) => {
         const key = option.root + index;
         return (
           <div key={key}>
