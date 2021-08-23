@@ -15,6 +15,8 @@ import { verseWords } from "../utils/occurrences";
 import { HueSlider } from "../components/HueSlider";
 import { Passage } from "bible-tools";
 import { usePage } from "../ducks/navigation";
+import { RecallGame } from "../games/RecallGame";
+import { FindGame } from "../games/FindGame";
 
 // Add modal with description/advertising for each game type
 // See the verse and enter the ref - merge with chapter-map later on
@@ -23,6 +25,23 @@ import { usePage } from "../ducks/navigation";
 // Work out how to get all ESV verses
 // Build game collecting UI - proper test for game description.
 // game: Do the occurences thing and then guess the book haha
+
+const randomRecall: RecallGame = {
+  type: "recall",
+  completed: 0,
+  completedGoal: 12,
+  order: "random",
+  questionIndex: 0,
+  inOrderCount: 2,
+  inOrderDone: 0,
+  setIndexesLeft: [],
+};
+const typeOut: RecallGame = {
+  ...randomRecall,
+  order: "next",
+  inOrderCount: 1,
+  completedGoal: Infinity,
+};
 
 export const App = () => {
   const dispatch = useDispatch();
@@ -35,56 +54,44 @@ export const App = () => {
   const newVerseIndex = Object.keys(bank).indexOf(verse);
   const [findWords, setFindWords] = useState("");
 
+  const findGame: FindGame = {
+    type: "find",
+    completed: 0,
+    completedGoal: 3,
+    order: "choose",
+    answerType: "text",
+    hintType: "text",
+    questionIndex: -1,
+    queue: findWords ? findWords.split(" ") : [],
+    found: [],
+    doRecap,
+  };
+
   const goGame = (game: GameState, filter: string) => {
     dispatch(chooseGame(game, filter));
   };
   if (page === "game") return <GamePage />;
   return (
     <>
-      Random recall from:
       <span
         className="mt-3"
-        onClick={(e) =>
-          filterOf(e) &&
-          goGame(
-            {
-              type: "recall",
-              completed: 0,
-              completedGoal: 12,
-              order: "random",
-              questionIndex: 0,
-              inOrderCount: 2,
-              inOrderDone: 0,
-              setIndexesLeft: [],
-            },
-            filterOf(e)
-          )
-        }
+        onClick={(e) => filterOf(e) && goGame(typeOut, filterOf(e))}
       >
-        <VerseSections />
+        Type out: <VerseSections />
+      </span>
+      <br />
+      <br />
+      <span
+        className="mt-3"
+        onClick={(e) => filterOf(e) && goGame(randomRecall, filterOf(e))}
+      >
+        Random recall from: <VerseSections />
       </span>
       <br />
       <div className="mt-6"></div>
       <span
         className="mt-3"
-        onClick={(e) =>
-          filterOf(e) &&
-          goGame(
-            {
-              type: "find",
-              completed: 0,
-              completedGoal: 3,
-              order: "choose",
-              answerType: "text",
-              hintType: "text",
-              questionIndex: -1,
-              queue: findWords ? findWords.split(" ") : [],
-              found: [],
-              doRecap,
-            },
-            filterOf(e)
-          )
-        }
+        onClick={(e) => filterOf(e) && goGame(findGame, filterOf(e))}
       >
         Find random word from: <VerseSections />
       </span>
@@ -243,6 +250,7 @@ const verseSections = {
   James: "^t",
   "1-3": "^t[a-c]",
   "4-5": "^t[d-e]",
+  tcq: "^tcq",
   Psalms: "^ps",
   "16 ": "^psp",
   "25 ": "^psy",
