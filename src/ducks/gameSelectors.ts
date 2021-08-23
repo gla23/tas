@@ -25,7 +25,8 @@ export const selectComplete = (state: RootState): boolean =>
 export const correctLength = (guess: string, state: RootState): number =>
   commonLength(guess, selectMainAnswer(state));
 export const guessIsCorrect = (guess: string, state: RootState): boolean => {
-  return guess.startsWith(selectMainAnswer(state));
+  const stateWithGuess = { ...state, textArea: { ...state.textArea, guess } };
+  return guess.startsWith(selectMainAnswer(stateWithGuess));
 };
 export const selectMainAnswer = (state: RootState): string => {
   if (state.game.type === "recall") return recallAnswer(state);
