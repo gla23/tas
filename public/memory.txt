@@ -599,9 +599,9 @@ God shall bless us; let all the ends of the earth fear him!
 tda
 What causes quarrels and what causes fights among you? Is it not this, that your passions are at war within you?
 tdb
-You desire and do not have, so you murder. You covet and cannot obtain, so you fight and quarrel. You do not have, because you do not ask.
+You desire and do not have, so you murder. You covet and cannot obtain, so you fight and quarrel.
 tdc
-You ask and do not receive, because you ask wrongly, to spend it on your passions.
+You do not have, because you do not ask. You ask and do not receive, because you ask wrongly, to spend it on your passions.
 tdd
 You adulterous people! Do you not know that friendship with the world is enmity with God? Therefore whoever wishes to be a friend of the world makes himself an enemy of God.
 tde
@@ -621,7 +621,7 @@ Do not speak evil against one another, brothers. The one who speaks against a br
 tdl
 There is only one lawgiver and judge, he who is able to save and to destroy. But who are you to judge your neighbour?
 tdm
-Come now, you who say, "Today or tomorrow we will go into such and such a town and spend a year there and trade and make a profit" - 
+Come now, you who say, "Today or tomorrow we will go into such and such a town and spend a year there and trade and make a profit" -
 tdn
 yet you do not know what tomorrow will bring. What is your life? For you are a mist that appears for a little time and then vanishes.
 tdo
@@ -761,9 +761,9 @@ I have been crucified with Christ. It is no longer I who live, but Christ who li
 dmD
 A new commandment I give to you, that you love one another: just as I have loved you, you also are to love one another.
 scl
-Take care, brothers, lest there be in any of you an evil, unbelieving heart, leading you to fall away from the living God. 
+Take care, brothers, lest there be in any of you an evil, unbelieving heart, leading you to fall away from the living God.
 scm
-But exhort one another every day, as long as it is called "today", that none of you may be hardened by the deceitfulness of sin. 
+But exhort one another every day, as long as it is called "today", that none of you may be hardened by the deceitfulness of sin.
 scn
 For we have come to share in Christ, if indeed we hold our original confidence firm to the end.
 cjH
@@ -773,17 +773,25 @@ And she had a sister called Mary, who sat at the Lord's feet and listened to his
 cjJ
 But Martha was distracted with much serving. And she went up to him and said, "Lord, do you not care that my sister has left me to serve alone? Tell her then to help me."
 cjK
-But the Lord answered her, "Martha, Martha, you are anxious and troubled about many things,
+But the Lord answered her, "Martha, Martha, you are anxious and troubled about many things, but one thing is necessary.
 cjL
-but one thing is necessary. Mary has chosen the good portion, which will not be taken away from her."
-isMa
-But now thus says the Lord, he who created you, O Jacob, he who formed you, O Israel: "Fear not, for I have redeemed you; I have called you by name, you are mine.
-isMb
-When you pass through the waters, I will be with you; and through the rivers, they shall not overwhelm you; when you walk through fire you shall not be burned, and the flame shall not consume you.
-isMc
-For I am the Lord your God, the Holy One of Israel, your Saviour. I give Egypt as your ransom, Cush and Seba in exchange for you.
-isMd
-Because you are precious in my eyes, and honoured, and I love you, I give men in return for you, peoples in exchange for your life.
+Mary has chosen the good portion, which will not be taken away from her."
+isMaa
+But now thus says the Lord, he who created you, O Jacob, he who formed you, O Israel:
+isMab
+Fear not, for I have redeemed you; I have called you by name, you are mine.
+isMba
+When you pass through the waters, I will be with you; and through the rivers, they shall not overwhelm you;
+isMbb
+when you walk through fire you shall not be burned, and the flame shall not consume you.
+isMca
+For I am the Lord your God, the Holy One of Israel, your Saviour.
+isMcb
+I give Egypt as your ransom, Cush and Seba in exchange for you.
+isMda
+Because you are precious in my eyes, and honoured, and I love you,
+isMdb
+I give men in return for you, peoples in exchange for your life.
 genaa
 In the beginning, God created the heavens and the earth.
 genab
@@ -846,6 +854,12 @@ genaü
 And to every beast of the earth and to every bird of the heavens and to everything that creeps on the earth, everything that has the breath of life, I have given every green plant for food." And it was so.
 genaA
 And God saw everything that he had made, and behold, it was very good. And there was evening and there was morning, the sixth day.
+genba
+Thus the heavens and the earth were finished, and all the host of them.
+genbb
+And on the seventh day God finished his work that he had done, and he rested on the seventh day from all his work that he had done.
+genbc
+So God blessed the seventh day and made it holy, because on it God rested from all his work that he had done in creation.
 revaa
 The revelation of Jesus Christ, which God gave him to show to his servants the things that must soon take place. He made it known by sending his angel to his servant John,
 revab
