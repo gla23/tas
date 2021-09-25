@@ -17,14 +17,7 @@ import { Passage } from "bible-tools";
 import { usePage } from "../ducks/navigation";
 import { RecallGame } from "../games/RecallGame";
 import { FindGame } from "../games/FindGame";
-
-// Add modal with description/advertising for each game type
-// See the verse and enter the ref - merge with chapter-map later on
-// Make modal for "?" with keyboard shortcuts (and later fancy info cards)
-// How to delay finishing the previous one... need to hold it there until the progress bar is done
-// Work out how to get all ESV verses
-// Build game collecting UI - proper test for game description.
-// game: Do the occurences thing and then guess the book haha
+import { Modal } from "../components/Modal";
 
 const randomRecall: RecallGame = {
   type: "recall",
@@ -53,7 +46,7 @@ export const App = () => {
   const passage = new Passage(verse || "t");
   const newVerseIndex = Object.keys(bank).indexOf(verse);
   const [findWords, setFindWords] = useState("");
-
+  const [help, setHelp] = useState(false);
   const findGame: FindGame = {
     type: "find",
     completed: 0,
@@ -73,6 +66,13 @@ export const App = () => {
   if (page === "game") return <GamePage />;
   return (
     <>
+      {help && (
+        <Modal title="Title" close={() => setHelp(false)} open={help}>
+          <div style={{ width: 800, height: 800, padding: 28 }}>
+            modalRootsdkljds modalRootsdkljds modalRootsdkljds
+          </div>
+        </Modal>
+      )}
       <span
         className="mt-3"
         onClick={(e) => filterOf(e) && goGame(typeOut, filterOf(e))}
@@ -235,6 +235,7 @@ export const App = () => {
       <br />
       <SettingsInput setting="parseMnemonics">Translate</SettingsInput>
       <SettingsInput setting="dark">Dark mode</SettingsInput>
+      <button onClick={() => setHelp((a) => !a)}>❔ {String(help)}</button>
     </>
   );
 };

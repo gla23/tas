@@ -11,7 +11,6 @@ import { useTheme } from "./ducks/settings";
 import { memory } from "./utils/memory";
 import { loadState, saveState } from "./utils/session";
 
-
 const middleware = [reduxThunk];
 
 const store = createStore(
@@ -42,6 +41,7 @@ function AppWrapper(props: React.PropsWithChildren<{}>) {
     <div className={theme}>
       <Scrollable className="transition duration-500 bg-white text-black dark:bg-gray-800 dark:text-white">
         {props.children}
+        <div id="modalRoot"></div>
       </Scrollable>
     </div>
   );
