@@ -35,7 +35,6 @@ const typeOut: RecallGame = {
   inOrderCount: 1,
   completedGoal: Infinity,
 };
-
 export const App = () => {
   const dispatch = useDispatch();
   const bank = useSelector((state: RootState) => state.bank);
@@ -66,13 +65,9 @@ export const App = () => {
   if (page === "game") return <GamePage />;
   return (
     <>
-      {help && (
-        <Modal title="Title" close={() => setHelp(false)} open={help}>
-          <div style={{ width: 800, height: 800, padding: 28 }}>
-            modalRootsdkljds modalRootsdkljds modalRootsdkljds
-          </div>
-        </Modal>
-      )}
+      <Modal close={() => setHelp(false)} open={help}>
+        <div style={{ width: 800, padding: 28 }}>Modal</div>
+      </Modal>
       <span
         className="mt-3"
         onClick={(e) => filterOf(e) && goGame(typeOut, filterOf(e))}

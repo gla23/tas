@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
+import { animated, useTransition } from "react-spring";
 
 interface ModalProps {
   children: React.ReactNode | string;
@@ -8,64 +8,74 @@ interface ModalProps {
   open?: boolean;
 }
 export const Modal = (props: ModalProps) => {
-  const [tween, setTween] = useState(0);
-  useEffect(() => {
-    setTween(1);
-  }, [props.open]);
-  // This is why react-spring is worth using?
-  const transition = "0.2s all";
+  const backgroundTransition = useTransition(props.open, {
+    from: { opacity: 0 },
+    enter: { opacity: 0.5 },
+    leave: { opacity: 0 },
+  });
+  const modalTransition = useTransition(props.open, {
+    from: { opacity: 0, top: -1000 },
+    enter: { opacity: 1, top: 50 },
+    leave: { opacity: 0, top: -1000 },
+  });
+
   const modalRoot = document.querySelector("#modalRoot");
   if (!modalRoot) return "failed to find modalRoot" as unknown as JSX.Element;
   return ReactDOM.createPortal(
     <>
-      <div
-        style={{
-          position: "fixed",
-          top: "0px",
-          left: "0px",
-          width: "100vw",
-          height: "100vh",
-          backgroundColor: "black",
-          opacity: 0.4 * tween * tween * tween,
-          transition,
-        }}
-        onClick={() => props.close()}
-      ></div>
-      <div
-        className="duration-500 bg-white text-black dark:bg-gray-700 dark:text-white"
-        style={{
-          // boxShadow: "0px 8px 40px -8px",
-          position: "fixed",
-          maxWidth: "80vw",
-          minWidth: "min(80vw, 500px)",
-          margin: "auto",
-          minHeight: "240px",
-          top: `calc(-${50 * (1 - tween) * (1 - tween)}vh + 32px)`,
-          left: "50vw",
-          transform: "translateX(-50%)",
-          borderRadius: "8px",
-          transition,
-        }}
-      >
-        {props.title && (
-          <div
+      {backgroundTransition((style, item) =>
+        !item ? null : (
+          <animated.div
             style={{
-              display: "flex",
-              height: 80,
-              padding: 28,
-              borderBottom: "solid grey 1px",
-              justifyContent: "space-between",
-              alignItems: "center",
+              ...style,
+              position: "fixed",
+              top: "0px",
+              left: "0px",
+              width: "100vw",
+              height: "100vh",
+              backgroundColor: "black",
+            }}
+            onClick={props.close}
+          />
+        )
+      )}
+      {modalTransition((style, item) =>
+        item ? (
+          <animated.div
+            className="bg-white text-black dark:bg-gray-700 dark:text-white"
+            style={{
+              position: "fixed",
+              ...style,
+              maxWidth: "80vw",
+              minWidth: "min(80vw, 500px)",
+              margin: "auto",
+              minHeight: "240px",
+              left: "50vw",
+              transform: "translateX(-50%)",
+              borderRadius: "8px",
             }}
           >
-            <h1>{props.title}</h1>
-            <button style={{ fontSize: 24 }} onClick={props.close}>
-              ×
-            </button>
-          </div>
-        )}
-        {props.children}
-      </div>
+            {props.title && (
+              <div
+                style={{
+                  display: "flex",
+                  height: 80,
+                  padding: 28,
+                  borderBottom: "solid grey 1px",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <h1>{props.title}</h1>
+                <button style={{ fontSize: 24 }} onClick={props.close}>
+                  ×
+                </button>
+              </div>
+            )}
+            {props.children}
+          </animated.div>
+        ) : null
+      )}
     </>,
     modalRoot
   );
