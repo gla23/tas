@@ -1,7 +1,7 @@
 import ReactDOM from "react-dom";
 import { animated, useTransition } from "react-spring";
 
-interface ModalProps {
+export interface ModalProps {
   children: React.ReactNode | string;
   title?: React.ReactNode | string;
   close: () => void;

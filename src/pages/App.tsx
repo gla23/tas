@@ -17,7 +17,8 @@ import { Passage } from "bible-tools";
 import { usePage } from "../ducks/navigation";
 import { RecallGame } from "../games/RecallGame";
 import { FindGame } from "../games/FindGame";
-import { Modal } from "../components/Modal";
+import { Thing } from "./Thing";
+import { ContentModal } from "../components/Modals/ContentModal";
 
 const randomRecall: RecallGame = {
   type: "recall",
@@ -45,7 +46,7 @@ export const App = () => {
   const passage = new Passage(verse || "t");
   const newVerseIndex = Object.keys(bank).indexOf(verse);
   const [findWords, setFindWords] = useState("");
-  const [help, setHelp] = useState(false);
+  const [help, setHelp] = useState(true);
   const findGame: FindGame = {
     type: "find",
     completed: 0,
@@ -65,9 +66,18 @@ export const App = () => {
   if (page === "game") return <GamePage />;
   return (
     <>
-      <Modal close={() => setHelp(false)} open={help}>
-        <div style={{ width: 800, padding: 28 }}>Modal</div>
-      </Modal>
+      <ContentModal
+        content={[
+          "a",
+          "b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b",
+          "c",
+          <Thing />,
+        ]}
+        width={800}
+        height={400}
+        close={() => setHelp(false)}
+        open={help}
+      />
       <span
         className="mt-3"
         onClick={(e) => filterOf(e) && goGame(typeOut, filterOf(e))}
@@ -245,6 +255,7 @@ const verseSections = {
   "10 ": "^aj",
   James: "^t",
   "1-3": "^t[a-c]",
+  "3-5": "^t[c-e]",
   "4-5": "^t[d-e]",
   tcq: "^tcq",
   Psalms: "^ps",
