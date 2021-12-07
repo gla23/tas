@@ -59,7 +59,7 @@ export const CheckboxesWidget = () => {
             setOptions(generateOptions(occurences, chosen.slice()))
           }
         >
-          Pick more
+          See more
         </button>
         <button
           className="w-28 mt-4 ml-2 border"

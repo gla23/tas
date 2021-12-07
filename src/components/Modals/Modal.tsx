@@ -5,15 +5,15 @@ export interface ModalProps {
   children: React.ReactNode | string;
   title?: React.ReactNode | string;
   close: () => void;
-  open?: boolean;
+  isOpen?: boolean;
 }
 export const Modal = (props: ModalProps) => {
-  const backgroundTransition = useTransition(props.open, {
+  const backgroundTransition = useTransition(props.isOpen, {
     from: { opacity: 0 },
     enter: { opacity: 0.5 },
     leave: { opacity: 0 },
   });
-  const modalTransition = useTransition(props.open, {
+  const modalTransition = useTransition(props.isOpen, {
     from: { opacity: 0, top: -1000 },
     enter: { opacity: 1, top: 50 },
     leave: { opacity: 0, top: -1000 },

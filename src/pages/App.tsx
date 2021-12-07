@@ -76,7 +76,7 @@ export const App = () => {
         width={800}
         height={400}
         close={() => setHelp(false)}
-        open={help}
+        isOpen={help}
       />
       <span
         className="mt-3"

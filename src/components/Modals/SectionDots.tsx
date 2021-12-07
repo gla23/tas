@@ -10,7 +10,8 @@ export const SectionDots = (props: SectionDotsProps) => {
   const { count, selectedState } = props;
   const [selected, setSelected] = selectedState;
   const height = 12;
-  const extraWidth = 20; //12;
+  const spacing = height * 2;
+  const extraBulgeWidth = 20; //12;
   const dots = new Array(count).fill(null);
   const springs = useSprings(
     count,
@@ -18,9 +19,9 @@ export const SectionDots = (props: SectionDotsProps) => {
       from: { opacity: 0, height: "0px", width: "0px" },
       to: {
         opacity: index === selected ? 0.9 : 0.6,
-        left: 24 * index + (index > selected ? extraWidth : 0) + 6,
+        left: spacing * index + (index > selected ? extraBulgeWidth : 0) + 6,
         height: height + "px",
-        width: height + (index === selected ? extraWidth : 0) + "px",
+        width: height + (index === selected ? extraBulgeWidth : 0) + "px",
         borderRadius: height / 2 + "px",
       },
     }))
@@ -30,7 +31,7 @@ export const SectionDots = (props: SectionDotsProps) => {
       className="relative inline-block"
       style={{
         height: height + "px",
-        width: props.count * 24,
+        width: props.count * spacing + extraBulgeWidth,
       }}
     >
       {springs.map((styles, i) => (
