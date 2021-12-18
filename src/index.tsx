@@ -39,7 +39,7 @@ function AppWrapper(props: React.PropsWithChildren<{}>) {
 
   return (
     <div className={theme}>
-      <Scrollable className="transition duration-500 bg-white text-black dark:bg-gray-800 dark:text-white">
+      <Scrollable className="transition duration-500 bg-white text-black dark:bg-neutral-800 dark:text-white">
         {props.children}
         <div id="modalRoot"></div>
       </Scrollable>

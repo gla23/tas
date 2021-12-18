@@ -45,7 +45,7 @@ export const Modal = (props: ModalProps) => {
       {modalTransition((style, item) =>
         item ? (
           <animated.div
-            className="bg-white text-black dark:bg-gray-700 dark:text-white"
+            className="bg-white text-black dark:bg-neutral-700 dark:text-white"
             style={{
               position: "fixed",
               ...style,

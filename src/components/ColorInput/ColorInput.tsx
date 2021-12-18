@@ -1,5 +1,5 @@
 import { FunctionComponent, useEffect, useMemo, useRef, useState } from "react";
-import ReactDOM from "react-dom";
+import { createPortal } from "react-dom";
 import { useResize } from "../../hooks/useResize";
 import { useSelectionInput, Selection } from "../../hooks/useSelectionInput";
 import { childIndex } from "./selectionSet";
@@ -155,7 +155,7 @@ export function ColorInput(props: ColorInputProps) {
       >
         {spans}
       </p>
-      {ReactDOM.createPortal(
+      {createPortal(
         <textarea
           id={id}
           {...textarea.props}
