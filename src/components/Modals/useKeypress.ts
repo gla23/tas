@@ -7,7 +7,7 @@ export function useKeyPress(
   useEffect(() => {
     if (!callback) return undefined;
     const handler = (event: KeyboardEvent) => {
-      console.log("hmm", event.key, key);
+      // console.log("hmm", event.key, key);
       if (event.key === key) callback();
     };
     document.body.addEventListener("keyup", handler);

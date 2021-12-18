@@ -4,7 +4,7 @@ import { animated } from "react-spring";
 import { Modal } from "./Modal";
 import { SectionDots } from "./SectionDots";
 import arrow from "../../images/arrow.png";
-import { useKeyPress } from "../../hooks/useKeypress";
+import { useKeyPress } from "./useKeypress";
 
 export type Renderable =
   | Exclude<React.ReactNode, undefined | React.ReactElement>
@@ -35,7 +35,6 @@ export const ContentModal = (props: ContentModalProps) => {
   };
   const left = () => increaseIndex(-1);
   const right = () => increaseIndex(1);
-  useKeyPress("Escape", props.isOpen && props.close);
   useKeyPress("ArrowLeft", props.isOpen && left);
   useKeyPress("ArrowRight", props.isOpen && right);
 

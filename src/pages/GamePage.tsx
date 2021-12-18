@@ -10,8 +10,32 @@ import { closeGame } from "../ducks/navigation";
 import { TypeWidget } from "./TypeWidget";
 import { selectGameWidget } from "../ducks/game";
 import { CheckboxesWidget } from "./CheckboxesWidget";
+import { Modal } from "../components/Modals/Modal";
 
 export type StatePair<T> = [T, React.Dispatch<React.SetStateAction<T>>];
+
+const shortcuts = (
+  <table>
+    <tbody>
+      <tr>
+        <td>Enter</td>
+        <td>Check</td>
+      </tr>
+      <tr>
+        <td>[</td>
+        <td>Show clue</td>
+      </tr>
+      <tr>
+        <td>PageDown/PageUp</td>
+        <td>Next/previous verse</td>
+      </tr>
+      <tr>
+        <td>@</td>
+        <td>Skip question</td>
+      </tr>
+    </tbody>
+  </table>
+);
 
 export function GamePage() {
   const dispatch = useDispatch();
@@ -20,13 +44,25 @@ export function GamePage() {
   const hintState = useState(false);
   const [, setShowHints] = hintState;
   const gameWidget = useSelector(selectGameWidget);
-
+  const [showingShortcuts, setShowingShortcuts] = useState(false);
   return (
     <>
       <div className="flex">
         <CloseButton size={48} onClick={(e) => dispatch(closeGame())} />
         <div className="m-auto px-32 flex-grow">
-          <div className="pb-2">{gameDescription}</div>
+          <div className="pb-2">
+            {gameDescription}{" "}
+            <span onClick={() => setShowingShortcuts(true)}>?</span>
+            <Modal
+              isOpen={showingShortcuts}
+              close={() => setShowingShortcuts(false)}
+            >
+              <div style={{ padding: 24 }}>
+                <h2>Shortcuts</h2>
+                {shortcuts}
+              </div>
+            </Modal>
+          </div>
           <CurrentProgress />
         </div>
         <DarkModeButton size={48} />

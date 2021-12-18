@@ -1,5 +1,6 @@
 import ReactDOM from "react-dom";
 import { animated, useTransition } from "react-spring";
+import { useKeyPress } from "./useKeypress";
 
 export interface ModalProps {
   children: React.ReactNode | string;
@@ -8,6 +9,8 @@ export interface ModalProps {
   isOpen?: boolean;
 }
 export const Modal = (props: ModalProps) => {
+  useKeyPress("Escape", props.isOpen && props.close);
+
   const backgroundTransition = useTransition(props.isOpen, {
     from: { opacity: 0 },
     enter: { opacity: 0.5 },
