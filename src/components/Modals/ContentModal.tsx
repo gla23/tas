@@ -8,7 +8,8 @@ import { useKeyPress } from "./useKeypress";
 
 export type Renderable =
   | Exclude<React.ReactNode, undefined | React.ReactElement>
-  | JSX.Element;
+  | JSX.Element
+  | Renderable[];
 
 interface ContentModalProps {
   content: Renderable[];

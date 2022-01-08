@@ -29,7 +29,7 @@ export interface CharClass {
   ): string;
 }
 const defaultCharClass: CharClass = (sel, char, i, s) =>
-  sel ? "bg-blue-300 bg-opacity-50" : "inherit";
+  sel ? "bg-blue-300/50" : "inherit";
 
 // Performance issues to work out
 // - Could use useReducer to add keys for each char in the string

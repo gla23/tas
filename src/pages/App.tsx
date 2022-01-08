@@ -39,9 +39,13 @@ const typeOut: RecallGame = {
 export const App = () => {
   const dispatch = useDispatch();
   const bank = useSelector((state: RootState) => state.bank);
+  if (!bank)
+    throw new Error(
+      "The bank is missing. Likely fix is to do localStorage.clear()"
+    );
   const page = usePage();
   const [word, setWord] = useState("passed");
-  const [verse, setVerse] = useState("cjH");
+  const [verse, setVerse] = useState("genah");
   const [doRecap, setDoRecap] = useState(true);
   const passage = new Passage(verse || "t");
   const newVerseIndex = Object.keys(bank).indexOf(verse);

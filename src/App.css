@@ -9,3 +9,41 @@
 input {
   background-color: rgba(125, 125, 125, 0.15);
 }
+
+/* Tailwind JIT replacements  */
+.bg-red-500\/0 {
+  background-color: rgba(239, 68, 68, 0);
+}
+.bg-red-500\/10 {
+  background-color: rgba(239, 68, 68, 0.1);
+}
+.bg-red-500\/20 {
+  background-color: rgba(239, 68, 68, 0.2);
+}
+.bg-red-500\/30 {
+  background-color: rgba(239, 68, 68, 0.3);
+}
+.bg-red-500\/40 {
+  background-color: rgba(239, 68, 68, 0.4);
+}
+.bg-red-500\/50 {
+  background-color: rgba(239, 68, 68, 0.5);
+}
+.bg-green-500\/0 {
+  background-color: rgba(34, 197, 94, 0);
+}
+.bg-green-500\/10 {
+  background-color: rgba(34, 197, 94, 0.1);
+}
+.bg-green-500\/20 {
+  background-color: rgba(34, 197, 94, 0.2);
+}
+.bg-green-500\/30 {
+  background-color: rgba(34, 197, 94, 0.3);
+}
+.bg-green-500\/40 {
+  background-color: rgba(34, 197, 94, 0.4);
+}
+.bg-green-500\/50 {
+  background-color: rgba(34, 197, 94, 0.5);
+}
