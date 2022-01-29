@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectGameDescription } from "../ducks/gameSelectors";
-import { useQuiz } from "../ducks/root";
+import { RootState, useQuiz } from "../ducks/root";
 import { ProgressBar } from "../components/ProgressBar";
 import { WordFindProgress } from "../components/WordFindProgress";
 import { CloseButton } from "../components/CloseButton";
@@ -10,7 +10,7 @@ import { closeGame } from "../ducks/navigation";
 import { TypeWidget } from "./TypeWidget";
 import { selectGameWidget } from "../ducks/game";
 import { CheckboxesWidget } from "./CheckboxesWidget";
-import { Modal } from "../components/Modals/Modal";
+import { Modal } from "content-modal";
 
 export type StatePair<T> = [T, React.Dispatch<React.SetStateAction<T>>];
 
@@ -38,6 +38,7 @@ const shortcuts = (
 );
 
 export function GamePage() {
+  const dark = useSelector((state: RootState) => state.settings.dark);
   const dispatch = useDispatch();
   const { clue } = useQuiz();
   const gameDescription = useSelector(selectGameDescription);
@@ -55,7 +56,8 @@ export function GamePage() {
             <span onClick={() => setShowingShortcuts(true)}>?</span>
             <Modal
               isOpen={showingShortcuts}
-              close={() => setShowingShortcuts(false)}
+              onClose={() => setShowingShortcuts(false)}
+              darkMode={dark}
             >
               <div style={{ padding: 24 }}>
                 <h2>Shortcuts</h2>

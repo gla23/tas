@@ -18,7 +18,7 @@ import { usePage } from "../ducks/navigation";
 import { RecallGame } from "../games/RecallGame";
 import { FindGame } from "../games/FindGame";
 import { Thing } from "./Thing";
-import { ContentModal } from "../components/Modals/ContentModal";
+import { ContentModal } from "content-modal";
 
 const randomRecall: RecallGame = {
   type: "recall",
@@ -44,6 +44,7 @@ export const App = () => {
       "The bank is missing. Likely fix is to do localStorage.clear()"
     );
   const page = usePage();
+  const dark = useSelector((state: RootState) => state.settings.dark);
   const [word, setWord] = useState("passed");
   const [verse, setVerse] = useState("genah");
   const [doRecap, setDoRecap] = useState(true);
@@ -71,6 +72,7 @@ export const App = () => {
   return (
     <>
       <ContentModal
+        darkMode={dark}
         content={[
           "a",
           "b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b",
@@ -79,7 +81,7 @@ export const App = () => {
         ]}
         width={800}
         height={400}
-        close={() => setHelp(false)}
+        onClose={() => setHelp(false)}
         isOpen={help}
       />
       <span
@@ -269,6 +271,7 @@ const verseSections = {
   Warfare: "^jf",
   "New Assorted": "^gf|^pr(s|cg)|^ibt|^dmD|^sc|^cj|^isM",
   Genesis: "^gen",
+  "1 ": "^gena",
   Revelation: "^rev",
 };
 const VerseSections = () => (
