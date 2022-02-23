@@ -1,0 +1,21 @@
+export const concordance = {
+	Faith: ["ice", "jcq"],
+	Depravity: ["jdq"],
+	["God's glory as first"]: ["jae", "afi", "isMf", "fcy", "kak", "naj"]
+	["Our glory"]: ["lcd", "nbn"]
+	["New self"]: ["jdweatherspoon", "lci"]
+	["Works must be there"]: ["aet ieu jee scm sln"]
+	["What pleases God"]: ["smp", "taç"]
+	["introspection"]: ["jerqi-j", "gdc"]
+	prayer,
+	assurance,
+}
+
+export const prayer = {
+	supplication: ["jfr-t", ""],
+	conditional: ["ucg", "ucl", "wen"],
+}
+export const assurance = {
+	["Our reasons"]: ["mad", "wdm", "wem"],
+	["Watch out"]: ["scm"]
+}
