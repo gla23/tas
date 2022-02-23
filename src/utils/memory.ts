@@ -2,7 +2,7 @@ export interface MemoryBank {
   [index: string]: string;
 }
 
-export const memory: Promise<MemoryBank> = fetch("/memory.txt")
+export const memory: Promise<MemoryBank> = fetch("/tas/memory.txt")
   .then((response) => response.text())
   .then((text) =>
     text.split("\n").reduce((acc: MemoryBank, line, i, lines) => {

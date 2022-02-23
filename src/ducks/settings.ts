@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import { Action, RootState } from "./root";
 
 const initialSettings = {
-  parseMnemonics: !window.location.origin.includes("memorise"),
+  parseMnemonics: false && !window.location.origin.includes("memorise"),
   dark: true,
   hue: 113,
 };
