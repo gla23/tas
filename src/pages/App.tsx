@@ -51,7 +51,7 @@ export const App = () => {
   const passage = new Passage(verse || "t");
   const newVerseIndex = Object.keys(bank).indexOf(verse);
   const [findWords, setFindWords] = useState("");
-  const [help, setHelp] = useState(true);
+  const [help, setHelp] = useState(false);
   const findGame: FindGame = {
     type: "find",
     completed: 0,
@@ -183,31 +183,19 @@ export const App = () => {
       <br />
       <div className="mt-3"></div>
       <h2 className="text-xl">Practice strats</h2>
-      Ready (for meditation?):
+      Ready for meditation:
       <ul>
         <li className="opacity-70">- Recall random pairs</li>
-        <li className="opacity-70">
-          - Find occurrences of random words (get shown list of 10 that you pick
-          3 of?)
-        </li>
+        <li className="opacity-70">- Find occurrences of 3 words</li>
       </ul>
       Recent (consolidation? piecing together?):
       <ul>
         <li className="opacity-70">- Same as above for smaller group?</li>
         <li className="opacity-70">- Draw chapter map on paper</li>
       </ul>
-      New (observation? picking up?):
-      <ul>
-        <li className="opacity-70">- Observe, define/image, recall</li>
-        <li className="opacity-70">- Recall with time limit</li>
-        <li className="opacity-70">
-          - Find occurrences of each word in new verse
-        </li>
-      </ul>
       <h2 className="text-xl mt-2">Ideas</h2>
       all:
       <ul>
-        <li className="opacity-70">- Type just the first letter</li>
         <li className="opacity-70">- Occurrences of word pairs</li>
         <li className="opacity-70">- Type rest of verse for occurrence find</li>
         <li className="opacity-70">- Type/recall speed goal/limit</li>
@@ -217,15 +205,6 @@ export const App = () => {
         <li className="opacity-70">
           - Find way of filtering "meaningful" words? Use wink for nouns?
         </li>
-        <li className="opacity-70">
-          - Make intro page for the practice section
-        </li>
-        <li className="opacity-70">difficulty: hard</li>
-        <li className="opacity-70">This helps train the following things...</li>
-        <li className="opacity-70">Recall</li>
-        <li className="opacity-70">Random Recall</li>
-        <li className="opacity-70">Word find</li>
-        <li className="opacity-70">Word find with recap</li>
       </ul>
       <div className="mt-12" />
       {rootWord(word)}
