@@ -14,28 +14,30 @@ export interface GameCommon {
 }
 export type GameState = RecallGame | FindGame;
 
-const initialState: RecallGame = {
-  type: "recall",
-  order: "random",
-  questionIndex: 0,
-  inOrderCount: 2,
-  inOrderDone: 0,
-  setIndexesLeft: [],
-  completed: 0,
-  completedGoal: 10,
-};
-
-// export const initialState: FindGame = {
-//   type: "find",
-//   completed: 0,
-//   completedGoal: 3,
+// const initialState: RecallGame = {
+//   type: "recall",
 //   order: "random",
-//   answerType: "text",
-//   hintType: "text",
 //   questionIndex: 0,
-//   queue: [],
-//   found: [],
+//   inOrderCount: 2,
+//   inOrderDone: 0,
+//   setIndexesLeft: [],
+//   completed: 0,
+//   completedGoal: 10,
 // };
+
+export const initialState: FindGame = {
+  type: "find",
+  completed: 0,
+  completedGoal: 3,
+  order: "choose",
+  answerType: "text",
+  hintType: "text",
+  questionIndex: 0,
+  queue: [],
+  found: [],
+  doRecap: true,
+  doingRecap: false,
+};
 
 export function gameReducer(
   game: GameState = initialState,
@@ -50,13 +52,14 @@ export function gameReducer(
         return refreshFindGame(action.game, state);
       return game;
     case FINISH_QUESTION:
-    case SKIP_QUESTION:
+    case SKIP_QUESTION: {
       const skip = action.type === SKIP_QUESTION;
       if (game.type === "recall")
         return nextRecallGame(game, state, skip, action.data);
       if (game.type === "find")
         return nextFindGame(game, state, skip, action.data);
       return game;
+    }
     case INCREASE_QUESTION: {
       const newIndex = game.questionIndex + action.amount;
       const maxIndex =

@@ -74,7 +74,7 @@ export interface RootState {
 
 const initialState: Partial<RootState> = {
   bank: {},
-  filter: "^t[c-e]",
+  filter: "^t",
 };
 
 export const useQuiz = () =>

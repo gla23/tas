@@ -88,7 +88,10 @@ export const App = () => {
         className="mt-3"
         onClick={(e) => filterOf(e) && goGame(typeOut, filterOf(e))}
       >
-        Type out: <VerseSections />
+        Type out:{" "}
+        <span className="ml-24">
+          <VerseSections />
+        </span>
       </span>
       <br />
       <br />
@@ -96,7 +99,10 @@ export const App = () => {
         className="mt-3"
         onClick={(e) => filterOf(e) && goGame(randomRecall, filterOf(e))}
       >
-        Random recall from: <VerseSections />
+        Random recall from:
+        <span className="ml-6">
+          <VerseSections />
+        </span>
       </span>
       <br />
       <div className="mt-6"></div>
@@ -231,27 +237,30 @@ export const App = () => {
 };
 
 const verseSections = {
-  "All verses": "^",
-  Assorted:
-    "^prce-f|^sl|^ps139|^prp|^fo|^la[i-l]|^jerq|^ubk|^cr|^fhş|^ba[n-o]|^gaq|^gmd-g",
+  All: "^",
+  // Assorted:
+  //   "^prce-f|^sl|^ps139|^prp|^fo|^la[i-l]|^jerq|^ubk|^cr|^fhş|^ba[n-o]|^gaq|^gmd-g",
+  // "New Assorted": "^gf|^pr(s|cg)|^ibt|^dmD|^sc|^cj|^isM",
   Matthew: "^a[e-i]",
   "5-7": "^a[e-g]",
   "8-9 ": "^a[h-i]",
   "10 ": "^aj",
+  "11 ": "^ak",
   James: "^t",
   "1-3": "^t[a-c]",
   "3-5": "^t[c-e]",
   "4-5": "^t[d-e]",
-  tcq: "^tcq",
   Psalms: "^ps",
   "16 ": "^psp",
   "25 ": "^psy",
   "67 ": "^ps67",
   Warfare: "^jf",
-  "New Assorted": "^gf|^pr(s|cg)|^ibt|^dmD|^sc|^cj|^isM",
   Genesis: "^gen",
-  "1 ": "^gena",
+  "1-2  ": "^gen[a-b]",
+  "3  ": "^genc",
   Revelation: "^rev",
+  "1-2 ": "^rev[a-b]",
+  "3 ": "^revc",
 };
 const VerseSections = () => (
   <>

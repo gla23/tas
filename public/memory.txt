@@ -807,7 +807,7 @@ And God said, "Let there be an expanse in the midst of the waters, and let it se
 genag
 And God made the expanse and separated the waters that were under the expanse from the waters that were above the expanse. And it was so.
 genah
-And God called the expanse Heaven. And there was evening and there was morning, the second day.
+God called the expanse Heaven. And there was evening and there was morning, the second day.
 genai
 And God said, "Let the waters under the heavens be gathered together into one place, and let the dry land appear." And it was so.
 genaj
@@ -945,9 +945,9 @@ Heal the sick, raise the dead, cleanse lepers, cast out demons.
 aji
 You received without paying; give without pay.
 ajj
-Acquire no gold nor silver nor copper for your belts,
+Acquire no gold nor silver nor copper for your belts, no bag for your journey, nor two tunics nor sandals nor a staff,
 ajk
-no bag for your journey, nor two tunics nor sandals nor a staff, for the labourer deserves his food.
+for the labourer deserves his food.
 ajl
 And whatever town or village you enter, find out who is worthy in it and stay there until you depart.
 ajm
@@ -1022,3 +1022,499 @@ ajQ
 and the one who receives a righteous person because he is a righteous person will receive a righteous person's reward.
 ajR
 And whoever gives one of these little ones even a cup of cold water because he is a disciple, truly, I say to you, he will by no means lose his reward."
+genaB
+Thus the heavens and the earth were finished, and all the host of them.
+genaC
+And on the seventh day God finished his work that he had done, and he rested on the seventh day from all his work that he had done.
+genaD
+So God blessed the seventh day and made it holy, because on it God rested from all his work that he had done in creation.
+genba
+These are the generations of the heavens and the earth when they were created, in the day that the Lord God made the earth and the heavens.
+genbb
+When no bush of the field was yet in the land and no small plant of the field had yet sprung up -
+genbc
+for the Lord God had not caused it to rain on the land, and there was no man to work the ground,
+genbd
+and a mist was going up from the land and was watering the whole face of the ground -
+genbe
+then the Lord God formed the man of dust from the ground and breathed into his nostrils the breath of life, and the man became a living creature.
+genbf
+And the Lord God planted a garden in Eden, in the east, and there he put the man whom he had formed.
+genbg
+And out of the ground the Lord God made to spring up every tree that is pleasant to the sight and good for food.
+genbh
+The tree of life was in the midst of the garden, and the tree of the knowledge of good and evil.
+genbi
+A river flowed out of Eden to water the garden, and there it divided and became four rivers.
+genbj
+The name of the first is the Pishon. It is the one that flowed around the whole land of Havilah, where there is gold.
+genbk
+And the gold of that land is good; bdellium and onyx stone are there.
+genbl
+The name of the second river is the Gihon. It is the one that flowed around the whole land of Cush.
+genbm
+And the name of the third river is the Tigris, which flows east of Assyria.
+genbn
+And the fourth river is the Euphrates.
+genbo
+The Lord God took the man and put him in the garden of Eden to work it and keep it.
+genbp
+And the Lord God commanded the man, saying, "You may surely eat of every tree of the garden,
+genbq
+but of the tree of the knowledge of good and evil you shall not eat, for in the day that you eat of it you shall surely die."
+genbr
+Then the Lord God said, "It is not good that the man should be alone; I will make him a helper fit for him."
+genbs
+Now out of the ground the Lord God had formed every beast of the field and every bird of the heavens and brought them to the man to see what he would call them. And whatever the man called every living creature, that was its name.
+genbt
+The man gave names to all livestock and to the birds of the heavens and to every beast of the field. But for Adam there was not found a helper fit for him.
+genbu
+So the Lord God caused a deep sleep to fall upon the man, and while he slept took one of his ribs and closed up its place with flesh.
+genbv
+And the rib that the Lord God had taken from the man he made into a woman and brought her to the man.
+genbw
+Then the man said, "This at last is bone of my bones and flesh of my flesh; she shall be called Woman, because she was taken out of Man."
+genbx
+Therefore a man shall leave his father and his mother and hold fast to his wife, and they shall become one flesh.
+genby
+And the man and his wife were both naked and were not ashamed.
+revba
+To the angel of the church in Ephesus write: The words of him who holds the seven stars in his right hand, who walks among the seven golden lampstands.
+revbb
+I know your works, your toil and your patient endurance,
+revbc
+and how you cannot bear with those who are evil, but have tested those who call themselves apostles and are not, and found them to be false.
+revbd
+I know you are enduring patiently and bearing up for my name's sake, and you have not grown weary.
+revbe
+But I have this against you, that you have abandoned the love you had at first.
+revbf
+Remember therefore from where you have fallen; repent, and do the works you did at first.
+revbg
+If not, I will come to you and remove your lampstand from its place, unless you repent.
+revbh
+Yet you have this: you hate the works of the Nicolaitans, which I also hate.
+revbi
+He who has an ear, let him hear what the Spirit says to the churches.
+revbj
+To the one who conquers I will grant to eat of the tree of life, which is in the paradise of God.
+revbk
+And to the angel of the church in Smyrna write: The words of the first and the last, who died and came to life.
+revbl
+I know your tribulation and your poverty (but you are rich)
+revbm
+and the slander of those who say that they are Jews and are not, but are a synagogue of Satan.
+revbn
+Do not fear what you are about to suffer.
+revbo
+Behold, the devil is about to throw some of you into prison, that you may be tested, and for ten days you will have tribulation.
+revbp
+Be faithful unto death, and I will give you the crown of life.
+revbq
+He who has an ear, let him hear what the Spirit says to the churches.
+revbr
+The one who conquers will not be hurt by the second death.
+revbu
+And to the angel of the church in Pergamum write: The words of him who has the sharp two-edged sword.
+revbv
+I know where you dwell, where Satan's throne is.
+revbw
+Yet you hold fast to my name, and you did not deny my faith even in the days of Antipas my faithful witness, who was killed among you, where Satan dwells.
+revbx
+But I have a few things against you: you have some there who hold the teaching of Balaam,
+revby
+who taught Balak to put a stumbling block before the sons of Israel, so that they might eat food sacrificed to idols and practise sexual immorality.
+revbz
+So also you have some who hold the teaching of the Nicolaitans.
+revbç
+Therefore repent. If not, I will come to you soon and war against them with the sword of my mouth.
+revbş
+He who has an ear, let him hear what the Spirit says to the churches.
+revbö
+To the one who conquers I will give some of the hidden manna,
+revbü
+and I will give him a white stone, with a new name written on the stone that no one knows except the one who receives it.
+revbA
+And to the angel of the church in Thyatira write: The words of the Son of God, who has eyes like a flame of fire, and whose feet are like burnished bronze.
+revbB
+I know your works, your love and faith and service and patient endurance, and that your latter works exceed the first.
+revbC
+But I have this against you, that you tolerate that woman Jezebel, who calls herself a prophetess
+revbD
+and is teaching and seducing my servants to practise sexual immorality and to eat food sacrificed to idols.
+revbE
+I gave her time to repent, but she refuses to repent of her sexual immorality.
+revbF
+Behold, I will throw her onto a sickbed,
+revbG
+and those who commit adultery with her I will throw into great tribulation, unless they repent of her works,
+revbH
+and I will strike her children dead.
+revbI
+And all the churches will know that I am he who searches mind and heart,
+revbJ
+and I will give to each of you according to your works.
+revbK
+But to the rest of you in Thyatira, who do not hold this teaching, who have not learned what some call the deep things of Satan,
+revbL
+to you I say, I do not lay on you any other burden.
+revbM
+Only hold fast to what you have until I come.
+revbN
+The one who conquers and who keeps my works until the end, to him I will give authority over the nations,
+revbO
+and he will rule them with a rod of iron, as when earthen pots are broken in pieces,
+revbP
+even as I myself have received authority from my Father.
+revbQ
+And I will give him the morning star.
+revbR
+He who has an ear, let him hear what the Spirit says to the churches.
+aka
+When Jesus had finished instructing his twelve disciples, he went on from there to teach and preach in their cities.
+akb
+Now when John heard in prison about the deeds of the Christ, he sent word by his disciples and said to him,
+akc
+"Are you the one who is to come, or shall we look for another?"
+akd
+And Jesus answered them, "Go and tell John what you hear and see:
+ake
+the blind receive their sight and the lame walk, lepers are cleansed and the deaf hear, and the dead are raised up, and the poor have good news preached to them.
+akf
+And blessed is the one who is not offended by me."
+akg
+As they went away, Jesus began to speak to the crowds concerning John: "What did you go out into the wilderness to see? A reed shaken by the wind?
+akh
+What then did you go out to see? A man dressed in soft clothing? Behold, those who wear soft clothing are in kings' houses.
+aki
+What then did you go out to see? A prophet? Yes, I tell you, and more than a prophet.
+akj
+This is he of whom it is written, "Behold, I send my messenger before your face, who will prepare your way before you."
+akk
+Truly, I say to you, among those born of women there has arisen no one greater than John the Baptist. Yet the one who is least in the kingdom of heaven is greater than he.
+akl
+From the days of John the Baptist until now the kingdom of heaven has suffered violence, and the violent take it by force.
+akm
+For all the Prophets and the Law prophesied until John,
+akn
+and if you are willing to accept it, he is Elijah who is to come.
+ako
+He who has ears to hear, let him hear.
+akp
+But to what shall I compare this generation? It is like children sitting in the market-places and calling to their playmates,
+akq
+"We played the flute for you, and you did not dance; we sang a dirge, and you did not mourn."
+akr
+For John came neither eating nor drinking, and they say, "He has a demon."
+aks
+The Son of Man came eating and drinking, and they say, "Look at him! A glutton and a drunkard, a friend of tax collectors and sinners!"
+akt
+Yet wisdom is justified by her deeds."
+aku
+Then he began to denounce the cities where most of his mighty works had been done, because they did not repent.
+akv
+"Woe to you, Chorazin! Woe to you, Bethsaida!
+akw
+For if the mighty works done in you had been done in Tyre and Sidon, they would have repented long ago in sackcloth and ashes.
+akx
+But I tell you, it will be more bearable on the day of judgement for Tyre and Sidon than for you.
+aky
+And you, Capernaum, will you be exalted to heaven? You will be brought down to Hades.
+akz
+For if the mighty works done in you had been done in Sodom, it would have remained until this day.
+akç
+But I tell you, it will be more bearable on the day of judgement for the land of Sodom than for you.
+akş
+At that time Jesus declared, "I thank you, Father, Lord of heaven and earth,
+akö
+that you have hidden these things from the wise and understanding and revealed them to little children;
+akü
+yes, Father, for such was your gracious will.
+akA
+All things have been handed over to me by my Father,
+akB
+and no one knows the Son except the Father,
+akC
+and no one knows the Father except the Son and anyone to whom the Son chooses to reveal him.
+akD
+Come to me, all who labour and are heavy laden, and I will give you rest.
+akE
+Take my yoke upon you, and learn from me,
+akF
+for I am gentle and lowly in heart, and you will find rest for your souls.
+akG
+For my yoke is easy, and my burden is light.
+genca
+Now the serpent was more crafty than any other beast of the field that the Lord God had made.
+gencb
+He said to the woman, "Did God actually say, "You shall not eat of any tree in the garden"?"
+gencc
+And the woman said to the serpent, "We may eat of the fruit of the trees in the garden,
+gencd
+but God said, "You shall not eat of the fruit of the tree that is in the midst of the garden, neither shall you touch it, lest you die."
+gence
+But the serpent said to the woman, "You will not surely die.
+gencf
+For God knows that when you eat of it your eyes will be opened, and you will be like God, knowing good and evil."
+gencg
+So when the woman saw that the tree was good for food, and that it was a delight to the eyes, and that the tree was to be desired to make one wise,
+gench
+she took of its fruit and ate, and she also gave some to her husband who was with her, and he ate.
+genci
+Then the eyes of both were opened, and they knew that they were naked.
+gencj
+And they sewed fig leaves together and made themselves loincloths.
+genck
+And they heard the sound of the Lord God walking in the garden in the cool of the day,
+gencl
+and the man and his wife hid themselves from the presence of the Lord God among the trees of the garden.
+gencm
+But the Lord God called to the man and said to him, "Where are you?"
+gencn
+And he said, "I heard the sound of you in the garden, and I was afraid, because I was naked, and I hid myself."
+genco
+He said, "Who told you that you were naked? Have you eaten of the tree of which I commanded you not to eat?"
+gencp
+The man said, "The woman whom you gave to be with me, she gave me fruit of the tree, and I ate."
+gencq
+Then the Lord God said to the woman, "What is this that you have done?"
+gencr
+The woman said, "The serpent deceived me, and I ate."
+gencs
+The Lord God said to the serpent, "Because you have done this, cursed are you above all livestock and above all beasts of the field;
+genct
+on your belly you shall go, and dust you shall eat all the days of your life.
+gencu
+I will put enmity between you and the woman, and between your offspring and her offspring; he shall bruise your head, and you shall bruise his heel."
+gencv
+To the woman he said, "I will surely multiply your pain in childbearing; in pain you shall bring forth children.
+gencw
+Your desire shall be for your husband, but he shall rule over you."
+gencx
+And to Adam he said, "Because you have listened to the voice of your wife and have eaten of the tree of which I commanded you, "You shall not eat of it",
+gency
+cursed is the ground because of you; in pain you shall eat of it all the days of your life;
+gencz
+thorns and thistles it shall bring forth for you; and you shall eat the plants of the field.
+gencç
+By the sweat of your face you shall eat bread, till you return to the ground,
+gencş
+for out of it you were taken; for you are dust, and to dust you shall return."
+gencö
+The man called his wife's name Eve, because she was the mother of all living.
+gencü
+And the Lord God made for Adam and for his wife garments of skins and clothed them.
+gencA
+Then the Lord God said, "Behold, the man has become like one of us in knowing good and evil.
+gencB
+Now, lest he reach out his hand and take also of the tree of life and eat, and live forever—"
+gencC
+therefore the Lord God sent him out from the garden of Eden to work the ground from which he was taken.
+gencD
+He drove out the man, and at the east of the garden of Eden he placed the cherubim and a flaming sword that turned every way to guard the way to the tree of life.
+revca
+And to the angel of the church in Sardis write: "The words of him who has the seven spirits of God and the seven stars.
+revcb
+I know your works. You have the reputation of being alive, but you are dead.
+revcc
+Wake up, and strengthen what remains and is about to die,
+revcd
+for I have not found your works complete in the sight of my God.
+revce
+Remember, then, what you received and heard. Keep it, and repent.
+revcf
+If you will not wake up, I will come like a thief, and you will not know at what hour I will come against you.
+revcg
+Yet you have still a few names in Sardis, people who have not soiled their garments, and they will walk with me in white, for they are worthy.
+revch
+The one who conquers will be clothed thus in white garments, and I will never blot his name out of the book of life.
+revci
+I will confess his name before my Father and before his angels.
+revcj
+He who has an ear, let him hear what the Spirit says to the churches.
+revck
+And to the angel of the church in Philadelphia write: "The words of the holy one, the true one, who has the key of David, who opens and no one will shut, who shuts and no one opens.
+revcl
+I know your works. Behold, I have set before you an open door, which no one is able to shut.
+revcm
+I know that you have but little power, and yet you have kept my word and have not denied my name.
+revcn
+Behold, I will make those of the synagogue of Satan who say that they are Jews and are not, but lie —
+revco
+behold, I will make them come and bow down before your feet and they will learn that I have loved you.
+revcp
+Because you have kept my word about patient endurance, I will keep you from the hour of trial that is coming on the whole world, to try those who dwell on the earth.
+revcq
+I am coming soon. Hold fast to what you have, so that no one may seize your crown.
+revcr
+The one who conquers, I will make him a pillar in the temple of my God. Never shall he go out of it,
+revcs
+and I will write on him the name of my God, and the name of the city of my God, the new Jerusalem, which comes down from my God out of heaven, and my own new name.
+revct
+He who has an ear, let him hear what the Spirit says to the churches.
+revcu
+And to the angel of the church in Laodicea write: "The words of the Amen, the faithful and true witness, the beginning of God's creation.
+revcv
+I know your works: you are neither cold nor hot.
+revcw
+Would that you were either cold or hot!
+revcx
+So, because you are lukewarm, and neither hot nor cold, I will spit you out of my mouth. 
+revcy
+For you say, I am rich, I have prospered, and I need nothing,
+revcz
+not realizing that you are wretched, pitiable, poor, blind, and naked.
+revcç
+I counsel you to buy from me gold refined by fire, so that you may be rich,
+revcş
+and white garments so that you may clothe yourself and the shame of your nakedness may not be seen,
+revcö
+and salve to anoint your eyes, so that you may see.
+revcü
+Those whom I love, I reprove and discipline, so be zealous and repent.
+revcA
+Behold, I stand at the door and knock.
+revcB
+If anyone hears my voice and opens the door, I will come in to him and eat with him, and he with me.
+revcC
+The one who conquers, I will grant him to sit with me on my throne,
+revcD
+as I also conquered and sat down with my Father on his throne.
+revcE
+He who has an ear, let him hear what the Spirit says to the churches.
+aaa
+Now the birth of Jesus Christ took place in this way.
+aab
+When his mother Mary had been betrothed to Joseph, before they came together she was found to be with child from the Holy Spirit.
+aac
+And her husband Joseph, being a just man and unwilling to put her to shame, resolved to divorce her quietly.
+aad
+But as he considered these things, behold, an angel of the Lord appeared to him in a dream, saying,
+aae
+"Joseph, son of David, do not fear to take Mary as your wife, for that which is conceived in her is from the Holy Spirit.
+aaf
+She will bear a son, and you shall call his name Jesus, for he will save his people from their sins."
+aag
+All this took place to fulfil what the Lord had spoken by the prophet:
+aah
+"Behold, the virgin shall conceive and bear a son, and they shall call his name Immanuel" (which means, God with us).
+aai
+When Joseph woke from sleep, he did as the angel of the Lord commanded him: 
+aaj
+he took his wife, but knew her not until she had given birth to a son. And he called his name Jesus.
+genda
+Now Adam knew Eve his wife, and she conceived and bore Cain, saying, "I have produced a man with the help of the Lord."
+gendb
+And again, she bore his brother Abel.
+gendc
+Now Abel was a keeper of sheep, and Cain a worker of the ground.
+gendd
+In the course of time Cain brought to the Lord an offering of the fruit of the ground, and Abel also brought of the firstborn of his flock and of their fat portions.
+gende
+And the Lord had regard for Abel and his offering, but for Cain and his offering he had no regard.
+gendf
+So Cain was very angry, and his face fell.
+gendg
+The Lord said to Cain, "Why are you angry, and why has your face fallen?
+gendh
+If you do well, will you not be accepted?
+gendi
+And if you do not do well, sin is crouching at the door.
+gendj
+Its desire is for you, but you must rule over it."
+gendk
+Cain spoke to Abel his brother. And when they were in the field, Cain rose up against his brother Abel and killed him.
+gendl
+Then the Lord said to Cain, "Where is Abel your brother?"
+gendm
+He said, "I do not know; am I my brother's keeper?"
+gendn
+And the Lord said, "What have you done? The voice of your brother's blood is crying to me from the ground.
+gendo
+And now you are cursed from the ground, which has opened its mouth to receive your brother's blood from your hand.
+gendp
+When you work the ground, it shall no longer yield to you its strength.
+gendq
+You shall be a fugitive and a wanderer on the earth."
+gendr
+Cain said to the Lord, "My punishment is greater than I can bear.
+gends
+Behold, you have driven me today away from the ground, and from your face I shall be hidden.
+gendt
+I shall be a fugitive and a wanderer on the earth, and whoever finds me will kill me."
+gendu
+Then the Lord said to him, "Not so! If anyone kills Cain, vengeance shall be taken on him sevenfold."
+gendv
+And the Lord put a mark on Cain, lest any who found him should attack him.
+gendw
+Then Cain went away from the presence of the Lord and settled in the land of Nod, east of Eden.
+gendx
+Cain knew his wife, and she conceived and bore Enoch.
+gendy
+When he built a city, he called the name of the city after the name of his son, Enoch.
+gendz
+To Enoch was born Irad, and Irad fathered Mehujael, and Mehujael fathered Methushael, and Methushael fathered Lamech.
+gendç
+And Lamech took two wives. The name of one was Adah, and the name of the other Zillah.
+gendş
+Adah bore Jabal; he was the father of those who dwell in tents and have livestock.
+gendö
+His brother's name was Jubal; he was the father of all those who play the lyre and pipe.
+gendü
+Zillah also bore Tubal-cain; he was the forger of all instruments of bronze and iron.
+gendA
+The sister of Tubal-cain was Naamah.
+gendB
+Lamech said to his wives: "Adah and Zillah, hear my voice; you wives of Lamech, listen to what I say:
+gendC
+I have killed a man for wounding me, a young man for striking me.
+gendD
+If Cain's revenge is sevenfold, then Lamech's is seventy-sevenfold."
+gendE
+And Adam knew his wife again, and she bore a son and called his name Seth, for she said,
+gendF
+"God has appointed for me another offspring instead of Abel, for Cain killed him."
+gendG
+To Seth also a son was born, and he called his name Enosh.
+gendH
+At that time people began to call upon the name of the Lord.
+revda
+After this I looked, and behold, a door standing open in heaven!
+revdb
+And the first voice, which I had heard speaking to me like a trumpet, said,
+revdc
+"Come up here, and I will show you what must take place after this."
+revdd
+At once I was in the Spirit, and behold, a throne stood in heaven, with one seated on the throne.
+revde
+And he who sat there had the appearance of jasper and carnelian,
+revdf
+and round the throne was a rainbow that had the appearance of an emerald.
+revdg
+Round the throne were twenty-four thrones, and seated on the thrones were twenty-four elders,
+revdh
+clothed in white garments, with golden crowns on their heads.
+revdi
+From the throne came flashes of lightning, and rumblings and peals of thunder,
+revdj
+and before the throne were burning seven torches of fire, which are the seven spirits of God,
+revdk
+and before the throne there was as it were a sea of glass, like crystal.
+revdl
+And round the throne, on each side of the throne, are four living creatures, full of eyes in front and behind:
+revdm
+the first living creature like a lion, the second living creature like an ox,
+revdn
+the third living creature with the face of a man, and the fourth living creature like an eagle in flight.
+revdo
+And the four living creatures, each of them with six wings, are full of eyes all round and within,
+revdp
+and day and night they never cease to say, "Holy, holy, holy, is the Lord God Almighty, who was and is and is to come!"
+revdq
+And whenever the living creatures give glory and honour and thanks to him who is seated on the throne, who lives for ever and ever,
+revdr
+the twenty-four elders fall down before him who is seated on the throne and worship him who lives for ever and ever.
+revds
+They cast their crowns before the throne, saying, "Worthy are you, our Lord and God, to receive glory and honour and power,
+revdt
+for you created all things, and by your will they existed and were created."

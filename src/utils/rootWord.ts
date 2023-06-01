@@ -8,6 +8,7 @@ const fixes: { [word: string]: string } = {
   pass: "pass",
   james: "james",
   prayer: "pray",
+  lampstands: "lampstand",
 };
 
 // Adverbs?
