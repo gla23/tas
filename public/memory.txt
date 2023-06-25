@@ -1117,9 +1117,9 @@ The one who conquers will not be hurt by the second death.
 revbu
 And to the angel of the church in Pergamum write: The words of him who has the sharp two-edged sword.
 revbv
-I know where you dwell, where Satan's throne is.
+I know where you dwell, where Satan's throne is. Yet you hold fast to my name,
 revbw
-Yet you hold fast to my name, and you did not deny my faith even in the days of Antipas my faithful witness, who was killed among you, where Satan dwells.
+and you did not deny my faith even in the days of Antipas my faithful witness, who was killed among you, where Satan dwells.
 revbx
 But I have a few things against you: you have some there who hold the teaching of Balaam,
 revby
@@ -1521,7 +1521,7 @@ for you created all things, and by your will they existed and were created."
 ala
 At that time Jesus went through the grainfields on the Sabbath.
 alb
-His disciples were hungry, and they began to pluck ears of corn and to eat.
+His disciples were hungry, and they began to pick heads of grain and to eat.
 alc
 But when the Pharisees saw it, they said to him, "Look, your disciples are doing what is not lawful to do on the Sabbath."
 ald
@@ -1565,9 +1565,9 @@ I will put my Spirit upon him, and he will proclaim justice to the Gentiles.
 alw
 He will not quarrel or cry aloud, nor will anyone hear his voice in the streets;
 alx
-a bruised reed he will not break, and a smouldering wick he will not quench, until he brings justice to victory;
+a bruised reed he will not break, and a smouldering wick he will not quench
 aly
-and in his name the Gentiles will hope."
+until he brings justice to victory; and in his name the Gentiles will hope."
 alz
 Then a demon-oppressed man who was blind and mute was brought to him, and he healed him, so that the man spoke and saw.
 alç
@@ -1593,48 +1593,56 @@ Whoever is not with me is against me, and whoever does not gather with me scatte
 alG
 Therefore I tell you, every sin and blasphemy will be forgiven people, but the blasphemy against the Spirit will not be forgiven.
 alH
-And whoever speaks a word against the Son of Man will be forgiven, but whoever speaks against the Holy Spirit will not be forgiven, either in this age or in the age to come.
+And whoever speaks a word against the Son of Man will be forgiven, but whoever speaks against the Holy Spirit will not be forgiven,
 alI
-Either make the tree good and its fruit good, or make the tree bad and its fruit bad, for the tree is known by its fruit.
+either in this age or in the age to come.
 alJ
-You brood of vipers! How can you speak good, when you are evil?
+Either make the tree good and its fruit good, or make the tree bad and its fruit bad, for the tree is known by its fruit.
 alK
-For out of the abundance of the heart the mouth speaks.
+You brood of vipers!
 alL
-The good person out of his good treasure brings forth good, and the evil person out of his evil treasure brings forth evil.
+How can you speak good, when you are evil?
 alM
-I tell you, on the day of judgement people will give account for every careless word they speak,
+For out of the abundance of the heart the mouth speaks.
 alN
-for by your words you will be justified, and by your words you will be condemned."
+The good person out of his good treasure brings forth good, and the evil person out of his evil treasure brings forth evil.
 alO
-Then some of the scribes and Pharisees answered him, saying, "Teacher, we wish to see a sign from you."
+I tell you, on the day of judgement people will give account for every careless word they speak,
 alP
-But he answered them, "An evil and adulterous generation seeks for a sign,
+for by your words you will be justified, and by your words you will be condemned."
 alQ
-but no sign will be given to it except the sign of the prophet Jonah.
+Then some of the scribes and Pharisees answered him, saying, "Teacher, we wish to see a sign from you."
 alR
-For just as Jonah was three days and three nights in the belly of the great fish, so will the Son of Man be three days and three nights in the heart of the earth.
+But he answered them, "An evil and adulterous generation seeks for a sign,
 alS
-The men of Nineveh will rise up at the judgement with this generation and condemn it, for they repented at the preaching of Jonah, and behold, something greater than Jonah is here.
+but no sign will be given to it except the sign of the prophet Jonah.
 alT
-The queen of the South will rise up at the judgement with this generation and condemn it, for she came from the ends of the earth to hear the wisdom of Solomon, and behold, something greater than Solomon is here.
+For just as Jonah was three days and three nights in the belly of the great fish, so will the Son of Man be three days and three nights in the heart of the earth.
 alU
-"When the unclean spirit has gone out of a person, it passes through waterless places seeking rest, but finds none.
+The men of Nineveh will rise up at the judgement with this generation and condemn it,
 alV
-Then it says, 'I will return to my house from which I came.'
+for they repented at the preaching of Jonah, and behold, something greater than Jonah is here.
 alW
-And when it comes, it finds the house empty, swept, and put in order.
+The queen of the South will rise up at the judgement with this generation and condemn it,
 alX
-Then it goes and brings with it seven other spirits more evil than itself, and they enter and dwell there,
+for she came from the ends of the earth to hear the wisdom of Solomon, and behold, something greater than Solomon is here.
 alY
-and the last state of that person is worse than the first.
+"When the unclean spirit has gone out of a person, it passes through waterless places seeking rest, but finds none.
 alZ
-So also will it be with this evil generation."
+Then it says, 'I will return to my house from which I came.'
 alÇ
-While he was still speaking to the people, behold, his mother and his brothers stood outside, asking to speak to him.
+And when it comes, it finds the house empty, swept, and put in order.
 alŞ
-But he replied to the man who told him, "Who is my mother, and who are my brothers?"
+Then it goes and brings with it seven other spirits more evil than itself, and they enter and dwell there,
 alÖ
-And stretching out his hand towards his disciples, he said, "Here are my mother and my brothers!
+and the last state of that person is worse than the first.
 alÜ
+So also will it be with this evil generation."
+al61
+While he was still speaking to the people, behold, his mother and his brothers stood outside, asking to speak to him.
+al62
+But he replied to the man who told him, "Who is my mother, and who are my brothers?"
+al63
+And stretching out his hand towards his disciples, he said, "Here are my mother and my brothers!
+al64
 For whoever does the will of my Father in heaven is my brother and sister and mother."
