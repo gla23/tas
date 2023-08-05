@@ -27,17 +27,17 @@ And he opened his mouth and taught them, saying:
 aec
 Blessed are the poor in spirit, for theirs is the kingdom of heaven.
 aed
-Blessed are those who mourn, for they shall be comforted.
+Blessed are those who mourn, for they will be comforted.
 aee
-Blessed are the meek, for they shall inherit the earth.
+Blessed are the meek, for they will inherit the earth.
 aef
-Blessed are those who hunger and thirst for righteousness, for they shall be satisfied.
+Blessed are those who hunger and thirst for righteousness, for they will be satisfied.
 aeg
-Blessed are the merciful, for they shall receive mercy.
+Blessed are the merciful, for they will receive mercy.
 aeh
-Blessed are the pure in heart, for they shall see God.
+Blessed are the pure in heart, for they will see God.
 aei
-Blessed are the peacemakers, for they shall be called sons of God.
+Blessed are the peacemakers, for they will be called sons of God.
 aej
 Blessed are those who are persecuted for righteousness' sake, for theirs is the kingdom of heaven.
 aek
@@ -45,7 +45,7 @@ Blessed are you when others revile you and persecute you and utter all kinds of 
 ael
 Rejoice and be glad, for your reward is great in heaven, for so they persecuted the prophets who were before you.
 aem
-You are the salt of the earth, but if salt has lost its taste, how shall its saltiness be restored? It is no longer good for anything except to be thrown out and trampled under people's feet.
+You are the salt of the earth, but if salt has lost its taste, how will its saltiness be restored? It is no longer good for anything except to be thrown out and trampled under people's feet.
 aen
 You are the light of the world. A city set on a hill cannot be hidden.
 aeo
@@ -123,7 +123,7 @@ I say to the Lord, "You are my Lord; I have no good apart from you."
 pspc
 As for the saints in the land, they are the excellent ones, in whom is all my delight.
 pspd
-The sorrows of those who run after another god shall multiply; their drink offerings of blood I will not pour out or take their names on my lips.
+The sorrows of those who run after another god will multiply; their drink offerings of blood I will not pour out or take their names on my lips.
 pspe
 The Lord is my chosen portion and my cup; you hold my lot.
 pspf
@@ -131,7 +131,7 @@ The lines have fallen for me in pleasant places; indeed, I have a beautiful inhe
 pspg
 I bless the Lord who gives me counsel; in the night also my heart instructs me.
 psph
-I have set the Lord always before me; because he is at my right hand, I shall not be shaken.
+I have set the Lord always before me; because he is at my right hand, I will not be shaken.
 pspi
 Therefore my heart is glad, and my whole being rejoices; my flesh also dwells secure.
 pspj
@@ -195,7 +195,7 @@ Religion that is pure and undefiled before God the Father is this: to visit orph
 jerqe
 Thus says the Lord: "Cursed is the man who trusts in man and makes flesh his strength, whose heart turns away from the Lord.
 jerqf
-He is like a shrub in the desert, and shall not see any good come. He shall dwell in the parched places of the wilderness, in an uninhabited salt land.
+He is like a shrub in the desert, and will not see any good come. He will dwell in the parched places of the wilderness, in an uninhabited salt land.
 jerqg
 Blessed is the man who trusts in the Lord, whose trust is the Lord.
 jerqh
@@ -279,7 +279,7 @@ yet I tell you, even Solomon in all his glory was not arrayed like one of these.
 afü
 But if God so clothes the grass of the field, which today is alive and tomorrow is thrown into the oven, will he not much more clothe you, O you of little faith?
 afA
-Therefore do not be anxious, saying, "What shall we eat?" or "What shall we drink?" or "What shall we wear?"
+Therefore do not be anxious, saying, "What will we eat?" or "What will we drink?" or "What will we wear?"
 afB
 For the Gentiles seek after all these things, and your heavenly Father knows that you need them all.
 afC
@@ -307,7 +307,7 @@ To you, O Lord, I lift up my soul.
 psyb
 O my God, in you I trust; let me not be put to shame; let not my enemies exult over me.
 psyc
-Indeed, none who wait for you shall be put to shame; they shall be ashamed who are wantonly treacherous.
+Indeed, none who wait for you will be put to shame; they will be ashamed who are wantonly treacherous.
 psyd
 Make me to know your ways, O Lord; teach me your paths.
 psye
@@ -327,7 +327,7 @@ For your name's sake, O Lord, pardon my guilt, for it is great.
 psyl
 Who is the man who fears the Lord? Him will he instruct in the way that he should choose.
 psym
-His soul shall abide in well-being, and his offspring shall inherit the land.
+His soul will abide in well-being, and his offspring will inherit the land.
 psyn
 The friendship of the Lord is for those who fear him, and he makes known to them his covenant.
 psyo
@@ -593,9 +593,9 @@ Let the nations be glad and sing for joy, for you judge the peoples with equity 
 ps67e
 Let the peoples praise you, O God; let all the peoples praise you!
 ps67f
-The earth has yielded its increase; God, our God, shall bless us.
+The earth has yielded its increase; God, our God, will bless us.
 ps67g
-God shall bless us; let all the ends of the earth fear him!
+God will bless us; let all the ends of the earth fear him!
 tda
 What causes quarrels and what causes fights among you? Is it not this, that your passions are at war within you?
 tdb
@@ -781,9 +781,9 @@ But now thus says the Lord, he who created you, O Jacob, he who formed you, O Is
 isMab
 Fear not, for I have redeemed you; I have called you by name, you are mine.
 isMba
-When you pass through the waters, I will be with you; and through the rivers, they shall not overwhelm you;
+When you pass through the waters, I will be with you; and through the rivers, they will not overwhelm you;
 isMbb
-when you walk through fire you shall not be burned, and the flame shall not consume you.
+when you walk through fire you will not be burned, and the flame will not consume you.
 isMca
 For I am the Lord your God, the Holy One of Israel, your Saviour.
 isMcb
@@ -1061,7 +1061,7 @@ The Lord God took the man and put him in the garden of Eden to work it and keep 
 genbp
 And the Lord God commanded the man, saying, "You may surely eat of every tree of the garden,
 genbq
-but of the tree of the knowledge of good and evil you shall not eat, for in the day that you eat of it you shall surely die."
+but of the tree of the knowledge of good and evil you shall not eat, for in the day that you eat of it you will surely die."
 genbr
 Then the Lord God said, "It is not good that the man should be alone; I will make him a helper fit for him."
 genbs
@@ -1073,9 +1073,9 @@ So the Lord God caused a deep sleep to fall upon the man, and while he slept too
 genbv
 And the rib that the Lord God had taken from the man he made into a woman and brought her to the man.
 genbw
-Then the man said, "This at last is bone of my bones and flesh of my flesh; she shall be called Woman, because she was taken out of Man."
+Then the man said, "This at last is bone of my bones and flesh of my flesh; she will be called Woman, because she was taken out of Man."
 genbx
-Therefore a man shall leave his father and his mother and hold fast to his wife, and they shall become one flesh.
+Therefore a man shall leave his father and his mother and hold fast to his wife, and they will become one flesh.
 genby
 And the man and his wife were both naked and were not ashamed.
 revba
@@ -1175,7 +1175,7 @@ When Jesus had finished instructing his twelve disciples, he went on from there 
 akb
 Now when John heard in prison about the deeds of the Christ, he sent word by his disciples and said to him,
 akc
-"Are you the one who is to come, or shall we look for another?"
+"Are you the one who is to come, or should we look for another?"
 akd
 And Jesus answered them, "Go and tell John what you hear and see:
 ake
@@ -1283,23 +1283,23 @@ The woman said, "The serpent deceived me, and I ate."
 gencs
 The Lord God said to the serpent, "Because you have done this, cursed are you above all livestock and above all beasts of the field;
 genct
-on your belly you shall go, and dust you shall eat all the days of your life.
+on your belly you will go, and dust you will eat all the days of your life.
 gencu
-I will put enmity between you and the woman, and between your offspring and her offspring; he shall bruise your head, and you shall bruise his heel."
+I will put enmity between you and the woman, and between your offspring and her offspring; he will bruise your head, and you will bruise his heel."
 gencv
-To the woman he said, "I will surely multiply your pain in childbearing; in pain you shall bring forth children.
+To the woman he said, "I will surely multiply your pain in childbearing; in pain you will bring forth children.
 gencw
-Your desire shall be for your husband, but he shall rule over you."
+Your desire will be for your husband, but he will rule over you."
 gencx
 And to Adam he said, "Because you have listened to the voice of your wife and have eaten of the tree of which I commanded you, "You shall not eat of it",
 gency
-cursed is the ground because of you; in pain you shall eat of it all the days of your life;
+cursed is the ground because of you; in pain you will eat of it all the days of your life;
 gencz
-thorns and thistles it shall bring forth for you; and you shall eat the plants of the field.
+thorns and thistles it will bring forth for you; and you will eat the plants of the field.
 gencç
-By the sweat of your face you shall eat bread, till you return to the ground,
+By the sweat of your face you will eat bread, till you return to the ground,
 gencş
-for out of it you were taken; for you are dust, and to dust you shall return."
+for out of it you were taken; for you are dust, and to dust you will return."
 gencö
 The man called his wife's name Eve, because she was the mother of all living.
 gencü
@@ -1347,7 +1347,7 @@ Because you have kept my word about patient endurance, I will keep you from the 
 revcq
 I am coming soon. Hold fast to what you have, so that no one may seize your crown.
 revcr
-The one who conquers, I will make him a pillar in the temple of my God. Never shall he go out of it,
+The one who conquers, I will make him a pillar in the temple of my God. He will never go out of it,
 revcs
 and I will write on him the name of my God, and the name of the city of my God, the new Jerusalem, which comes down from my God out of heaven, and my own new name.
 revct
@@ -1397,7 +1397,7 @@ She will bear a son, and you shall call his name Jesus, for he will save his peo
 aag
 All this took place to fulfil what the Lord had spoken by the prophet:
 aah
-"Behold, the virgin shall conceive and bear a son, and they shall call his name Immanuel" (which means, God with us).
+"Behold, the virgin will conceive and bear a son, and they will call his name Immanuel" (which means, God with us).
 aai
 When Joseph woke from sleep, he did as the angel of the Lord commanded him: 
 aaj
@@ -1433,17 +1433,17 @@ And the Lord said, "What have you done? The voice of your brother's blood is cry
 gendo
 And now you are cursed from the ground, which has opened its mouth to receive your brother's blood from your hand.
 gendp
-When you work the ground, it shall no longer yield to you its strength.
+When you work the ground, it will no longer yield to you its strength.
 gendq
-You shall be a fugitive and a wanderer on the earth."
+You will be a fugitive and a wanderer on the earth."
 gendr
 Cain said to the Lord, "My punishment is greater than I can bear.
 gends
-Behold, you have driven me today away from the ground, and from your face I shall be hidden.
+Behold, you have driven me today away from the ground, and from your face I will be hidden.
 gendt
-I shall be a fugitive and a wanderer on the earth, and whoever finds me will kill me."
+I will be a fugitive and a wanderer on the earth, and whoever finds me will kill me."
 gendu
-Then the Lord said to him, "Not so! If anyone kills Cain, vengeance shall be taken on him sevenfold."
+Then the Lord said to him, "Not so! If anyone kills Cain, vengeance will be taken on him sevenfold."
 gendv
 And the Lord put a mark on Cain, lest any who found him should attack him.
 gendw
@@ -1679,7 +1679,7 @@ for you were slain, and by your blood you ransomed people for God from every tri
 revep
 and you have made them a kingdom and priests to our God,
 reveq
-and they shall reign on the earth."
+and they will reign on the earth."
 rever
 Then I looked, and I heard around the throne and the living creatures and the elders the voice of many angels,
 reves
